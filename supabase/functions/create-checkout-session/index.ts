@@ -1,5 +1,5 @@
-// Fix: Replaced invalid type reference with the correct one for Supabase Edge Functions to provide Deno runtime types.
-/// <reference types="npm:@supabase/functions-js/src/edge-runtime.d.ts" />
+// Fix: Using unpkg for the type reference to resolve issues with esm.sh and ensure Deno types are available.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2/src/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
@@ -48,7 +48,11 @@ serve(async (req) => {
 
     const siteUrl = Deno.env.get('SITE_URL')
     if (!siteUrl) {
-      throw new Error("SITE_URL environment variable is not set.")
+      throw new Error("CRITICAL: SITE_URL environment variable is not set. This must be the public URL of your frontend application (e.g., https://mybavul.com).")
+    }
+
+    if (siteUrl.includes('supabase.co')) {
+      throw new Error("CRITICAL: SITE_URL is misconfigured. It should be your public frontend application URL, NOT your Supabase project URL.")
     }
 
     const success_url = `${siteUrl}/#/booking/success?booking_id=${booking_id}`;

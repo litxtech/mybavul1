@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabaseClient } from '../lib/supabase';
 import { useLanguage } from '../i18n';
 import { PolicyDocument } from '../types';
 
@@ -11,6 +11,7 @@ const PolicyPage: React.FC<{ slug: string }> = ({ slug }) => {
     useEffect(() => {
         const fetchDoc = async () => {
             setLoading(true);
+            const supabase = getSupabaseClient();
             const { data, error } = await supabase
                 .from('policy_documents')
                 .select('*')
@@ -40,7 +41,7 @@ const PolicyPage: React.FC<{ slug: string }> = ({ slug }) => {
             <div className="max-w-4xl mx-auto px-6 lg:px-8">
                 <div className="prose prose-lg lg:prose-xl max-w-none text-gray-800">
                     <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 border-b pb-4 mb-8">{t(doc.title_key)}</h1>
-                    <div dangerouslySetInnerHTML={{ __html: t(doc.content_key).replace(/\n/g, '<br />') }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: t(doc.content_key) }}></div>
                 </div>
             </div>
         </div>

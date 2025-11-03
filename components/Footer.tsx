@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../i18n';
-import { MercuryIcon } from './icons';
-import { supabase } from '../lib/supabase';
+import { MercuryIcon, StripeIcon } from './icons';
+import { getSupabaseClient } from '../lib/supabase';
 import { PolicyDocument } from '../types';
 
 const Footer = () => {
@@ -11,6 +11,7 @@ const Footer = () => {
 
   useEffect(() => {
     const fetchPolicyDocs = async () => {
+      const supabase = getSupabaseClient();
       const { data, error } = await supabase
         .from('policy_documents')
         .select('*')
@@ -47,10 +48,10 @@ const Footer = () => {
         <div className="mt-6 flex justify-center items-center space-x-6 rtl:space-x-reverse">
             <p className="text-xs text-gray-400">{t('footer.poweredBy')}</p>
             <div className='flex items-center space-x-4'>
-                <a href="https://stripe.com" target="_blank" rel="noopener noreferrer">
-                    <img src="https://stripe.com/img/v3/home/social.png" alt="Stripe" className="h-7 bg-white rounded-md px-1"/>
+                <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" aria-label="Stripe">
+                    <StripeIcon className="h-5 text-white" />
                 </a>
-                 <a href="https://mercury.com" target="_blank" rel="noopener noreferrer">
+                 <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" aria-label="Mercury">
                     <MercuryIcon className="h-7 w-7 text-gray-200" />
                  </a>
             </div>

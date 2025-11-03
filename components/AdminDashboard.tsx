@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabaseClient } from '../lib/supabase';
 import { PolicyDocument, Booking, WalletLedger, Property } from '../types';
 import { useLanguage } from '../i18n';
 import { BuildingOfficeIcon, TagIcon, CurrencyDollarIcon } from './icons';
@@ -28,6 +28,7 @@ const PolicyEditorModal: React.FC<{
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        const supabase = getSupabaseClient();
         const { error } = await supabase.from('policy_documents').upsert(formData);
         if (error) {
             alert(error.message);
@@ -106,6 +107,7 @@ const AdminDashboard: React.FC = () => {
     
     const fetchDashboardData = useCallback(async () => {
         setIsLoading(true);
+        const supabase = getSupabaseClient();
         
         // Parallel fetching
         const [
@@ -148,6 +150,7 @@ const AdminDashboard: React.FC = () => {
     
     const handleDeletePolicy = async (id: string) => {
         if (window.confirm(t('admin.deleteConfirm'))) {
+            const supabase = getSupabaseClient();
             const { error } = await supabase.from('policy_documents').delete().eq('id', id);
             if (error) alert(error.message);
             else fetchDashboardData();

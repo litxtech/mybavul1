@@ -26,12 +26,14 @@ These are configured directly in your Supabase project secrets. You can set them
 | `SUPABASE_SERVICE_ROLE_KEY`  | The secret "service role" key for server-side operations with full access.     | In your Supabase project: **Settings > API > Project API Keys > `service_role` `secret`**. |
 | `STRIPE_SECRET_KEY`          | The secret key for Stripe, used on the server-side to make API calls.          | In your Stripe Dashboard: **Developers > API Keys > Secret key** (e.g., `sk_test_...`). |
 | `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe.          | In your Stripe Dashboard: **Developers > Webhooks > [Your Endpoint] > Signing secret** (e.g., `whsec_...`). See step 4.            |
-| `SITE_URL`                   | The public URL of your application (e.g., `https://mybavul.com`).              | This is your application's base URL. It's used to construct redirect URLs for Stripe.                                                      |
+| `SITE_URL`                   | The public URL of your frontend application (e.g., `https://mybavul.com`). **This must be the URL where users access your site, NOT your Supabase URL.** It is critical for Stripe payment redirects. | Your application's deployment URL.                                                      |
 
 
 ## 2. Database Schema Setup
 
 The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file.
+
+**This step is critical.** The SQL script not only creates the database tables but also **seeds the database with sample hotel data**. Without this data, the search functionality will not return any results.
 
 **Steps:**
 
@@ -43,7 +45,7 @@ The entire database structure, including tables, relationships, security policie
 6.  Paste it into the Supabase SQL Editor.
 7.  Click **RUN**.
 
-This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.) and enable Row Level Security to protect your data.
+This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.), populate them with sample hotels in locations like Istanbul and Antalya, and enable Row Level Security to protect your data.
 
 ## 3. Deploy Supabase Edge Functions
 
@@ -75,7 +77,8 @@ You must tell Stripe where to send events (like a successful payment, refund, or
 1.  Go to your Stripe Dashboard.
 2.  Navigate to **Developers > Webhooks**.
 3.  Click **+ Add an endpoint**.
-4.  **Endpoint URL:** Paste the URL for the `stripe-webhook-handler` function you got in the previous step. It will look like this: `https://<your-project-ref>.supabase.co/functions/v1/stripe-webhook-handler`
+4.  **Endpoint URL:** Paste the URL for the `stripe-webhook-handler` function you got in the previous step. It will look like this: `https://<your-project-ref>.supabase.co/functions/v1/stripe-webhook-handler`. 
+    **Important:** Replace `<your-project-ref>` with your actual Supabase project reference ID (e.g., `jtxaonuslkwduusqfaep`).
 5.  **Listen to events:** Click "Select events" and choose:
     *   `checkout.session.completed`
     *   `charge.refunded`

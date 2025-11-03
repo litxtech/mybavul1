@@ -1,8 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Fix: Per @google/genai guidelines, initialize the client with the API key.
-// In a Vite app, client-side environment variables must be prefixed with VITE_ and accessed via import.meta.env.
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
+// The execution environment provides secrets on the `process.env` object.
+// Fix: Per @google/genai guidelines, the API key MUST be sourced from process.env.API_KEY.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 
 const getPrompt = (hotelName: string, city: string, languageCode: string, languageName: string) => {
@@ -17,7 +17,7 @@ Your entire response must be in ${languageName}.`;
 
 
 export async function* getAIAssistantResponse(hotelName: string, city: string, languageCode: string, languageName: string) {
-  // Fix: The 'ai' instance is now guaranteed to be initialized, so the null check is removed.
+  // The 'ai' instance is now guaranteed to be initialized, so the null check is removed.
   // This aligns with @google/genai guidelines to assume the API key is always available.
   
   const model = 'gemini-2.5-flash';

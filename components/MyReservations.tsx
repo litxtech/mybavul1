@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabaseClient } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../i18n';
 import { Booking } from '../types';
@@ -71,6 +71,7 @@ const MyReservations: React.FC = () => {
     const fetchBookings = useCallback(async () => {
         if (!user) return;
         setLoading(true);
+        const supabase = getSupabaseClient();
         const { data, error } = await supabase
             .from('bookings')
             .select(`

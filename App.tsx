@@ -7,7 +7,7 @@ import { Property, SearchParams, Booking } from './types';
 import { useLanguage } from './i18n';
 import Auth from './components/Auth';
 import { useAuth } from './contexts/AuthContext';
-import { supabase } from './lib/supabase';
+import { getSupabaseClient } from './lib/supabase';
 import MyReservations from './components/MyReservations';
 import PropertyCard from './components/PropertyCard';
 import { useCurrency } from './contexts/CurrencyContext';
@@ -34,6 +34,7 @@ const BookingSuccess: React.FC<{ bookingId: string }> = ({ bookingId }) => {
 
     useEffect(() => {
         const fetchBooking = async () => {
+            const supabase = getSupabaseClient();
             setLoading(true);
             const { data, error } = await supabase
                 .from('bookings')
@@ -161,19 +162,6 @@ const AccessDenied = () => {
 }
 
 const App: React.FC = () => {
-  // Check for required environment variables at the top level to prevent crashes.
-  const missingVars = [
-    'VITE_SUPABASE_URL',
-    'VITE_SUPABASE_ANON_KEY',
-    'VITE_STRIPE_PUBLISHABLE_KEY',
-    'VITE_API_KEY'
-  ].filter(varName => !import.meta.env[varName]);
-
-  if (missingVars.length > 0) {
-    // Render a helpful error message instead of a white screen.
-    return <ConfigurationError missingVars={missingVars} />;
-  }
-  
   const { t } = useLanguage();
   const { profile } = useAuth();
   const [route, setRoute] = useState(parseHash());
@@ -190,13 +178,16 @@ const App: React.FC = () => {
   
   const handleSearch = useCallback(async (params: SearchParams) => {
     setIsLoading(true);
+    const supabase = getSupabaseClient();
     
     let query = supabase
       .from('properties')
       .select('*, room_types(*, rate_plans(*))');
 
     if (params.city) {
-      query = query.ilike('location_city', `%${params.city}%`);
+      const searchTerm = `%${params.city.trim()}%`;
+      // Search in both property title and city location to allow for more flexible queries like "Istanbul Hilton"
+      query = query.or(`title.ilike.${searchTerm},location_city.ilike.${searchTerm}`);
     }
 
     const { data, error } = await query;
@@ -229,6 +220,7 @@ const App: React.FC = () => {
       } else {
         // Fetch from DB
         const fetchProperty = async () => {
+          const supabase = getSupabaseClient();
           setIsLoading(true);
           const { data, error } = await supabase
             .from('properties')

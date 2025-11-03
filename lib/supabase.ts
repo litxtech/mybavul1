@@ -1,18 +1,27 @@
-// Fix: Removed reference to "vite/client" which was causing a type definition error.
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// These variables are expected to be injected by the Vite build process.
-// Do not hardcode them here. Ensure they are prefixed with VITE_ in your .env file or hosting provider.
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+let supabaseClient: SupabaseClient | null = null;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    const errorMessage = "CRITICAL: Supabase URL or Anon Key is missing. The application will not be able to connect to the database. Make sure to set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment variables.";
-    // Log a prominent error for developers
-    console.error(errorMessage);
-}
+/**
+ * Gets the singleton instance of the Supabase client.
+ * This function initializes the client on its first call and returns the existing instance on subsequent calls.
+ * It will throw an error if the required Supabase environment variables are not configured.
+ * This lazy initialization prevents the app from crashing on load if the environment is not set up correctly.
+ */
+export const getSupabaseClient = (): SupabaseClient => {
+  if (supabaseClient) {
+    return supabaseClient;
+  }
 
-// Pass empty strings if the env variables are not set.
-// This prevents the client from crashing on initialization and allows the UI to render.
-// The error will occur gracefully on the first database call instead.
-export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
+  const supabaseUrl = process.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // This error should be caught by the top-level check in App.tsx before this function is ever called.
+    // It's included here as a safeguard to ensure the app fails loudly if called unexpectedly.
+    throw new Error('CRITICAL: Supabase URL or Anon Key is missing from environment variables. Cannot initialize Supabase client.');
+  }
+
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+  return supabaseClient;
+};

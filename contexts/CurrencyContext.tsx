@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabaseClient } from '../lib/supabase';
 import { Currency, FxRate } from '../types';
 import { useLanguage } from '../i18n';
 
@@ -33,6 +33,7 @@ export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     const fetchCurrenciesAndRates = async () => {
+      const supabase = getSupabaseClient();
       const { data: currencyData, error: currencyError } = await supabase.from('currencies').select('*');
       if (!currencyError && currencyData.length > 0) {
         setCurrencies(currencyData);

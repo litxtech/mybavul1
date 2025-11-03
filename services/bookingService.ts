@@ -1,5 +1,4 @@
-// Fix: Removed reference to "vite/client" which was causing a type definition error.
-import { supabase } from "../lib/supabase";
+import { getSupabaseClient } from "../lib/supabase";
 import { Property, RoomType, RatePlan, SearchParams, Currency } from "../types";
 
 interface CreateBookingParams {
@@ -27,7 +26,7 @@ const getDurationInNights = (checkin: string, checkout: string): number => {
 export const createBookingAndCheckout = async ({ userId, property, room, rate, searchParams, displayCurrency }: CreateBookingParams) => {
     
     // Fail early if Stripe key is not configured
-    const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+    const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
     if (!stripePublishableKey) {
         const errorMessage = "Stripe Publishable Key is not configured. Payment cannot proceed.";
         console.error(errorMessage);
@@ -36,6 +35,7 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
     
     const durationNights = getDurationInNights(searchParams.checkin, searchParams.checkout);
     const totalPriceUsdMinor = rate.price_per_night_usd_minor * durationNights;
+    const supabase = getSupabaseClient();
 
     // We need to fetch the exchange rate to calculate the display price
     const { data: fxRateData, error: fxError } = await supabase
@@ -111,6 +111,7 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
 
 
 export const cancelBooking = async (bookingId: string) => {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase.functions.invoke('cancel-booking', {
         body: { booking_id: bookingId },
     });
