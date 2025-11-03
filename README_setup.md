@@ -1,0 +1,76 @@
+# MyBavul Setup Guide
+
+This guide provides all the necessary steps to get your MyBavul application running, from setting up the database to deploying the serverless functions required for payments.
+
+## 1. Environment Variables (Secrets)
+
+Your application requires several secret keys to connect to external services like Supabase and Stripe. These should be stored as environment variables, not hardcoded in the source. In your development environment, you can create a `.env` file in the root directory. In production (e.g., Vercel), these should be set in the project settings.
+
+**Required Variables:**
+
+| Variable Name                | Description                                                                                             | How to get it                                                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `SUPABASE_URL`               | The unique URL for your Supabase project.                                                               | In your Supabase project: **Settings > API > Project URL**.                                                                                |
+| `SUPABASE_ANON_KEY`          | The public, "anonymous" key for your Supabase project, safe to use in a browser.                          | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**.                                                         |
+| `SUPABASE_SERVICE_ROLE_KEY`  | The secret "service role" key for server-side operations with full access. **NEVER expose this publicly.** | In your Supabase project: **Settings > API > Project API Keys > `service_role` `secret`**. This is for your Edge Functions.          |
+| `STRIPE_PUBLISHABLE_KEY`     | The public key for Stripe, used on the frontend to initialize Stripe.js.                                | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`).                                               |
+| `STRIPE_SECRET_KEY`          | The secret key for Stripe, used on the server-side to make API calls. **NEVER expose this publicly.**      | In your Stripe Dashboard: **Developers > API Keys > Secret key** (e.g., `sk_test_...`). This is for your Edge Functions.             |
+| `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe. **NEVER expose this publicly.**     | In your Stripe Dashboard: **Developers > Webhooks > [Your Endpoint] > Signing secret** (e.g., `whsec_...`). See step 4.            |
+| `SITE_URL`                   | The public URL of your application (e.g., `http://localhost:3000` for local, `https://mybavul.com` for prod). | This is your application's base URL. It's used to construct redirect URLs for Stripe.                                                      |
+| `API_KEY`                    | Your Google Gemini API Key for the AI Assistant feature.                                                  | Get this from [Google AI Studio](https://aistudio.google.com/).                                                                            |
+
+## 2. Database Schema Setup
+
+The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file.
+
+**Steps:**
+
+1.  Navigate to your Supabase project dashboard.
+2.  In the left sidebar, go to the **SQL Editor**.
+3.  Click on **+ New query**.
+4.  Open the file `supabase/schema.sql` from this project.
+5.  Copy the entire content of the file.
+6.  Paste it into the Supabase SQL Editor.
+7.  Click **RUN**.
+
+This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.) and enable Row Level Security to protect your data.
+
+## 3. Deploy Supabase Edge Functions
+
+The payment and booking logic runs on Supabase Edge Functions for security. You need to deploy these functions using the Supabase CLI.
+
+**Prerequisites:**
+*   [Install the Supabase CLI](https://supabase.com/docs/guides/cli).
+*   Log in to the CLI with `supabase login`.
+*   Link your local project to your Supabase project with `supabase link --project-ref <your-project-id>`.
+
+**Deployment Steps:**
+
+1.  Open your terminal in the root of the project directory.
+2.  Run the following command to deploy all functions. This command will deploy `create-checkout-session`, `stripe-webhook-handler`, and the new `cancel-booking` function.
+
+    ```bash
+    supabase functions deploy
+    ```
+
+3.  After deployment, you will get URLs for each function. You will need the URL for `stripe-webhook-handler` for the next step.
+
+## 4. Configure Stripe Webhook
+
+You must tell Stripe where to send events (like a successful payment, refund, or dispute).
+
+**Steps:**
+
+1.  Go to your Stripe Dashboard.
+2.  Navigate to **Developers > Webhooks**.
+3.  Click **+ Add an endpoint**.
+4.  **Endpoint URL:** Paste the URL for the `stripe-webhook-handler` function you got in the previous step. It will look like this: `https://jtxaonuslkwduusqfaep.supabase.co/functions/v1/stripe-webhook-handler`
+5.  **Listen to events:** Click "Select events" and choose:
+    *   `checkout.session.completed`
+    *   `charge.refunded`
+    *   `charge.dispute.created`
+6.  Click **Add endpoint**.
+7.  On the next page, find the **Signing secret** (it looks like `whsec_...`). You provided `whsec_VHjrvbr71qw2YZmyzAnXWtMAoDWh1tdG`.
+8.  Copy this secret and add it to your environment variables as `STRIPE_WEBHOOK_SECRET`.
+
+Your MyBavul application is now fully configured and ready to handle live bookings, payments, cancellations, and disputes!
