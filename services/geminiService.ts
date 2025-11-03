@@ -1,8 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 
-// The execution environment provides secrets on the `process.env` object.
-// This ensures the correct environment variable is used for initialization.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Safely access the API key from the window object for browser environments.
+const apiKey = (window as any).process?.env?.API_KEY;
+if (!apiKey) {
+  console.error("Gemini API key is not configured. AI features will be disabled.");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
 
 const getPrompt = (hotelName: string, city: string, languageCode: string, languageName: string) => {
@@ -17,7 +21,10 @@ Your entire response must be in ${languageName}.`;
 
 
 export async function* getAIAssistantResponse(hotelName: string, city: string, languageCode: string, languageName: string) {
-  // The 'ai' instance is now guaranteed to be initialized with the correct key.
+  if (!apiKey) {
+    yield "Sorry, the AI Assistant is not available due to a configuration issue.";
+    return;
+  }
   
   const model = 'gemini-2.5-flash';
   const prompt = getPrompt(hotelName, city, languageCode, languageName);

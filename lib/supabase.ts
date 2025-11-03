@@ -5,21 +5,22 @@ let supabaseClient: SupabaseClient | null = null;
 /**
  * Gets the singleton instance of the Supabase client.
  * This function initializes the client on its first call and returns the existing instance on subsequent calls.
- * It will throw an error if the required Supabase environment variables are not configured.
- * This lazy initialization prevents the app from crashing on load if the environment is not set up correctly.
+ * It accesses secrets from `window.process.env` which is appropriate for this browser-based environment.
  */
 export const getSupabaseClient = (): SupabaseClient => {
   if (supabaseClient) {
     return supabaseClient;
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
+  // Safely access environment variables from the window object.
+  const env = (window as any).process?.env;
+  const supabaseUrl = env?.SUPABASE_URL;
+  const supabaseAnonKey = env?.SUPABASE_ANON_KEY;
+  
   if (!supabaseUrl || !supabaseAnonKey) {
-    // This error should be caught by the top-level check in App.tsx before this function is ever called.
-    // It's included here as a safeguard to ensure the app fails loudly if called unexpectedly.
-    throw new Error('CRITICAL: Supabase URL or Anon Key is missing from environment variables. Cannot initialize Supabase client.');
+    // This error is caught by the top-level check in index.tsx before this function is called.
+    // This is a safeguard against unexpected direct calls.
+    throw new Error('CRITICAL: Supabase URL or Anon Key is missing. Cannot initialize Supabase client.');
   }
 
   supabaseClient = createClient(supabaseUrl, supabaseAnonKey);

@@ -14,14 +14,17 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
+// Safely access environment variables from the window object.
+// In this browser-based environment, secrets are injected into `window.process.env`.
+const env = (window as any).process?.env;
+
 // Check for required environment variables at the top level to prevent crashes.
-// This is the earliest point of execution, ensuring no other code runs if config is missing.
 const missingVars = [
   'SUPABASE_URL',
   'SUPABASE_ANON_KEY',
   'STRIPE_PUBLISHABLE_KEY',
   'API_KEY'
-].filter(varName => !process.env[varName]);
+].filter(varName => !env?.[varName]);
 
 if (missingVars.length > 0) {
   // If variables are missing, render only the error component.

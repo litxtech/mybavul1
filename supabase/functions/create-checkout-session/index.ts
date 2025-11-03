@@ -1,5 +1,5 @@
-// FIX: Updated the Deno type reference to use unpkg for better stability and to resolve issues with global type definitions like Deno.env.
-/// <reference types="https://unpkg.com/@supabase/functions-js/src/edge-functions.d.ts" />
+// FIX: Updated the Deno type reference to use esm.sh for better stability and to resolve issues with global type definitions like Deno.env.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
