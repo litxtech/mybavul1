@@ -1,16 +1,14 @@
 /// <reference types="vite/client" />
 
 // This file provides TypeScript definitions for environment variables
-// accessed via `import.meta.env`.
+// exposed globally via `process.env`. This setup is specific to the
+// platform environment and overrides standard Vite `import.meta.env` behavior.
 
-interface ImportMetaEnv {
-  readonly VITE_SUPABASE_URL: string;
-  readonly VITE_SUPABASE_ANON_KEY: string;
-  readonly VITE_STRIPE_PUBLISHABLE_KEY: string;
-  readonly VITE_API_KEY: string;
-  // Add other client-side environment variables here.
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+declare namespace NodeJS {
+  interface ProcessEnv {
+    readonly SUPABASE_URL: string;
+    readonly SUPABASE_ANON_KEY: string;
+    readonly STRIPE_PUBLISHABLE_KEY: string;
+    readonly API_KEY: string;
+  }
 }

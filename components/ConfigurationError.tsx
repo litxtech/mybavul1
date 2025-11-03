@@ -7,7 +7,6 @@ const MissingEnvVar: React.FC<{ varName: string }> = ({ varName }) => (
 );
 
 const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }) => {
-    const hasApiKey = missingVars.includes('API_KEY');
     
     return (
         <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
@@ -24,14 +23,12 @@ const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }
                 </div>
                 <div className="mt-6">
                     <h2 className="font-semibold text-lg mb-3">How to Fix This:</h2>
-                    <p className="text-gray-700">
-                        For most variables, please refer to the <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded font-mono text-sm">README_setup.md</code> file for instructions.
-                    </p>
-                    {hasApiKey && (
-                         <p className="mt-4 text-gray-700 border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
-                            <strong>Note for `API_KEY`:</strong> The Gemini API key must be set directly in your project's secret management settings. This specific key does not use the `VITE_` prefix.
+                     <div className="text-gray-700 space-y-2">
+                        <p>To fix this, please set the required secrets in your project's configuration.</p>
+                        <p className="border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
+                            <strong>Important:</strong> In this environment, environment variables are accessed directly (e.g., `SUPABASE_URL`), not with a `VITE_` prefix. Please ensure your secrets are named accordingly, which may differ from the `README_setup.md` file.
                         </p>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>

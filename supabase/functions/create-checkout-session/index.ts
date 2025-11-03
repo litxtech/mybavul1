@@ -1,5 +1,5 @@
-// Fix: Corrected the Supabase functions type reference to a valid URL. This resolves errors with Deno's global types like `Deno.env`.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/edge-functions.d.ts" />
+// FIX: Corrected the Supabase functions type reference to point to the correct URL in the 'dist' folder. This resolves the 'Cannot find type definition file' error and subsequent errors related to Deno's global types like `Deno.env`.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/dist/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

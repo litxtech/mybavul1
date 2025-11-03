@@ -25,10 +25,10 @@ const getDurationInNights = (checkin: string, checkout: string): number => {
 
 export const createBookingAndCheckout = async ({ userId, property, room, rate, searchParams, displayCurrency }: CreateBookingParams) => {
     
-    // Access the Stripe key from `process.env` with VITE_ prefix
-    const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
+    // Access the Stripe key from `process.env` without the VITE_ prefix
+    const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
     if (!stripePublishableKey) {
-        const errorMessage = "VITE_STRIPE_PUBLISHABLE_KEY is not configured. Payment cannot proceed.";
+        const errorMessage = "STRIPE_PUBLISHABLE_KEY is not configured. Payment cannot proceed.";
         console.error(errorMessage);
         throw new Error(errorMessage);
     }

@@ -12,14 +12,14 @@ export const getSupabaseClient = (): SupabaseClient => {
     return supabaseClient;
   }
 
-  // Access environment variables from `process.env` with VITE_ prefix
-  const supabaseUrl = process.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+  // Access environment variables from `process.env` without VITE_ prefix
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
   
   if (!supabaseUrl || !supabaseAnonKey) {
     // This error is caught by the top-level check in index.tsx before this function is called.
     // This is a safeguard against unexpected direct calls.
-    throw new Error('CRITICAL: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is missing. Cannot initialize Supabase client.');
+    throw new Error('CRITICAL: SUPABASE_URL or SUPABASE_ANON_KEY is missing. Cannot initialize Supabase client.');
   }
 
   supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
