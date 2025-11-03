@@ -1,5 +1,5 @@
-// FIX: Switched to URL-based type reference for Supabase functions to correctly load Deno runtime types and resolve Deno.env errors.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+// FIX: Corrected the Supabase Edge Function type reference to a working, versioned URL.
+/// <reference types="https://esm.sh/v128/@supabase/functions-js@2.2.0/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

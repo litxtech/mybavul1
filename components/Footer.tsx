@@ -1,41 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLanguage } from '../i18n';
 import { StripeIcon, VisaIcon, MastercardIcon, AmexIcon, PayPalIcon } from './icons';
-import { getSupabaseClient } from '../lib/supabase';
-import { PolicyDocument } from '../types';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
-  const [policyDocs, setPolicyDocs] = useState<PolicyDocument[]>([]);
-
-  useEffect(() => {
-    const fetchPolicyDocs = async () => {
-      const supabase = getSupabaseClient();
-      const { data, error } = await supabase
-        .from('policy_documents')
-        .select('*')
-        .eq('is_active', true)
-        .order('sort_order', { ascending: true });
-      
-      if (error) {
-        console.error("Error fetching policy documents for footer:", error);
-      } else {
-        setPolicyDocs(data);
-      }
-    };
-    fetchPolicyDocs();
-  }, []);
 
   return (
     <footer className="bg-gray-800 text-gray-300 mt-16">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center space-x-6 rtl:space-x-reverse mb-4">
-            {policyDocs.map(doc => (
-                <a key={doc.id} href={`#/policy/${doc.slug}`} className="text-sm text-gray-400 hover:text-white">
-                    {t(doc.title_key)}
-                </a>
-            ))}
+            <a href="#/policy/privacy" className="text-sm text-gray-400 hover:text-white">
+                {t('policy.privacy.title')}
+            </a>
+            <a href="#/policy/terms" className="text-sm text-gray-400 hover:text-white">
+                {t('policy.terms.title')}
+            </a>
         </div>
         <div className="text-center text-sm space-y-2">
             <p>
