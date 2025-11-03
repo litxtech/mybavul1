@@ -1,5 +1,7 @@
+// Fix: Added a triple-slash directive to provide Deno's global types to TypeScript.
+/// <reference types="https://deno.land/x/service_worker@0.1.0/lib.d.ts" />
+
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { process } from 'https://deno.land/std@0.168.0/node/process.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -9,7 +11,7 @@ const corsHeaders = {
 }
 
 // Initialize Stripe client
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') as string, {
   httpClient: Stripe.createFetchHttpClient(),
   apiVersion: '2022-11-15',
 })
@@ -22,8 +24,8 @@ serve(async (req) => {
   try {
     // 1. Initialize Supabase client with user's auth token
     const supabaseClient = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_ANON_KEY!,
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
       { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
     )
 
@@ -43,8 +45,8 @@ serve(async (req) => {
 
     // Use the admin client for trusted operations
      const supabaseAdmin = createClient(
-        process.env.SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
+        Deno.env.get('SUPABASE_URL')!,
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     )
 
     // 3. Fetch the booking and verify ownership and status

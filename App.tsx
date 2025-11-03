@@ -13,6 +13,7 @@ import PropertyCard from './components/PropertyCard';
 import { useCurrency } from './contexts/CurrencyContext';
 import AdminDashboard from './components/AdminDashboard';
 import PolicyPage from './components/PolicyPage';
+import ConfigurationError from './components/ConfigurationError';
 
 type View = 'HOME' | 'RESULTS' | 'DETAILS' | 'RESERVATIONS' | 'BOOKING_SUCCESS' | 'BOOKING_CANCELLED' | 'ADMIN' | 'POLICY';
 
@@ -160,6 +161,19 @@ const AccessDenied = () => {
 }
 
 const App: React.FC = () => {
+  // Check for required environment variables at the top level to prevent crashes.
+  const missingVars = [
+    'VITE_SUPABASE_URL',
+    'VITE_SUPABASE_ANON_KEY',
+    'VITE_STRIPE_PUBLISHABLE_KEY',
+    'VITE_API_KEY'
+  ].filter(varName => !import.meta.env[varName]);
+
+  if (missingVars.length > 0) {
+    // Render a helpful error message instead of a white screen.
+    return <ConfigurationError missingVars={missingVars} />;
+  }
+  
   const { t } = useLanguage();
   const { profile } = useAuth();
   const [route, setRoute] = useState(parseHash());

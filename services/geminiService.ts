@@ -1,8 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Fix: Per @google/genai guidelines, initialize the client directly with process.env.API_KEY.
-// This resolves TypeScript errors with `import.meta.env` and aligns with the coding guidelines.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Fix: Per @google/genai guidelines, initialize the client with the API key.
+// In a Vite app, client-side environment variables must be prefixed with VITE_ and accessed via import.meta.env.
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
 
 
 const getPrompt = (hotelName: string, city: string, languageCode: string, languageName: string) => {

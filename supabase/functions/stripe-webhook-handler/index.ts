@@ -1,6 +1,7 @@
+// Fix: Added a triple-slash directive to provide Deno's global types to TypeScript.
+/// <reference types="https://deno.land/x/service_worker@0.1.0/lib.d.ts" />
+
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-// Fix: Import process from std/node to access environment variables.
-import { process } from 'https://deno.land/std@0.168.0/node/process.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -11,16 +12,15 @@ const corsHeaders = {
 }
 
 // Initialize Stripe
-// Fix: Use process.env instead of Deno.env to avoid type errors.
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') as string, {
   httpClient: Stripe.createFetchHttpClient(),
   apiVersion: '2022-11-15',
 })
 
 // Initialize Supabase Admin Client
 const supabaseAdmin = createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 )
 
 serve(async (req) => {
@@ -32,8 +32,7 @@ serve(async (req) => {
     event = await stripe.webhooks.constructEventAsync(
       body,
       signature!,
-      // Fix: Use process.env instead of Deno.env to avoid type errors.
-      process.env.STRIPE_WEBHOOK_SECRET!
+      Deno.env.get('STRIPE_WEBHOOK_SECRET')!
     )
   } catch (err) {
     console.error('Webhook signature verification failed.', err.message)
