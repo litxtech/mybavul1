@@ -17,10 +17,10 @@ const root = ReactDOM.createRoot(rootElement);
 // Check for required environment variables at the top level to prevent crashes.
 // This is the earliest point of execution, ensuring no other code runs if config is missing.
 const missingVars = [
-  'VITE_SUPABASE_URL',
-  'VITE_SUPABASE_ANON_KEY',
-  'VITE_STRIPE_PUBLISHABLE_KEY',
-  'VITE_API_KEY'
+  'SUPABASE_URL',
+  'SUPABASE_ANON_KEY',
+  'STRIPE_PUBLISHABLE_KEY',
+  'API_KEY'
 ].filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {

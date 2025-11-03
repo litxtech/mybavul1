@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 // The execution environment provides secrets on the `process.env` object.
-// Fix: Per @google/genai guidelines, the API key MUST be sourced from process.env.API_KEY.
+// This ensures the correct environment variable is used for initialization.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 
@@ -17,8 +17,7 @@ Your entire response must be in ${languageName}.`;
 
 
 export async function* getAIAssistantResponse(hotelName: string, city: string, languageCode: string, languageName: string) {
-  // The 'ai' instance is now guaranteed to be initialized, so the null check is removed.
-  // This aligns with @google/genai guidelines to assume the API key is always available.
+  // The 'ai' instance is now guaranteed to be initialized with the correct key.
   
   const model = 'gemini-2.5-flash';
   const prompt = getPrompt(hotelName, city, languageCode, languageName);
