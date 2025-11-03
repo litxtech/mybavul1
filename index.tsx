@@ -18,12 +18,12 @@ const root = ReactDOM.createRoot(rootElement);
 const env = process.env;
 
 // Check for required environment variables at the top level to prevent crashes.
-// The README specifies VITE_ prefixes for client-side vars.
+// The README specifies VITE_ prefixes for client-side vars, but Gemini API has a hard requirement for API_KEY.
 const requiredVars: string[] = [
   'VITE_SUPABASE_URL',
   'VITE_SUPABASE_ANON_KEY',
   'VITE_STRIPE_PUBLISHABLE_KEY',
-  'VITE_API_KEY'
+  'API_KEY' // Per Gemini API guidelines, this must be API_KEY, not VITE_API_KEY
 ];
 
 const missingVars = requiredVars.filter(varName => !env[varName]);

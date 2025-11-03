@@ -7,6 +7,8 @@ const MissingEnvVar: React.FC<{ varName: string }> = ({ varName }) => (
 );
 
 const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }) => {
+    const hasApiKey = missingVars.includes('API_KEY');
+    
     return (
         <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
             <div className="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full border-t-4 border-red-500">
@@ -23,8 +25,13 @@ const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }
                 <div className="mt-6">
                     <h2 className="font-semibold text-lg mb-3">How to Fix This:</h2>
                     <p className="text-gray-700">
-                        Please refer to the <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded font-mono text-sm">README_setup.md</code> file for instructions on how to set these variables in your hosting environment (e.g., Vercel, Netlify) or in a local <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded font-mono text-sm">.env</code> file for development.
+                        For most variables, please refer to the <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded font-mono text-sm">README_setup.md</code> file for instructions.
                     </p>
+                    {hasApiKey && (
+                         <p className="mt-4 text-gray-700 border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
+                            <strong>Note for `API_KEY`:</strong> The Gemini API key must be set directly in your project's secret management settings. This specific key does not use the `VITE_` prefix.
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

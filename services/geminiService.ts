@@ -1,9 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 
-// In this platform, client-side environment variables are accessed via `process.env`.
-const apiKey = process.env.VITE_API_KEY;
+// Per Gemini API guidelines, the API key MUST be obtained from `process.env.API_KEY`.
+const apiKey = process.env.API_KEY;
 if (!apiKey) {
-  console.error("VITE_API_KEY is not configured. AI features will be disabled.");
+  console.error("API_KEY is not configured. AI features will be disabled.");
 }
 
 const ai = new GoogleGenAI({ apiKey: apiKey || '' });
