@@ -1,7 +1,5 @@
-// FIX: The previous type references were not resolving correctly.
-// Using a direct URL reference to esm.sh for the Supabase Edge Function types
-// is a more stable approach that ensures the Deno namespace is correctly augmented.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-functions.d.ts" />
+// FIX: Replaced the failing esm.sh type reference with a stable, version-pinned unpkg URL to load Deno types correctly.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

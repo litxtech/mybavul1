@@ -14,20 +14,18 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
-// For Vite projects, client-side env vars must be prefixed with VITE_ to be exposed.
-// The platform makes them available on `process.env`.
-const env = process.env;
+// In a Vite project, environment variables are exposed on `import.meta.env`.
+const env = import.meta.env;
 
 // Check for required environment variables at the top level to prevent crashes.
-const requiredVars = [
+const requiredVars: (keyof ImportMetaEnv)[] = [
   'VITE_SUPABASE_URL',
   'VITE_SUPABASE_ANON_KEY',
   'VITE_STRIPE_PUBLISHABLE_KEY',
-  // FIX: Use API_KEY for Gemini API key as per guidelines.
-  'API_KEY'
+  'VITE_API_KEY'
 ];
 
-const missingVars = requiredVars.filter(varName => !env[varName as keyof NodeJS.ProcessEnv]);
+const missingVars = requiredVars.filter(varName => !env[varName]);
 
 if (missingVars.length > 0) {
   // Map back to the unprefixed names for the user-facing error message to match the README.
