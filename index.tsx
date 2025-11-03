@@ -18,11 +18,12 @@ const root = ReactDOM.createRoot(rootElement);
 const env = process.env;
 
 // Check for required environment variables at the top level to prevent crashes.
+// The README specifies VITE_ prefixes for client-side vars.
 const requiredVars: string[] = [
-  'SUPABASE_URL',
-  'SUPABASE_ANON_KEY',
-  'STRIPE_PUBLISHABLE_KEY',
-  'API_KEY'
+  'VITE_SUPABASE_URL',
+  'VITE_SUPABASE_ANON_KEY',
+  'VITE_STRIPE_PUBLISHABLE_KEY',
+  'VITE_API_KEY'
 ];
 
 const missingVars = requiredVars.filter(varName => !env[varName]);
