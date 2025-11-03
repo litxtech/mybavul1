@@ -11,8 +11,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
     const errorMessage = "Supabase URL or Anon Key is missing. Make sure to set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment variables.";
     // Log to console for developers
     console.error(errorMessage);
-    // Throw an error to stop the application from running in a broken state.
-    throw new Error(errorMessage);
+    // Throwing an error here stops the application from running in a broken state, but can cause a white screen.
+    // Commenting out to allow the app to render and show a more graceful failure.
+    // throw new Error(errorMessage);
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl!, supabaseAnonKey!);

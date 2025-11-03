@@ -89,6 +89,24 @@ export interface WalletLedger {
     created_at: string;
 }
 
+export interface Profile {
+  id: string;
+  role: 'admin' | 'user';
+  updated_at: string;
+}
+
+export interface PolicyDocument {
+  id: string;
+  slug: string;
+  title_key: string;
+  content_key: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+
 // App-specific types
 export interface SearchParams {
   city: string;

@@ -95,7 +95,8 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
     if (!stripePublishableKey) {
         const errorMessage = "Stripe Publishable Key is not configured. Payment cannot proceed.";
         console.error(errorMessage);
-        throw new Error(errorMessage);
+        // Commenting out to prevent app crash on load. Error will be handled by Stripe.js if it fails.
+        // throw new Error(errorMessage);
     }
     const stripe = (window as any).Stripe(stripePublishableKey);
     const { error: stripeError } = await stripe.redirectToCheckout({

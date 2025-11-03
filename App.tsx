@@ -11,8 +11,10 @@ import { supabase } from './lib/supabase';
 import MyReservations from './components/MyReservations';
 import PropertyCard from './components/PropertyCard';
 import { useCurrency } from './contexts/CurrencyContext';
+import AdminDashboard from './components/AdminDashboard';
+import PolicyPage from './components/PolicyPage';
 
-type View = 'HOME' | 'RESULTS' | 'DETAILS' | 'RESERVATIONS' | 'BOOKING_SUCCESS' | 'BOOKING_CANCELLED';
+type View = 'HOME' | 'RESULTS' | 'DETAILS' | 'RESERVATIONS' | 'BOOKING_SUCCESS' | 'BOOKING_CANCELLED' | 'ADMIN' | 'POLICY';
 
 const parseHash = () => {
     const hash = window.location.hash.substring(2); // remove #/
@@ -144,8 +146,22 @@ const SearchResults: React.FC<{ properties: Property[], searchParams: SearchPara
       );
 }
 
+const AccessDenied = () => {
+    const { t } = useLanguage();
+    return (
+        <div className="text-center py-20 max-w-2xl mx-auto px-4">
+            <h2 className="text-3xl font-bold text-red-600">{t('admin.accessDenied.title')}</h2>
+            <p className="mt-4">{t('admin.accessDenied.message')}</p>
+             <a href="#/" className="inline-block mt-8 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700">
+                {t('booking.cancelled.button')}
+            </a>
+        </div>
+    );
+}
+
 const App: React.FC = () => {
   const { t } = useLanguage();
+  const { profile } = useAuth();
   const [route, setRoute] = useState(parseHash());
   const [searchResults, setSearchResults] = useState<Property[]>([]);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
@@ -260,6 +276,18 @@ const App: React.FC = () => {
                 </a>
             </div>
         );
+    }
+    
+    if (path === 'admin') {
+      if (profile?.role !== 'admin') {
+        return <AccessDenied />;
+      }
+      return <AdminDashboard />;
+    }
+
+    if (path.startsWith('policy/')) {
+      const slug = pathParts[1];
+      return <PolicyPage slug={slug} />;
     }
     
     // Default to home

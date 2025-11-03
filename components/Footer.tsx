@@ -1,20 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../i18n';
 import { MercuryIcon } from './icons';
+import { supabase } from '../lib/supabase';
+import { PolicyDocument } from '../types';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
+  const [policyDocs, setPolicyDocs] = useState<PolicyDocument[]>([]);
+
+  useEffect(() => {
+    const fetchPolicyDocs = async () => {
+      const { data, error } = await supabase
+        .from('policy_documents')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+      
+      if (error) {
+        console.error("Error fetching policy documents for footer:", error);
+      } else {
+        setPolicyDocs(data);
+      }
+    };
+    fetchPolicyDocs();
+  }, []);
 
   return (
     <footer className="bg-gray-800 text-gray-300 mt-16">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center space-x-6 rtl:space-x-reverse mb-4">
+            {policyDocs.map(doc => (
+                <a key={doc.id} href={`#/policy/${doc.slug}`} className="text-sm text-gray-400 hover:text-white">
+                    {t(doc.title_key)}
+                </a>
+            ))}
+        </div>
         <div className="text-center text-sm space-y-2">
             <p>
                 © {currentYear} MyBavul.com – An affiliate of LitxTech LLC | <a href="tel:+13072715151" className="hover:text-white">+1 (307) 271-5151</a> | <a href="mailto:support@litxtech.com" className="hover:text-white">support@litxtech.com</a>
             </p>
             <p>
-                15442 Ventura Blvd., Ste 201-1834, Sherman Oaks, CA 91403 | D-U-N-S®: 144849529 | Governed by Wyoming Law.
+                15442 Ventura Blvd., Ste 201-1834, Sherman Oaks, CA 9403 | D-U-N-S®: 144849529 | Governed by Wyoming Law.
             </p>
         </div>
         <div className="mt-6 flex justify-center items-center space-x-6 rtl:space-x-reverse">
