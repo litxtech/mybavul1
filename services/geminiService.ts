@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
-// In a Vite project, client-side environment variables are accessed via `import.meta.env`.
-const apiKey = import.meta.env.VITE_API_KEY;
+// In this platform, client-side environment variables are accessed via `process.env`.
+const apiKey = process.env.API_KEY;
 if (!apiKey) {
   console.error("Gemini API key is not configured. AI features will be disabled.");
 }

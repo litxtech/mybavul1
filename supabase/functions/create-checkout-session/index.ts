@@ -1,5 +1,5 @@
-// FIX: Corrected the Supabase functions type reference to a valid URL to resolve Deno namespace type errors.
-/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/dist/edge-functions.d.ts" />
+// FIX: Updated the Supabase functions type reference to a valid URL. This resolves Deno namespace type errors, including the ones for 'Deno.env'.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

@@ -1,3 +1,4 @@
+// FIX: Removed the conflicting global declaration for 'process' to resolve the "Cannot redeclare block-scoped variable" error.
 import { User } from '@supabase/supabase-js';
 
 // Main data structures from Supabase

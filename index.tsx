@@ -14,26 +14,23 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
-// In a Vite project, environment variables are exposed on `import.meta.env`.
-const env = import.meta.env;
+// In this environment, variables are exposed on `process.env`.
+const env = process.env;
 
 // Check for required environment variables at the top level to prevent crashes.
-const requiredVars: (keyof ImportMetaEnv)[] = [
-  'VITE_SUPABASE_URL',
-  'VITE_SUPABASE_ANON_KEY',
-  'VITE_STRIPE_PUBLISHABLE_KEY',
-  'VITE_API_KEY'
+const requiredVars: string[] = [
+  'SUPABASE_URL',
+  'SUPABASE_ANON_KEY',
+  'STRIPE_PUBLISHABLE_KEY',
+  'API_KEY'
 ];
 
 const missingVars = requiredVars.filter(varName => !env[varName]);
 
 if (missingVars.length > 0) {
-  // Map back to the unprefixed names for the user-facing error message to match the README.
-  // FIX: Cast key to string before calling replace to satisfy TypeScript.
-  const missingDisplayNames = missingVars.map(v => String(v).replace(/^VITE_/, ''));
   root.render(
     <React.StrictMode>
-      <ConfigurationError missingVars={missingDisplayNames} />
+      <ConfigurationError missingVars={missingVars} />
     </React.StrictMode>
   );
 } else {
