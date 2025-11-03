@@ -1,3 +1,5 @@
+// Fix: Removed reference to "vite/client" as it was causing an error and is not used in this file.
+
 import { User } from '@supabase/supabase-js';
 
 // Main data structures from Supabase

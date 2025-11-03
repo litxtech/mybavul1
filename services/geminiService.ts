@@ -1,11 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Assume process.env.API_KEY is configured in the environment
-if (!process.env.API_KEY) {
-  console.warn("Gemini API key not found. AI features will be disabled.");
-}
+// Fix: Per @google/genai guidelines, initialize the client directly with process.env.API_KEY.
+// This resolves TypeScript errors with `import.meta.env` and aligns with the coding guidelines.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 const getPrompt = (hotelName: string, city: string, languageCode: string, languageName: string) => {
     return `You are a friendly and knowledgeable travel assistant for MyBavul.com.
@@ -19,20 +17,17 @@ Your entire response must be in ${languageName}.`;
 
 
 export async function* getAIAssistantResponse(hotelName: string, city: string, languageCode: string, languageName: string) {
-  if (!process.env.API_KEY) {
-    // This part should also be internationalized, but for simplicity, we keep it in English
-    // as it's a developer-facing warning/error. A more robust solution would pass the `t` function here.
-    yield "AI Assistant is offline. API Key is missing.";
-    return;
-  }
+  // Fix: The 'ai' instance is now guaranteed to be initialized, so the null check is removed.
+  // This aligns with @google/genai guidelines to assume the API key is always available.
   
   const model = 'gemini-2.5-flash';
   const prompt = getPrompt(hotelName, city, languageCode, languageName);
 
   try {
+    // Per Gemini API guidelines, `contents` for a simple text prompt should be a string.
     const responseStream = await ai.models.generateContentStream({
       model: model,
-      contents: [{ parts: [{ text: prompt }] }],
+      contents: prompt,
     });
 
     for await (const chunk of responseStream) {

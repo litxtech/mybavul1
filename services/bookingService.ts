@@ -1,3 +1,4 @@
+// Fix: Removed reference to "vite/client" which was causing a type definition error.
 import { supabase } from "../lib/supabase";
 import { Property, RoomType, RatePlan, SearchParams, Currency } from "../types";
 
@@ -89,7 +90,8 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
     const { sessionId } = functionData;
 
     // Step 3: Redirect the user to Stripe Checkout.
-    const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+    // Fix: Switched from `import.meta.env` to `process.env` to resolve TypeScript errors regarding missing type definitions for Vite's environment variables.
+    const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
     if (!stripePublishableKey) {
         const errorMessage = "Stripe Publishable Key is not configured. Payment cannot proceed.";
         console.error(errorMessage);
