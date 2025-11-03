@@ -1,5 +1,5 @@
-// FIX: Updated the Supabase functions type reference to a correct, stable URL to resolve type definition and Deno.env errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2" />
+// FIX: Switched to URL-based type reference for Supabase functions to correctly load Deno runtime types and resolve Deno.env errors.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
