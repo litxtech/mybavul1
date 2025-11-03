@@ -1,42 +1,65 @@
-# MyBavul Setup Guide
+# MyBavul Setup Guide (Vite Standard)
 
-This guide provides all the necessary steps to get your MyBavul application running, from setting up the database to deploying the serverless functions required for payments and hotel searches.
+This guide provides all the necessary steps to get your MyBavul application running using a standard Vite environment.
 
-## 1. Environment Variables (Secrets)
+## 1. Local Development Setup: `.env.local` File
 
-Your application requires several secret keys to connect to external services. These should be stored as environment variables in your project's settings. **Do not hardcode them in the source code.**
+For local development, Vite uses a `.env.local` file in the root of your project to manage environment variables. This file should **never** be committed to version control.
 
-### Client-Side Variables
+**Steps:**
 
-These variables are made available to your application's frontend code. 
-**Important:** Unlike standard Vite projects, this platform exposes client-side variables directly on `process.env` **without** the `VITE_` prefix. Please name your secrets exactly as listed below.
+1.  In the root directory of your project, create a new file named `.env.local`.
+2.  Copy the contents of the `.env.example` file (or the block below) into your new `.env.local` file.
+3.  Replace the placeholder values with your actual secret keys.
+
+### `.env.local` Template
+
+```env
+# Supabase Configuration
+VITE_SUPABASE_URL="https://your-project-ref.supabase.co"
+VITE_SUPABASE_ANON_KEY="your-supabase-anon-key"
+
+# Stripe Configuration
+VITE_STRIPE_PUBLISHABLE_KEY="pk_test_your-stripe-publishable-key"
+
+# Google Gemini AI Configuration
+VITE_API_KEY="your-google-ai-studio-api-key"
+```
+
+## 2. Environment Variables (Secrets)
+
+Your application requires several secret keys to connect to external services.
+
+### Client-Side Variables (for Vite)
+
+These variables are exposed to your frontend application. **Vite requires that these variables be prefixed with `VITE_` to be accessible in your code.**
 
 | Variable Name                | Description                                                                    | How to get it                                                                      |
 | ---------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| `SUPABASE_URL`               | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
-| `SUPABASE_ANON_KEY`          | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
-| `STRIPE_PUBLISHABLE_KEY`     | The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
-| `API_KEY`                    | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
+| `VITE_SUPABASE_URL`          | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
+| `VITE_SUPABASE_ANON_KEY`     | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
+| `VITE_STRIPE_PUBLISHABLE_KEY`| The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
+| `VITE_API_KEY`               | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
 
 ### Server-Side Variables (for Supabase Edge Functions)
 
-These are configured directly in your Supabase project secrets. You can set them via the Supabase CLI or in the Dashboard under **Project Settings > Functions > Secrets**. **NEVER expose these publicly.**
+These are configured directly in your Supabase project secrets. You can set them via the Supabase CLI or in the Dashboard under **Project Settings > Functions > Secrets**. **These do NOT use the `VITE_` prefix.**
 
 | Variable Name                | Description                                                                    | How to get it                                                                                                                              |
 | ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `SUPABASE_SERVICE_ROLE_KEY`  | The secret "service role" key for server-side operations with full access.     | In your Supabase project: **Settings > API > Project API Keys > `service_role` `secret`**. |
 | `STRIPE_SECRET_KEY`          | The secret key for Stripe, used on the server-side to make API calls.          | In your Stripe Dashboard: **Developers > API Keys > Secret key** (e.g., `sk_test_...`). |
 | `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe.          | In your Stripe Dashboard: **Developers > Webhooks > [Your Endpoint] > Signing secret** (e.g., `whsec_...`). See step 4.            |
-| `SITE_URL`                   | The public URL of your frontend application (e.g., `https://mybavul.com`). **This must be the URL where users access your site, NOT your Supabase URL.** It is critical for Stripe payment redirects. | Your application's deployment URL.                                                      |
+| `SITE_URL`                   | The public URL of your frontend application (e.g., `https://mybavul.com`). **This is critical for Stripe payment redirects.** | Your application's deployment URL.                                                      |
 | `HOTELBEDS_API_KEY`          | The API key for the Hotelbeds API to search for hotels.                        | Provided by Hotelbeds.                                                                                                                   |
 | `HOTELBEDS_SECRET`           | The secret key for the Hotelbeds API, used to generate a request signature.      | Provided by Hotelbeds.                                                                                                                   |
 
 
-## 2. Database Schema Setup
+## 3. Database Schema Setup
 
 The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file.
 
-**This step is critical.** The SQL script not only creates the database tables but also **seeds the database with sample hotel data**. While the main search now uses a live API, this sample data is still useful for relations and fallbacks.
+**This step is critical.**
 
 **Steps:**
 
@@ -48,82 +71,49 @@ The entire database structure, including tables, relationships, security policie
 6.  Paste it into the Supabase SQL Editor.
 7.  Click **RUN**.
 
-This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.), populate them with sample hotels, and enable Row Level Security to protect your data.
+This will create all necessary tables and enable Row Level Security.
 
-## 3. Deploy Supabase Edge Functions
+## 4. Deploy Supabase Edge Functions
 
-The payment, cancellation, and hotel search logic runs on Supabase Edge Functions for security. You need to deploy these functions using the Supabase CLI.
+The payment, cancellation, and hotel search logic runs on Supabase Edge Functions. You need to deploy them using the Supabase CLI.
 
 **Prerequisites:**
 *   [Install the Supabase CLI](https://supabase.com/docs/guides/cli).
-*   Log in to the CLI with `supabase login`.
-*   Link your local project to your Supabase project with `supabase link --project-ref <your-project-id>`.
-*   Set your server-side secrets: `supabase secrets set --env-file ./supabase/functions/.env.local` (create this file for your secrets).
+*   Log in to the CLI: `supabase login`.
+*   Link your project: `supabase link --project-ref <your-project-id>`.
+*   Set your server-side secrets: `supabase secrets set --env-file ./supabase/functions/.env.local`.
 
-**Deployment Steps:**
+**Deployment:**
 
-1.  Open your terminal in the root of the project directory.
-2.  Run the following command to deploy all functions. This command will deploy `create-checkout-session`, `stripe-webhook-handler`, `cancel-booking`, and the new `search-hotels` function.
+```bash
+supabase functions deploy
+```
 
-    ```bash
-    supabase functions deploy
-    ```
+## 5. Configure Stripe Webhook
 
-3.  After deployment, you will get URLs for each function. You will need the URL for `stripe-webhook-handler` for the next step.
+You must tell Stripe where to send events (like a successful payment).
 
-## 4. Configure Stripe Webhook
-
-You must tell Stripe where to send events (like a successful payment, refund, or dispute).
-
-**Steps:**
-
-1.  Go to your Stripe Dashboard.
-2.  Navigate to **Developers > Webhooks**.
-3.  Click **+ Add an endpoint**.
-4.  **Endpoint URL:** Paste the URL for the `stripe-webhook-handler` function you got in the previous step. It will look like this: `https://<your-project-ref>.supabase.co/functions/v1/stripe-webhook-handler`. 
-    **Important:** Replace `<your-project-ref>` with your actual Supabase project reference ID (e.g., `jtxaonuslkwduusqfaep`).
-5.  **Listen to events:** Click "Select events" and choose:
+1.  Go to your Stripe Dashboard > **Developers > Webhooks**.
+2.  Click **+ Add an endpoint**.
+3.  **Endpoint URL:** Use the URL for the `stripe-webhook-handler` function from the previous step: `https://<your-project-ref>.supabase.co/functions/v1/stripe-webhook-handler`.
+4.  **Listen to events:** Select:
     *   `checkout.session.completed`
     *   `charge.refunded`
     *   `charge.dispute.created`
-6.  Click **Add endpoint**.
-7.  On the next page, find the **Signing secret** (it looks like `whsec_...`).
-8.  Copy this secret and set it as a Supabase secret named `STRIPE_WEBHOOK_SECRET`.
+5.  Click **Add endpoint**.
+6.  Find the **Signing secret** (`whsec_...`) and set it as a Supabase secret named `STRIPE_WEBHOOK_SECRET`.
 
 
-## 5. Configure Google OAuth (for Google Sign-In)
+## 6. Configure Google OAuth
 
-To prevent the **`redirect_uri_mismatch`** error, you must tell Google which URLs are allowed to handle the authentication callback after a user signs in.
+Prevent the **`redirect_uri_mismatch`** error by authorizing your application's URLs.
 
-**Steps:**
+1.  Go to **Google Cloud Console > APIs & Services > Credentials**.
+2.  Edit your **OAuth 2.0 Client ID**.
+3.  Under **Authorized redirect URIs**, add the following:
+    *   `https://<your-project-ref>.supabase.co/auth/v1/callback`
+    *   `http://localhost:5173` (or your local dev port)
+    *   `https://your-production-site.com`
+4.  Click **Save**.
 
-1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2.  Select your project and navigate to **APIs & Services > Credentials**.
-3.  Find your **OAuth 2.0 Client ID** that you are using for this application and click the edit icon.
-4.  Under the **Authorized redirect URIs** section, click **+ ADD URI**.
-5.  You need to add the Supabase callback URL and any URLs for your development and production environments. Add the following URIs one by one:
-
-    *   **Supabase Callback URL (Required):**
-        ```
-        https://<your-project-ref>.supabase.co/auth/v1/callback
-        ```
-        (Replace `<your-project-ref>` with your actual Supabase project reference ID, e.g., `jtxaonuslkwduusqfaep`).
-
-    *   **Local Development URL (Recommended):**
-        If you run the app locally (e.g., using `vite`), add your local development URL. The default for Vite is usually:
-        ```
-        http://localhost:5173
-        ```
-        (Check your terminal for the exact URL and port if it's different).
-
-    *   **Production URL (Required for deployed app):**
-        Add the main URL of your deployed application.
-        ```
-        https://your-production-site.com
-        ```
-
-6.  Click **Save**.
-
-It might take a few minutes for the changes to take effect. After this, the Google Sign-In should work without errors.
-
-Your MyBavul application is now fully configured and ready to handle live bookings, payments, cancellations, and disputes!
+Your MyBavul application is now fully configured and ready to run.

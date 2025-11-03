@@ -14,16 +14,15 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
-// In this environment, variables are exposed on `process.env`.
-const env = process.env;
+// Use Vite's standard `import.meta.env` for environment variables.
+const env = import.meta.env;
 
-// Check for required environment variables at the top level to prevent crashes.
-// This platform's environment does not use the VITE_ prefix for client-side variables.
+// Check for required environment variables, which must be prefixed with VITE_.
 const requiredVars: string[] = [
-  'SUPABASE_URL',
-  'SUPABASE_ANON_KEY',
-  'STRIPE_PUBLISHABLE_KEY',
-  'API_KEY'
+  'VITE_SUPABASE_URL',
+  'VITE_SUPABASE_ANON_KEY',
+  'VITE_STRIPE_PUBLISHABLE_KEY',
+  'VITE_API_KEY'
 ];
 
 const missingVars = requiredVars.filter(varName => !env[varName]);

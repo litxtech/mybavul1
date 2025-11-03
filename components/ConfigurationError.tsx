@@ -23,11 +23,17 @@ const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }
                 </div>
                 <div className="mt-6">
                     <h2 className="font-semibold text-lg mb-3">How to Fix This:</h2>
-                     <div className="text-gray-700 space-y-2">
-                        <p>To fix this, please set the required secrets in your project's configuration settings.</p>
-                        <p className="border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
-                            <strong>Important:</strong> In this specific platform environment, variables must be named without the `VITE_` prefix (e.g., `SUPABASE_URL`, not `VITE_SUPABASE_URL`).
+                     <div className="text-gray-700 space-y-3">
+                        <p>
+                           To fix this for local development, create a <code className="bg-gray-200 text-gray-800 px-1 rounded">.env.local</code> file in the project root and add the missing variables.
+                           Refer to the <code className="bg-gray-200 text-gray-800 px-1 rounded">README_setup.md</code> file for a template.
                         </p>
+                        <p className="border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
+                            <strong>Important:</strong> Following Vite's standard, all client-side environment variables **must** be prefixed with <code className="font-bold">VITE_</code>.
+                            <br/>
+                            For example: <code className="bg-gray-200 text-gray-800 px-1 rounded">VITE_SUPABASE_URL="..."</code>
+                        </p>
+                         <p>If you have deployed this application, please set these variables in your hosting provider's settings panel.</p>
                     </div>
                 </div>
             </div>

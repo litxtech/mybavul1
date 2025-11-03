@@ -1,5 +1,5 @@
-// FIX: Updated the Supabase functions type reference to a correct and stable URL to resolve type definition errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-functions.d.ts" />
+// FIX: Updated the Supabase functions type reference to a correct, stable URL to resolve type definition and Deno.env errors.
+/// <reference types="https://esm.sh/@supabase/functions-js@2" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
