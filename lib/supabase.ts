@@ -8,12 +8,12 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-    const errorMessage = "Supabase URL or Anon Key is missing. Make sure to set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment variables.";
-    // Log to console for developers
+    const errorMessage = "CRITICAL: Supabase URL or Anon Key is missing. The application will not be able to connect to the database. Make sure to set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment variables.";
+    // Log a prominent error for developers
     console.error(errorMessage);
-    // Throwing an error here stops the application from running in a broken state, but can cause a white screen.
-    // Commenting out to allow the app to render and show a more graceful failure.
-    // throw new Error(errorMessage);
 }
 
-export const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
+// Pass empty strings if the env variables are not set.
+// This prevents the client from crashing on initialization and allows the UI to render.
+// The error will occur gracefully on the first database call instead.
+export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');

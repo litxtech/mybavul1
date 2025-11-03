@@ -26,6 +26,14 @@ const getDurationInNights = (checkin: string, checkout: string): number => {
 
 export const createBookingAndCheckout = async ({ userId, property, room, rate, searchParams, displayCurrency }: CreateBookingParams) => {
     
+    // Fail early if Stripe key is not configured
+    const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
+    if (!stripePublishableKey) {
+        const errorMessage = "Stripe Publishable Key is not configured. Payment cannot proceed.";
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+    
     const durationNights = getDurationInNights(searchParams.checkin, searchParams.checkout);
     const totalPriceUsdMinor = rate.price_per_night_usd_minor * durationNights;
 
@@ -90,14 +98,6 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
     const { sessionId } = functionData;
 
     // Step 3: Redirect the user to Stripe Checkout.
-    // Fix: Switched from `import.meta.env` to `process.env` to resolve TypeScript errors regarding missing type definitions for Vite's environment variables.
-    const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
-    if (!stripePublishableKey) {
-        const errorMessage = "Stripe Publishable Key is not configured. Payment cannot proceed.";
-        console.error(errorMessage);
-        // Commenting out to prevent app crash on load. Error will be handled by Stripe.js if it fails.
-        // throw new Error(errorMessage);
-    }
     const stripe = (window as any).Stripe(stripePublishableKey);
     const { error: stripeError } = await stripe.redirectToCheckout({
         sessionId: sessionId,
