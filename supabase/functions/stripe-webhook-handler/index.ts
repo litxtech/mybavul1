@@ -1,5 +1,5 @@
-// Fix: Added a triple-slash directive to provide Deno's global types to TypeScript.
-/// <reference types="https://deno.land/x/service_worker@0.1.0/lib.d.ts" />
+// Fix: Replaced invalid type reference with the correct one for Supabase Edge Functions to provide Deno runtime types.
+/// <reference types="npm:@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

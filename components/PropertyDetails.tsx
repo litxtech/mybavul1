@@ -152,7 +152,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property, searchParam
           <h2 className="text-3xl font-bold mt-12 mb-6 text-gray-800">{t('details.chooseRoom')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {property.room_types && property.room_types.map((room) => (
-              <div key={room.id} className={`border-2 p-4 rounded-lg cursor-pointer ${selectedRoom?.id === room.id ? 'border-red-500 bg-red-50' : 'border-gray-200'}`} onClick={() => { setSelectedRoom(room); setSelectedRate(null); }}>
+              <div key={room.id} className={`border-2 p-4 rounded-lg cursor-pointer transition-all ${selectedRoom?.id === room.id ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`} onClick={() => { setSelectedRoom(room); setSelectedRate(null); }}>
                 <img src={room.photos[0]} alt={room.name} className="w-full h-40 object-cover rounded-md mb-4" />
                 <h3 className="text-xl font-semibold">{room.name}</h3>
                 <div className="flex items-center text-gray-500 mt-1">
@@ -162,7 +162,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property, searchParam
                 {selectedRoom?.id === room.id && (
                   <div className="mt-4 space-y-3">
                     {room.rate_plans && room.rate_plans.map(rate => (
-                       <div key={rate.id} className={`p-3 rounded-md cursor-pointer ${selectedRate?.id === rate.id ? 'bg-red-200' : 'bg-gray-100'}`} onClick={(e) => { e.stopPropagation(); setSelectedRate(rate); }}>
+                       <div key={rate.id} className={`p-3 rounded-md cursor-pointer transition-colors ${selectedRate?.id === rate.id ? 'bg-red-200 shadow-inner' : 'bg-gray-100 hover:bg-gray-200'}`} onClick={(e) => { e.stopPropagation(); setSelectedRate(rate); }}>
                          <div className="flex justify-between items-center">
                            <span className="font-medium">{rate.name}</span>
                            <span className="font-bold text-lg text-red-700">{formatCurrency(rate.price_per_night_usd_minor)}</span>
@@ -181,31 +181,43 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property, searchParam
           </div>
           
           {selectedRoom && selectedRate && (
-            <div className="mt-10 p-6 bg-gray-100 rounded-lg text-center">
-              <h3 className="text-2xl font-bold">{t('details.yourSelection')}</h3>
-              <p className="mt-2 text-gray-700">{t('details.room')}: {selectedRoom.name}</p>
-              <p className="text-gray-700">{t('details.plan')}: {selectedRate.name}</p>
-              <p className="text-gray-600 text-sm mt-4">
-                {formatCurrency(selectedRate.price_per_night_usd_minor)} x {durationNights} {t('details.nights', {count: durationNights})}
-              </p>
-              <p className="text-4xl font-extrabold text-red-600 mt-1">
-                {t('details.total')}: {formatCurrency(selectedRate.price_per_night_usd_minor * durationNights)}
-              </p>
-              {session ? (
-                <button 
-                  onClick={handleBookNow}
-                  disabled={bookingStatus === 'loading'}
-                  className="mt-6 w-full max-w-sm bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors disabled:bg-gray-400">
-                  {bookingStatus === 'loading' ? t('booking.redirectingToPayment') : t('details.bookNow')}
-                </button>
-              ) : (
-                <button 
-                  onClick={openAuthModal}
-                  className="mt-6 w-full max-w-sm bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-blue-700 transition-colors">
-                  {t('details.loginToBook')}
-                </button>
-              )}
-               {bookingStatus === 'error' && <p className="text-red-500 mt-4">{errorMessage}</p>}
+            <div className="mt-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+              <h3 className="text-2xl font-bold text-center mb-4">{t('details.yourSelection')}</h3>
+              <div className="space-y-3 text-lg">
+                  <div className="flex justify-between">
+                      <span className="text-gray-600">{t('details.room')}:</span>
+                      <span className="font-semibold text-gray-900">{selectedRoom.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                      <span className="text-gray-600">{t('details.plan')}:</span>
+                      <span className="font-semibold text-gray-900">{selectedRate.name}</span>
+                  </div>
+                   <div className="flex justify-between border-t pt-3 mt-3">
+                      <span className="text-gray-600">{t('details.nights', {count: durationNights})}:</span>
+                      <span className="font-semibold text-gray-900">{formatCurrency(selectedRate.price_per_night_usd_minor)} x {durationNights}</span>
+                  </div>
+                   <div className="flex justify-between items-baseline border-t pt-3 mt-3">
+                      <span className="text-2xl font-bold text-gray-900">{t('details.total')}:</span>
+                      <span className="text-3xl font-extrabold text-red-600">{formatCurrency(selectedRate.price_per_night_usd_minor * durationNights)}</span>
+                  </div>
+              </div>
+              <div className="mt-6 text-center">
+                {session ? (
+                  <button 
+                    onClick={handleBookNow}
+                    disabled={bookingStatus === 'loading'}
+                    className="w-full max-w-sm bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors disabled:bg-gray-400">
+                    {bookingStatus === 'loading' ? t('booking.redirectingToPayment') : t('details.bookNow')}
+                  </button>
+                ) : (
+                  <button 
+                    onClick={openAuthModal}
+                    className="w-full max-w-sm bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors">
+                    {t('details.loginToBook')}
+                  </button>
+                )}
+              </div>
+               {bookingStatus === 'error' && <p className="text-red-500 mt-4 text-center">{errorMessage}</p>}
             </div>
           )}
         </div>

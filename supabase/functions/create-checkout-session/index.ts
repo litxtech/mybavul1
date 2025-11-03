@@ -1,5 +1,5 @@
-// Fix: Added a triple-slash directive to provide Deno's global types to TypeScript.
-/// <reference types="https://deno.land/x/service_worker@0.1.0/lib.d.ts" />
+// Fix: Replaced invalid type reference with the correct one for Supabase Edge Functions to provide Deno runtime types.
+/// <reference types="npm:@supabase/functions-js/src/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

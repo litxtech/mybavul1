@@ -20,7 +20,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onSelect }) => {
   const hasFreeCancellation = property.room_types?.some(rt => rt.rate_plans?.some(rp => rp.refundable));
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row transform hover:scale-[1.02] transition-transform duration-300 ease-in-out cursor-pointer" onClick={() => onSelect(property)}>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row transition-all duration-300 ease-in-out cursor-pointer hover:shadow-xl hover:-translate-y-1" onClick={() => onSelect(property)}>
       <div className="md:w-1/3">
         <img className="h-48 w-full object-cover md:h-full" src={property.photos[0]} alt={property.title} />
       </div>
@@ -45,12 +45,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onSelect }) => {
         </div>
         <div className="mt-4 flex justify-between items-center">
           <div>
-             <div className="flex items-center">
-               <span className="text-gray-900 font-semibold">{property.review_score.toFixed(1)}</span>
-               <span className="text-gray-600 text-sm ms-1">{t('card.reviews', { count: property.review_count })}</span>
+             <div className="flex items-center space-x-2">
+               <span className="bg-red-600 text-white font-bold text-sm px-2 py-1 rounded-md">{property.review_score.toFixed(1)}</span>
+               <span className="text-gray-600 text-sm">{t('card.reviews', { count: property.review_count })}</span>
              </div>
              {hasFreeCancellation && (
-                <div className="flex items-center mt-1 text-sm text-green-600 font-medium">
+                <div className="flex items-center mt-2 text-sm text-green-600 font-medium">
                   <ShieldCheckIcon className="w-4 h-4 me-1" />
                   {t('card.freeCancellation')}
                 </div>

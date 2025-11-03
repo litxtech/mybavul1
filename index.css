@@ -8,3 +8,16 @@ body {
 html[lang="ar"] body {
   font-family: 'Tajawal', sans-serif;
 }
+
+/* General smoothness for transitions */
+*, *::before, *::after {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Fix for date input icon color on some browsers */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(0.5) brightness(0.9);
+}

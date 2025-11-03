@@ -29,14 +29,14 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         <label htmlFor="city" className="block text-sm font-medium text-gray-200">{t('search.destination')}</label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
-            <LocationIcon className="h-5 w-5 text-gray-400" />
+            <LocationIcon className="h-5 w-5 text-gray-500" />
           </div>
           <input
             type="text"
             id="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12"
+            className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900 placeholder:text-gray-500"
             placeholder={t('search.placeholder')}
             required
           />
@@ -47,7 +47,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         <label htmlFor="checkin" className="block text-sm font-medium text-gray-200">{t('search.checkin')}</label>
          <div className="mt-1 relative rounded-md shadow-sm">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
-               <CalendarIcon className="h-5 w-5 text-gray-400" />
+               <CalendarIcon className="h-5 w-5 text-gray-500" />
              </div>
             <input
               type="date"
@@ -55,7 +55,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
               value={checkin}
               onChange={(e) => setCheckin(e.target.value)}
               min={today}
-              className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12"
+              className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900"
               required
             />
         </div>
@@ -65,7 +65,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         <label htmlFor="checkout" className="block text-sm font-medium text-gray-200">{t('search.checkout')}</label>
         <div className="mt-1 relative rounded-md shadow-sm">
              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
-               <CalendarIcon className="h-5 w-5 text-gray-400" />
+               <CalendarIcon className="h-5 w-5 text-gray-500" />
              </div>
             <input
               type="date"
@@ -73,7 +73,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
               value={checkout}
               onChange={(e) => setCheckout(e.target.value)}
               min={checkin || today}
-              className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12"
+              className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900"
               required
             />
         </div>
@@ -84,7 +84,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
             <label htmlFor="guests" className="block text-sm font-medium text-gray-200">{t('search.guests')}</label>
             <div className="mt-1 relative rounded-md shadow-sm">
                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
-                    <UsersIcon className="h-5 w-5 text-gray-400" />
+                    <UsersIcon className="h-5 w-5 text-gray-500" />
                 </div>
                 <input
                     type="number"
@@ -92,7 +92,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
                     value={guests}
                     onChange={(e) => setGuests(parseInt(e.target.value, 10))}
                     min="1"
-                    className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12"
+                    className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900"
                     required
                 />
             </div>

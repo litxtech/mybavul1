@@ -27,17 +27,17 @@ const features = [
   {
     name: 'home.features.ai.title',
     description: 'home.features.ai.desc',
-    icon: <SparklesIcon className="w-8 h-8 text-white" />,
+    icon: <SparklesIcon className="w-8 h-8 text-red-700" />,
   },
   {
     name: 'home.features.price.title',
     description: 'home.features.price.desc',
-    icon: <TagIcon className="w-8 h-8 text-white" />,
+    icon: <TagIcon className="w-8 h-8 text-red-700" />,
   },
   {
     name: 'home.features.support.title',
     description: 'home.features.support.desc',
-    icon: <ChatBubbleLeftRightIcon className="w-8 h-8 text-white" />,
+    icon: <ChatBubbleLeftRightIcon className="w-8 h-8 text-red-700" />,
   },
 ]
 
@@ -94,20 +94,20 @@ const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
         </div>
       </div>
 
-      <div className="bg-gray-800 py-16">
+      <div className="bg-red-700 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center text-white mb-12">{t('home.features.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {features.map((feature) => (
               <div key={feature.name} className="flex flex-col items-center">
                  <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-16 w-16 rounded-full bg-red-600">
+                    <div className="flex items-center justify-center h-16 w-16 rounded-full bg-white">
                         {feature.icon}
                     </div>
                  </div>
                  <div className="mt-4">
                   <h3 className="text-lg font-semibold leading-6 text-white">{t(feature.name)}</h3>
-                  <p className="mt-2 text-base text-gray-300">{t(feature.description)}</p>
+                  <p className="mt-2 text-base text-red-100">{t(feature.description)}</p>
                 </div>
               </div>
             ))}
