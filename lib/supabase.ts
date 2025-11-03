@@ -5,17 +5,16 @@ let supabaseClient: SupabaseClient | null = null;
 /**
  * Gets the singleton instance of the Supabase client.
  * This function initializes the client on its first call and returns the existing instance on subsequent calls.
- * It accesses secrets from `window.process.env` which is appropriate for this browser-based environment.
+ * It accesses secrets from `process.env` as required by the execution environment.
  */
 export const getSupabaseClient = (): SupabaseClient => {
   if (supabaseClient) {
     return supabaseClient;
   }
 
-  // Safely access environment variables from the window object.
-  const env = (window as any).process?.env;
-  const supabaseUrl = env?.SUPABASE_URL;
-  const supabaseAnonKey = env?.SUPABASE_ANON_KEY;
+  // Access environment variables using the `process.env` object.
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
   
   if (!supabaseUrl || !supabaseAnonKey) {
     // This error is caught by the top-level check in index.tsx before this function is called.

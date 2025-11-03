@@ -1,5 +1,8 @@
-// FIX: Updated the Deno type reference to use esm.sh for better stability and to resolve issues with global type definitions like Deno.env.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-functions.d.ts" />
+// FIX: The previous type reference from esm.sh was failing to resolve.
+// Switched to using an `npm:` specifier which is more robustly supported by Deno tooling
+// for resolving TypeScript types, including the global Deno namespace.
+// FIX: Corrected path to Supabase Edge Function types from 'src' to 'dist'. This resolves errors with missing 'Deno' namespace properties like 'Deno.env'.
+/// <reference types="npm:@supabase/functions-js/dist/edge-functions.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

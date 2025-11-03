@@ -1,22 +1,14 @@
 /// <reference types="vite/client" />
 
-// This file defines global types for environment variables accessed via `window.process.env`.
-// The execution environment injects secrets into the window object for client-side access.
+// This file provides TypeScript definitions for environment variables
+// accessed via `process.env`. The platform this runs on makes these available.
 
-declare global {
-  interface Window {
-    process?: {
-      env: {
-        SUPABASE_URL: string;
-        SUPABASE_ANON_KEY: string;
-        STRIPE_PUBLISHABLE_KEY: string;
-        API_KEY: string;
-        // Add index signature to allow dynamic access in index.tsx
-        [key: string]: string | undefined;
-      }
-    }
+declare namespace NodeJS {
+  interface ProcessEnv {
+    readonly SUPABASE_URL: string;
+    readonly SUPABASE_ANON_KEY: string;
+    readonly STRIPE_PUBLISHABLE_KEY: string;
+    readonly API_KEY: string;
+    // Add other environment variables here as needed.
   }
 }
-
-// This export makes the file a module, preventing potential global scope conflicts.
-export {};
