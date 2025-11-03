@@ -4,6 +4,7 @@ import App from './App';
 import { LanguageProvider } from './i18n';
 import { AuthProvider } from './contexts/AuthContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
