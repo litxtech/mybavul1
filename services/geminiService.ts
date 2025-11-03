@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Access the API key from `process.env` as per platform standards.
+// FIX: Access the API key from `process.env.API_KEY` as required by Gemini API guidelines.
 const apiKey = process.env.API_KEY;
 if (!apiKey) {
   console.error("Gemini API key is not configured. AI features will be disabled.");
