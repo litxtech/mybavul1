@@ -24,9 +24,9 @@ const ConfigurationError: React.FC<{ missingVars: string[] }> = ({ missingVars }
                 <div className="mt-6">
                     <h2 className="font-semibold text-lg mb-3">How to Fix This:</h2>
                      <div className="text-gray-700 space-y-2">
-                        <p>To fix this, please set the required secrets in your project's configuration.</p>
+                        <p>To fix this, please set the required secrets in your project's configuration settings.</p>
                         <p className="border-l-4 border-yellow-400 pl-4 bg-yellow-50 py-2">
-                            <strong>Important:</strong> In this environment, environment variables are accessed directly (e.g., `SUPABASE_URL`), not with a `VITE_` prefix. Please ensure your secrets are named accordingly, which may differ from the `README_setup.md` file.
+                            <strong>Important:</strong> In this specific platform environment, variables must be named without the `VITE_` prefix (e.g., `SUPABASE_URL`, not `VITE_SUPABASE_URL`).
                         </p>
                     </div>
                 </div>

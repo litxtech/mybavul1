@@ -1,5 +1,5 @@
-// FIX: Corrected the Supabase functions type reference to point to the correct URL in the 'dist' folder. This resolves the 'Cannot find type definition file' error and subsequent errors related to Deno's global types like `Deno.env`.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/dist/edge-functions.d.ts" />
+// FIX: Updated the Supabase functions type reference to a correct and stable URL to resolve type definition errors.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-functions.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

@@ -180,23 +180,16 @@ const App: React.FC = () => {
     setIsLoading(true);
     const supabase = getSupabaseClient();
     
-    let query = supabase
-      .from('properties')
-      .select('*, room_types(*, rate_plans(*))');
-
-    if (params.city) {
-      const searchTerm = `%${params.city.trim()}%`;
-      // Search in both property title and city location to allow for more flexible queries like "Istanbul Hilton"
-      query = query.or(`title.ilike.${searchTerm},location_city.ilike.${searchTerm}`);
-    }
-
-    const { data, error } = await query;
+    // Invoke the Supabase Edge Function to fetch data from Hotelbeds API
+    const { data, error } = await supabase.functions.invoke('search-hotels', {
+        body: params,
+    });
     
     if (error) {
-      console.error('Error fetching properties:', error);
+      console.error('Error fetching properties from Hotelbeds:', error);
       setSearchResults([]);
     } else {
-      setSearchResults(data || []);
+      setSearchResults(data.properties || []);
     }
     
     window.location.hash = `#/search?${new URLSearchParams(params as any).toString()}`;

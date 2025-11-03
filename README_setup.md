@@ -1,6 +1,6 @@
 # MyBavul Setup Guide
 
-This guide provides all the necessary steps to get your MyBavul application running, from setting up the database to deploying the serverless functions required for payments.
+This guide provides all the necessary steps to get your MyBavul application running, from setting up the database to deploying the serverless functions required for payments and hotel searches.
 
 ## 1. Environment Variables (Secrets)
 
@@ -8,14 +8,15 @@ Your application requires several secret keys to connect to external services. T
 
 ### Client-Side Variables
 
-These variables are made available to your application's frontend code. **For Vite projects, they MUST be prefixed with `VITE_` to be exposed to the browser for security reasons.**
+These variables are made available to your application's frontend code. 
+**Important:** Unlike standard Vite projects, this platform exposes client-side variables directly on `process.env` **without** the `VITE_` prefix. Please name your secrets exactly as listed below.
 
 | Variable Name                | Description                                                                    | How to get it                                                                      |
 | ---------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| `VITE_SUPABASE_URL`          | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
-| `VITE_SUPABASE_ANON_KEY`     | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
-| `VITE_STRIPE_PUBLISHABLE_KEY`| The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
-| `VITE_API_KEY`               | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
+| `SUPABASE_URL`               | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
+| `SUPABASE_ANON_KEY`          | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
+| `STRIPE_PUBLISHABLE_KEY`     | The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
+| `API_KEY`                    | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
 
 ### Server-Side Variables (for Supabase Edge Functions)
 
@@ -27,13 +28,15 @@ These are configured directly in your Supabase project secrets. You can set them
 | `STRIPE_SECRET_KEY`          | The secret key for Stripe, used on the server-side to make API calls.          | In your Stripe Dashboard: **Developers > API Keys > Secret key** (e.g., `sk_test_...`). |
 | `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe.          | In your Stripe Dashboard: **Developers > Webhooks > [Your Endpoint] > Signing secret** (e.g., `whsec_...`). See step 4.            |
 | `SITE_URL`                   | The public URL of your frontend application (e.g., `https://mybavul.com`). **This must be the URL where users access your site, NOT your Supabase URL.** It is critical for Stripe payment redirects. | Your application's deployment URL.                                                      |
+| `HOTELBEDS_API_KEY`          | The API key for the Hotelbeds API to search for hotels.                        | Provided by Hotelbeds.                                                                                                                   |
+| `HOTELBEDS_SECRET`           | The secret key for the Hotelbeds API, used to generate a request signature.      | Provided by Hotelbeds.                                                                                                                   |
 
 
 ## 2. Database Schema Setup
 
 The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file.
 
-**This step is critical.** The SQL script not only creates the database tables but also **seeds the database with sample hotel data**. Without this data, the search functionality will not return any results.
+**This step is critical.** The SQL script not only creates the database tables but also **seeds the database with sample hotel data**. While the main search now uses a live API, this sample data is still useful for relations and fallbacks.
 
 **Steps:**
 
@@ -45,11 +48,11 @@ The entire database structure, including tables, relationships, security policie
 6.  Paste it into the Supabase SQL Editor.
 7.  Click **RUN**.
 
-This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.), populate them with sample hotels in locations like Istanbul and Antalya, and enable Row Level Security to protect your data.
+This will create all the necessary tables (`tenants`, `properties`, `bookings`, `wallet_ledger`, etc.), populate them with sample hotels, and enable Row Level Security to protect your data.
 
 ## 3. Deploy Supabase Edge Functions
 
-The payment and booking logic runs on Supabase Edge Functions for security. You need to deploy these functions using the Supabase CLI.
+The payment, cancellation, and hotel search logic runs on Supabase Edge Functions for security. You need to deploy these functions using the Supabase CLI.
 
 **Prerequisites:**
 *   [Install the Supabase CLI](https://supabase.com/docs/guides/cli).
@@ -60,7 +63,7 @@ The payment and booking logic runs on Supabase Edge Functions for security. You 
 **Deployment Steps:**
 
 1.  Open your terminal in the root of the project directory.
-2.  Run the following command to deploy all functions. This command will deploy `create-checkout-session`, `stripe-webhook-handler`, and the new `cancel-booking` function.
+2.  Run the following command to deploy all functions. This command will deploy `create-checkout-session`, `stripe-webhook-handler`, `cancel-booking`, and the new `search-hotels` function.
 
     ```bash
     supabase functions deploy
