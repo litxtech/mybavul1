@@ -1,5 +1,5 @@
-// FIX: Updated the Deno type reference to a more reliable CDN (esm.sh) to fix issues with global type definitions like Deno.env and resolve the 'Cannot find type definition file' error.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-functions.d.ts" />
+// FIX: Updated the Deno type reference to use unpkg for better stability and to resolve issues with global type definitions like Deno.env.
+/// <reference types="https://unpkg.com/@supabase/functions-js/src/edge-functions.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

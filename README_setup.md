@@ -4,22 +4,22 @@ This guide provides all the necessary steps to get your MyBavul application runn
 
 ## 1. Environment Variables (Secrets)
 
-Your application requires several secret keys to connect to external services. These should be stored as environment variables, not hardcoded in the source.
+Your application requires several secret keys to connect to external services. These should be stored as environment variables in your project's settings. **Do not hardcode them in the source code.**
 
-### Client-Side Variables (for Vite)
+### Client-Side Variables
 
-In your development environment, create a `.env` file in the root directory. In production (e.g., Vercel), these should be set in the project's "Environment Variables" settings. **These variables must be prefixed with `VITE_`.**
+These variables are made available to your application's frontend code.
 
 | Variable Name                | Description                                                                    | How to get it                                                                      |
 | ---------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| `VITE_SUPABASE_URL`          | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
-| `VITE_SUPABASE_ANON_KEY`     | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
-| `VITE_STRIPE_PUBLISHABLE_KEY`| The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
-| `VITE_API_KEY`               | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
+| `SUPABASE_URL`               | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
+| `SUPABASE_ANON_KEY`          | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
+| `STRIPE_PUBLISHABLE_KEY`     | The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
+| `API_KEY`                    | Your Google Gemini API Key for the AI Assistant feature.                       | Get this from [Google AI Studio](https://aistudio.google.com/).                    |
 
 ### Server-Side Variables (for Supabase Edge Functions)
 
-These are configured directly in your Supabase project secrets. You can set them via the Supabase CLI or in the Dashboard under **Settings > Functions**. **NEVER expose these publicly.**
+These are configured directly in your Supabase project secrets. You can set them via the Supabase CLI or in the Dashboard under **Project Settings > Functions > Secrets**. **NEVER expose these publicly.**
 
 | Variable Name                | Description                                                                    | How to get it                                                                                                                              |
 | ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
