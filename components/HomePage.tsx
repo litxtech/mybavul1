@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchForm from './SearchForm';
-import { SearchParams } from '../types';
+import { Property, SearchParams } from '../types';
 import { useLanguage } from '../i18n';
-import { SparklesIcon, ShieldCheckIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon } from './icons';
+import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon } from './icons';
+import { getSupabaseClient } from '../lib/supabase';
+import PropertyCard from './PropertyCard';
+
 
 interface HomePageProps {
   onSearch: (params: SearchParams) => void;
@@ -10,10 +13,10 @@ interface HomePageProps {
 }
 
 const destinations = [
-  { name: 'Istanbul', image: 'https://picsum.photos/seed/dest_ist/800/600' },
-  { name: 'Antalya', image: 'https://picsum.photos/seed/dest_ant/800/600' },
-  { name: 'Cappadocia', image: 'https://picsum.photos/seed/dest_cap/800/600' },
-  { name: 'Ankara', image: 'https://picsum.photos/seed/dest_ank/800/600' },
+  { name: 'Istanbul', image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
+  { name: 'Antalya', image: 'https://images.unsplash.com/photo-1616837993519-c5b43343a419?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
+  { name: 'Cappadocia', image: 'https://images.unsplash.com/photo-1583885611333-38257045b843?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
+  { name: 'Ankara', image: 'https://images.unsplash.com/photo-1621288419143-3c35b6c32104?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
 ];
 
 const propertyTypes = [
@@ -44,6 +47,25 @@ const features = [
 
 const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
   const { t } = useLanguage();
+  const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const supabase = getSupabaseClient();
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*, room_types(*, rate_plans(*))')
+        .order('review_score', { ascending: false })
+        .limit(4);
+      
+      if (error) {
+        console.error("Error fetching featured properties:", error);
+      } else {
+        setFeaturedProperties(data || []);
+      }
+    };
+    fetchFeatured();
+  }, []);
 
   const handleDestinationClick = (city: string) => {
     const today = new Date().toISOString().split('T')[0];
@@ -51,15 +73,27 @@ const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
     onSearch({ city, checkin: today, checkout: tomorrow, guests: 2 });
   };
   
+  const handlePropertySelect = (property: Property) => {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+    const params = new URLSearchParams({
+        city: property.location_city,
+        checkin: today,
+        checkout: tomorrow,
+        guests: '2'
+    });
+    window.location.hash = `#/property/${property.id}?${params.toString()}`;
+  };
+
   return (
     <>
       <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center text-white">
         <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-        <img src="https://picsum.photos/seed/homebg/1800/1200" alt="Travel background" className="absolute inset-0 w-full h-full object-cover"/>
+        <img src="https://images.unsplash.com/photo-1507525428034-b723a9ce6890?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1800&fit=max" alt="Tropical beach background" className="absolute inset-0 w-full h-full object-cover"/>
         <div className="relative z-20 text-center p-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">{t('home.title')}</h1>
           <p className="mt-4 text-lg md:text-xl font-light opacity-90">{t('home.subtitle')}</p>
-          <div className="mt-8 bg-white/20 backdrop-blur-md p-4 rounded-xl">
+          <div className="mt-8 bg-black/40 backdrop-blur-lg p-6 rounded-xl border border-white/20">
             <SearchForm onSearch={onSearch} isLoading={isLoading} />
           </div>
         </div>
@@ -79,13 +113,26 @@ const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
             </div>
         </div>
       </div>
+
+      {featuredProperties.length > 0 && (
+        <div className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">{t('home.featured.title')}</h2>
+            <div className="space-y-6">
+              {featuredProperties.map(property => (
+                <PropertyCard key={property.id} property={property} onSelect={handlePropertySelect} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       
-       <div className="py-16 bg-white">
+       <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">{t('home.propertyTypes.title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {propertyTypes.map(type => (
-                <div key={type.name} className="bg-gray-50 p-6 rounded-lg text-center flex flex-col items-center hover:shadow-xl hover:bg-red-50 transition-all duration-300 cursor-pointer">
+                <div key={type.name} className="bg-white p-6 rounded-lg text-center flex flex-col items-center hover:shadow-xl hover:bg-red-50 transition-all duration-300 cursor-pointer border hover:border-red-200">
                   {type.icon}
                   <h3 className="mt-4 text-lg font-semibold text-gray-800">{t(type.name)}</h3>
                 </div>

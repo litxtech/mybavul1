@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../i18n';
-import { MercuryIcon, StripeIcon } from './icons';
+import { StripeIcon, VisaIcon, MastercardIcon, AmexIcon, PayPalIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import { PolicyDocument } from '../types';
 
@@ -45,15 +45,16 @@ const Footer = () => {
                 15442 Ventura Blvd., Ste 201-1834, Sherman Oaks, CA 9403 | D-U-N-S®: 144849529 | Governed by Wyoming Law.
             </p>
         </div>
-        <div className="mt-6 flex justify-center items-center space-x-6 rtl:space-x-reverse">
-            <p className="text-xs text-gray-400">{t('footer.poweredBy')}</p>
+        <div className="mt-6 flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-6 rtl:space-x-reverse">
+            <p className="text-xs text-gray-400">{t('footer.weAccept')}</p>
             <div className='flex items-center space-x-4'>
+                <VisaIcon className="h-6 w-auto text-gray-400 hover:text-white transition-colors" />
+                <MastercardIcon className="h-6 w-auto text-gray-400 hover:text-white transition-colors" />
+                <AmexIcon className="h-6 w-auto text-gray-400 hover:text-white transition-colors" />
+                <PayPalIcon className="h-5 w-auto text-gray-400 hover:text-white transition-colors" />
                 <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" aria-label="Stripe">
-                    <StripeIcon className="h-5 text-white" />
+                    <StripeIcon className="h-5 w-auto text-gray-400 hover:text-white transition-colors" />
                 </a>
-                 <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" aria-label="Mercury">
-                    <MercuryIcon className="h-7 w-7 text-gray-200" />
-                 </a>
             </div>
         </div>
       </div>

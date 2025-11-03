@@ -87,4 +87,40 @@ You must tell Stripe where to send events (like a successful payment, refund, or
 7.  On the next page, find the **Signing secret** (it looks like `whsec_...`).
 8.  Copy this secret and set it as a Supabase secret named `STRIPE_WEBHOOK_SECRET`.
 
+
+## 5. Configure Google OAuth (for Google Sign-In)
+
+To prevent the **`redirect_uri_mismatch`** error, you must tell Google which URLs are allowed to handle the authentication callback after a user signs in.
+
+**Steps:**
+
+1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2.  Select your project and navigate to **APIs & Services > Credentials**.
+3.  Find your **OAuth 2.0 Client ID** that you are using for this application and click the edit icon.
+4.  Under the **Authorized redirect URIs** section, click **+ ADD URI**.
+5.  You need to add the Supabase callback URL and any URLs for your development and production environments. Add the following URIs one by one:
+
+    *   **Supabase Callback URL (Required):**
+        ```
+        https://<your-project-ref>.supabase.co/auth/v1/callback
+        ```
+        (Replace `<your-project-ref>` with your actual Supabase project reference ID, e.g., `jtxaonuslkwduusqfaep`).
+
+    *   **Local Development URL (Recommended):**
+        If you run the app locally (e.g., using `vite`), add your local development URL. The default for Vite is usually:
+        ```
+        http://localhost:5173
+        ```
+        (Check your terminal for the exact URL and port if it's different).
+
+    *   **Production URL (Required for deployed app):**
+        Add the main URL of your deployed application.
+        ```
+        https://your-production-site.com
+        ```
+
+6.  Click **Save**.
+
+It might take a few minutes for the changes to take effect. After this, the Google Sign-In should work without errors.
+
 Your MyBavul application is now fully configured and ready to handle live bookings, payments, cancellations, and disputes!

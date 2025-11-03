@@ -29,7 +29,8 @@ const missingVars = requiredVars.filter(varName => !env[varName]);
 
 if (missingVars.length > 0) {
   // Map back to the unprefixed names for the user-facing error message to match the README.
-  const missingDisplayNames = missingVars.map(v => v.replace(/^VITE_/, ''));
+  // FIX: Cast key to string before calling replace to satisfy TypeScript.
+  const missingDisplayNames = missingVars.map(v => String(v).replace(/^VITE_/, ''));
   root.render(
     <React.StrictMode>
       <ConfigurationError missingVars={missingDisplayNames} />

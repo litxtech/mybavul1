@@ -1,5 +1,5 @@
-// FIX: Replaced the failing esm.sh type reference with a stable, version-pinned unpkg URL to load Deno types correctly.
-/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-functions.d.ts" />
+// FIX: Corrected the Supabase functions type reference to a valid URL to resolve Deno namespace type errors.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/dist/edge-functions.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'
