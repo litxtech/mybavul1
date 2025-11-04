@@ -1,8 +1,8 @@
-// FIX: Use a more stable Supabase functions type reference URL to resolve Deno runtime type errors with `Deno.env`.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
+// FIX: Updated the type reference to a pinned version on esm.sh to resolve Deno runtime type errors.
+/// <reference types="https://esm.sh/v135/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.44.4'
 
 // Self-contained types for the function
 interface AvailableRate {
