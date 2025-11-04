@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import ConfigurationError from './components/ConfigurationError';
 import './index.css';
+import { WishlistProvider } from './contexts/WishlistContext';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -40,7 +41,9 @@ if (missingVars.length > 0) {
       <LanguageProvider>
         <AuthProvider>
           <CurrencyProvider>
-            <App />
+            <WishlistProvider>
+              <App />
+            </WishlistProvider>
           </CurrencyProvider>
         </AuthProvider>
       </LanguageProvider>

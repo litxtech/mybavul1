@@ -6,6 +6,13 @@ export const StarIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+export const StarIconOutline = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+    </svg>
+);
+
+
 export const UsersIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a7.5 7.5 0 00-14.98 0 .07.07 0 00-.002.002A4.5 4.5 0 005.5 21h9a4.5 4.5 0 004.43-3.998c.032-.23.05-.465.05-.702a4 4 0 00-3.52-3.957z" />
@@ -38,7 +45,7 @@ export const ArrowLeftIcon = ({ className }: { className?: string }) => (
 
 export const GlobeIcon = ({ className }: { className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-18c-4.97 0-9 4.03-9 9s4.03 9 9 9 9 4.03 9 9-4.03-9-9 9zM3.293 12.707a9 9 0 010-1.414M20.707 12.707a9 9 0 000-1.414M9.5 3.5v17m5-17v17" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-18c-4.97 0-9 4.03-9 9s4.03 9 9 9 9 4.03 9 9-4.03 9-9 9zM3.293 12.707a9 9 0 010-1.414M20.707 12.707a9 9 0 000-1.414M9.5 3.5v17m5-17v17" />
     </svg>
 );
 
@@ -150,5 +157,59 @@ export const PayPalIcon = ({ className }: { className?: string }) => (
         <path d="M21.9,13.2a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H14c-1.8,0-2.8,1.3-3.1,3.1a.9.9,0,0,0,1,.8h.3l.3-1.8c.2-1,.8-1.5,1.7-1.5h1.2c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1h-1a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H8.8c-1.8,0-2.8,1.3-3.1,3.1a1,1,0,0,0,1,.8h.4l.2-1.2c.2-1,.8-1.5,1.7-1.5h.5c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1h-.7a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H1.9c-1,0-1.7.7-1.9,1.6-.2.8.2,1.6.9,2h5.8a1.2,1.2,0,0,0,1.2-1.2,1.3,1.3,0,0,0,1.2-1.2h4.5a1.2,1.2,0,0,0,1.2-1.2,1.3,1.3,0,0,0,1.2-1.2h2.5c2.3,0,3.6-1.6,4-3.9a3.1,3.1,0,0,0-3-3.3H21.9Z" fill="#009cde"/>
         <path d="M24.4,7.1a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H16.5c-1.8,0-2.8,1.3-3.1,3.1a.9.9,0,0,0,1,.8h.3l.3-1.8c.2-1,.8-1.5,1.7-1.5h1.2c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1H17a1.2,1.2,0,0,0-1.2,1.2A1.3,1.3,0,0,0,14.6,13h-4c-1.8,0-2.8,1.3-3.1,3.1a1,1,0,0,0,1,.8H9l.2-1.2c.2-1,.8-1.5,1.7-1.5H11c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1h-.7a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H4.4c-1,0-1.7.7-1.9,1.6-.2.8.2,1.6.9,2H17.2c2.8,0,4.8-1.9,5.2-4.9.5-3.3-1.2-5.4-4-5.4H24.4Z" fill="#003087"/>
         <path d="M36.1,13.2a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2H28.3c-1.8,0-2.8,1.3-3.1,3.1a.9.9,0,0,0,1,.8h.3l.3-1.8c.2-1,.8-1.5,1.7-1.5h1.2c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1h-1a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2h-4c-1.8,0-2.8,1.3-3.1,3.1a1,1,0,0,0,1,.8H17l.2-1.2c.2-1,.8-1.5,1.7-1.5h.5c.8,0,1.3.5,1.2,1.4a1,1,0,0,1-1,1h-.7a1.2,1.2,0,0,0-1.2,1.2,1.3,1.3,0,0,0-1.2-1.2h-4c-1,0-1.7.7-1.9,1.6-.2.8.2,1.6.9,2h5.8a1.2,1.2,0,0,0,1.2-1.2,1.3,1.3,0,0,0,1.2-1.2h4.5a1.2,1.2,0,0,0,1.2-1.2,1.3,1.3,0,0,0,1.2-1.2h2.5c2.3,0,3.6-1.6,4-3.9a3.1,3.1,0,0,0-3-3.3H36.1Z" fill="#002f86"/>
+    </svg>
+);
+
+export const MapIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.5-11.5-1.2 1.2M18.75 12l-1.2-1.2m-6 11.25L5.25 6l-3 3m15 0l-3-3-3 3" />
+    </svg>
+);
+
+export const ListBulletIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+    </svg>
+);
+
+export const PlusIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+);
+
+export const TrashIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.067-2.09 1.02-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+    </svg>
+);
+
+export const PaperAirplaneIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+    </svg>
+);
+
+export const HeartIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
+    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+  </svg>
+);
+
+export const HeartIconOutline = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+    </svg>
+);
+
+export const UserCircleIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+);
+
+export const EnvelopeIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
     </svg>
 );

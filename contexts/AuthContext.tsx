@@ -8,8 +8,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signIn: (credentials: SignInWithPasswordCredentials) => Promise<{ error: AuthError | null }>;
-  signUp: (credentials: SignUpWithPasswordCredentials) => Promise<{ error: AuthError | null }>;
+  signInWithMagicLink: (email: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<{ error: AuthError | null }>;
   signInWithGoogle: () => Promise<{ error: AuthError | null }>;
 }
@@ -61,16 +60,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
   }, []);
 
-  const signIn = async (credentials: SignInWithPasswordCredentials) => {
+  const signInWithMagicLink = async (email: string) => {
     const supabase = getSupabaseClient();
-    const { error } = await supabase.auth.signInWithPassword(credentials);
+    const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+            emailRedirectTo: window.location.origin,
+        },
+    });
     return { error };
-  };
-
-  const signUp = async (credentials: SignUpWithPasswordCredentials) => {
-     const supabase = getSupabaseClient();
-     const { error } = await supabase.auth.signUp(credentials);
-     return { error };
   };
 
   const signOut = async () => {
@@ -92,8 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     user,
     profile,
     loading,
-    signIn,
-    signUp,
+    signInWithMagicLink,
     signOut,
     signInWithGoogle,
   };

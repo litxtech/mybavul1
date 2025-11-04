@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, languages } from '../i18n';
-import { GlobeIcon, LogoutIcon, CurrencyDollarIcon, SunIcon, BuildingOfficeIcon, HomeModernIcon, MountainIcon } from './icons';
+import { GlobeIcon, LogoutIcon, CurrencyDollarIcon, SunIcon, BuildingOfficeIcon, HomeModernIcon, MountainIcon, HeartIcon, UserCircleIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useCurrency } from '../contexts/CurrencyContext';
 
@@ -14,7 +14,7 @@ const BrandLogo = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => (
 
 const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-1.6.5 5.25h16.5" />
     </svg>
 );
 
@@ -50,7 +50,7 @@ const DarkModeToggle = () => {
 }
 
 
-const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') => void, onAuthClick: () => void }> = ({ onNavigate, onAuthClick }) => {
+const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 'PARTNER' | 'WISHLIST' | 'PROFILE') => void, onAuthClick: () => void }> = ({ onNavigate, onAuthClick }) => {
   const { t } = useLanguage();
   const { session, signOut, profile } = useAuth();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -82,7 +82,10 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') =
               {session ? (
                   <div className="hidden md:flex items-center space-x-4">
                       {profile?.role === 'admin' && <button onClick={() => onNavigate('ADMIN')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('admin.title')}</button>}
+                      {profile?.role === 'partner' && <button onClick={() => onNavigate('PARTNER')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('partner.title')}</button>}
+                      <button onClick={() => onNavigate('WISHLIST')} className="p-2 rounded-full text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={t('header.myWishlist')}><HeartIcon className="w-5 h-5"/></button>
                       <button onClick={() => onNavigate('RESERVATIONS')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('header.myReservations')}</button>
+                      <button onClick={() => onNavigate('PROFILE')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('header.myProfile')}</button>
                       <button onClick={signOut} className="flex items-center text-sm font-medium text-slate-700 hover:text-primary-600">
                           <LogoutIcon className="w-5 h-5 me-1" />
                           {t('header.logout')}
@@ -90,8 +93,7 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') =
                   </div>
               ) : (
                   <div className="hidden md:flex items-center space-x-2">
-                      <button onClick={onAuthClick} className="px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-md">{t('header.login')}</button>
-                      <button onClick={onAuthClick} className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700">{t('header.signup')}</button>
+                      <button onClick={onAuthClick} className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700">{t('header.signIn')}</button>
                   </div>
               )}
                {/* Mobile Menu Button */}
@@ -113,13 +115,13 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') =
 const MobileDrawer: React.FC<{
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
-    onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') => void;
+    onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 'PARTNER' | 'WISHLIST' | 'PROFILE') => void;
     onAuthClick: () => void;
 }> = ({ isOpen, setIsOpen, onNavigate, onAuthClick }) => {
     const { t } = useLanguage();
     const { session, signOut, profile } = useAuth();
     
-    const handleNavigation = (view: 'HOME' | 'RESERVATIONS' | 'ADMIN') => {
+    const handleNavigation = (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 'PARTNER' | 'WISHLIST' | 'PROFILE') => {
         onNavigate(view);
         setIsOpen(false);
     }
@@ -145,13 +147,15 @@ const MobileDrawer: React.FC<{
                     {session ? (
                         <div className="space-y-2">
                             {profile?.role === 'admin' && <button onClick={() => handleNavigation('ADMIN')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('admin.title')}</button>}
+                            {profile?.role === 'partner' && <button onClick={() => handleNavigation('PARTNER')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('partner.title')}</button>}
+                            <button onClick={() => handleNavigation('PROFILE')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myProfile')}</button>
+                            <button onClick={() => handleNavigation('WISHLIST')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myWishlist')}</button>
                             <button onClick={() => handleNavigation('RESERVATIONS')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myReservations')}</button>
                             <button onClick={signOut} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.logout')}</button>
                         </div>
                     ) : (
                          <div className="space-y-2">
-                            <button onClick={handleAuthClick} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.login')}</button>
-                            <button onClick={handleAuthClick} className="w-full text-left p-2 rounded-md bg-primary-600 text-white hover:bg-primary-700">{t('header.signup')}</button>
+                            <button onClick={handleAuthClick} className="w-full text-left p-2 rounded-md bg-primary-600 text-white hover:bg-primary-700">{t('header.signIn')}</button>
                          </div>
                     )}
                     <div className="border-t dark:border-slate-800 my-4"></div>

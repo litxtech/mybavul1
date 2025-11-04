@@ -5,30 +5,55 @@ import { useLanguage } from '../i18n';
 import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon, MercuryIcon, StripeIcon, PayPalIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
+import AIPlannerModal from './AIPlannerModal';
+import { motion } from 'framer-motion';
 
 
 // ==================================
 // SUB-COMPONENTS for HomePage
 // ==================================
 
-const HeroSection: React.FC<{ onSearch: (params: SearchParams) => void; isLoading: boolean; }> = ({ onSearch, isLoading }) => {
+const HeroSection: React.FC<{ onSearch: (params: SearchParams) => void; isLoading: boolean; onOpenAIPlanner: () => void; }> = ({ onSearch, isLoading, onOpenAIPlanner }) => {
     const { t } = useLanguage();
     return (
-        <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-white dark:text-white">
+        <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-white dark:text-white overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 z-10"></div>
-            <img 
-                src="https://images.unsplash.com/photo-1507525428034-b723a9ce6890?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1800&fit=max" 
-                alt="Tropical beach background" 
-                className="absolute inset-0 w-full h-full object-cover"
-                loading="eager"
-            />
+            <div 
+                className="absolute inset-0 w-full h-full bg-cover bg-center animate-ken-burns"
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1528747045269-390a33c2a666?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
+            ></div>
             <div className="relative z-20 text-center p-4 max-w-7xl mx-auto w-full">
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white animate-fade-in-up" style={{ animationDelay: '100ms', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                <motion.h1 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
+                    className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
                     {t('home.title')}
-                </h1>
-                <div className="mt-8 bg-black/30 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                </motion.h1>
+                <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="mt-4 max-w-2xl mx-auto text-lg text-white/90" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.5)'}}>
+                    {t('home.subtitle')}
+                </motion.p>
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="mt-8 bg-black/30 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl">
                     <SearchForm onSearch={onSearch} isLoading={isLoading} />
-                </div>
+                </motion.div>
+                 <motion.button 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    onClick={onOpenAIPlanner}
+                    className="mt-6 inline-flex items-center gap-x-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white font-semibold hover:bg-white/30 transition-all duration-300"
+                >
+                    <SparklesIcon className="w-5 h-5" />
+                    {t('ai.planner.button')}
+                </motion.button>
             </div>
         </div>
     );
@@ -68,13 +93,33 @@ const WhyChooseUs: React.FC = () => {
       { name: 'home.features.price.title', description: 'home.features.price.desc', icon: <TagIcon className="w-8 h-8 text-primary-700" /> },
       { name: 'home.features.support.title', description: 'home.features.support.desc', icon: <ChatBubbleLeftRightIcon className="w-8 h-8 text-primary-700" /> },
     ];
+
+    const containerVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.2 }
+      }
+    };
+    
+    const itemVariants = {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0 }
+    };
+
     return (
          <div className="py-16 bg-white dark:bg-slate-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">{t('home.features.title')}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    {features.map((feature, index) => (
-                        <div key={feature.name} className="flex flex-col items-center animate-fade-in-up" style={{ animationDelay: `${150 * index}ms`}}>
+                <motion.div 
+                  variants={containerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.5 }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+                >
+                    {features.map((feature) => (
+                        <motion.div variants={itemVariants} key={feature.name} className="flex flex-col items-center">
                              <div className="flex-shrink-0">
                                 <div className="flex items-center justify-center h-20 w-20 rounded-2xl bg-primary-100 dark:bg-primary-900/50">
                                     {feature.icon}
@@ -84,9 +129,9 @@ const WhyChooseUs: React.FC = () => {
                               <h3 className="text-lg font-semibold leading-6 text-slate-900 dark:text-white">{t(feature.name)}</h3>
                               <p className="mt-2 text-base text-slate-500 dark:text-slate-400">{t(feature.description)}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </div>
     );
@@ -118,6 +163,7 @@ const HomePage: React.FC<{
 }> = ({ onSearch, isLoading }) => {
   const { t } = useLanguage();
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+  const [isAIPlannerOpen, setAIPlannerOpen] = useState(false);
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -155,9 +201,19 @@ const HomePage: React.FC<{
     window.location.hash = `#/property/${property.id}?${params.toString()}`;
   };
 
+  const handleAISearch = (params: SearchParams) => {
+    setAIPlannerOpen(false);
+    onSearch(params);
+  };
+
   return (
     <>
-      <HeroSection onSearch={onSearch} isLoading={isLoading} />
+      <HeroSection onSearch={onSearch} isLoading={isLoading} onOpenAIPlanner={() => setAIPlannerOpen(true)} />
+      <AIPlannerModal 
+        isOpen={isAIPlannerOpen}
+        onClose={() => setAIPlannerOpen(false)}
+        onSearch={handleAISearch}
+      />
       <PaymentPartnersStrip />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       

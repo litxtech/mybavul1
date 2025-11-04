@@ -31,6 +31,32 @@ html.dark input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
+/* Custom Leaflet Popup Styles */
+.leaflet-popup-content-wrapper {
+  @apply rounded-lg shadow-lg;
+}
+.leaflet-popup-content {
+  @apply text-sm;
+  margin: 10px !important;
+}
+.leaflet-popup-tip {
+    @apply bg-white;
+}
+
+html.dark .leaflet-popup-content-wrapper {
+    @apply bg-slate-800 text-slate-200;
+}
+html.dark .leaflet-popup-tip {
+    @apply bg-slate-800;
+}
+.leaflet-popup-close-button {
+    @apply text-slate-600;
+}
+html.dark .leaflet-popup-close-button {
+    @apply text-slate-300;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -40,4 +66,21 @@ html.dark input[type="date"]::-webkit-calendar-picker-indicator {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@layer utilities {
+    @keyframes ken-burns {
+        0% {
+            transform: scale(1) translate(0, 0);
+        }
+        50% {
+            transform: scale(1.1) translate(-1%, 1%);
+        }
+        100% {
+             transform: scale(1) translate(0, 0);
+        }
+    }
+    .animate-ken-burns {
+        animation: ken-burns 20s ease-in-out infinite;
+    }
 }

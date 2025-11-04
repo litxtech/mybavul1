@@ -1,5 +1,4 @@
-
-// FIX: Corrected the Supabase Edge Function type reference to resolve errors with the Deno global object.
+// FIX: Updated the Supabase functions type reference from an incorrect 'npm:' path to the correct esm.sh URL to resolve Deno runtime type errors.
 /// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'

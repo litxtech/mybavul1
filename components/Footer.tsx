@@ -43,8 +43,9 @@ const Footer = () => {
       legal: [
           { label: t('policy.privacy.title'), href: '#/policy/privacy' },
           { label: t('policy.terms.title'), href: '#/policy/terms' },
-          { label: 'Cookie Policy', href: '#/policy/cookie' },
-          { label: 'Refund Policy', href: '#/policy/refund' },
+          { label: t('policy.dpa.title'), href: '#/policy/dpa' },
+          { label: t('policy.cookie.title'), href: '#/policy/cookie' },
+          { label: t('policy.refund.title'), href: '#/policy/refund' },
           { label: 'Data Security', href: '#/policy/security' },
       ]
   };
@@ -99,7 +100,7 @@ const Footer = () => {
                         <a href="tel:+13072715151" className="hover:text-primary-600">+1 (307) 271-5151</a> | <a href="mailto:support@litxtech.com" className="hover:text-primary-600">support@litxtech.com</a>
                     </p>
                     <p>
-                        15442 Ventura Blvd., Ste 201-1834, Sherman Oaks, CA 9403
+                        15442 Ventura Blvd., Ste 201-1834, Sherman Oaks, CA 91403
                     </p>
                     <p>
                         D-U-N-S®: 144849529 | Governed by Wyoming Law.

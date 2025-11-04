@@ -63,13 +63,13 @@ const PolicyEditorModal: React.FC<{
                             <input type="number" name="sort_order" value={formData.sort_order || 0} onChange={handleChange} className="w-full p-2 border rounded" required />
                         </div>
                          <div className="flex items-center pt-6">
-                            <input type="checkbox" name="is_active" checked={formData.is_active} onChange={handleChange} className="h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-500"/>
+                            <input type="checkbox" name="is_active" checked={formData.is_active} onChange={handleChange} className="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"/>
                             <label htmlFor="is_active" className="ms-2">{t('admin.policies.form.isActive')}</label>
                         </div>
                     </div>
                     <div className="flex justify-end space-x-4 pt-4">
                         <button type="button" onClick={onClose} className="bg-gray-200 px-4 py-2 rounded">{t('admin.cancel')}</button>
-                        <button type="submit" disabled={loading} className="bg-red-600 text-white px-4 py-2 rounded disabled:bg-gray-400">{t('admin.save')}</button>
+                        <button type="submit" disabled={loading} className="bg-primary-600 text-white px-4 py-2 rounded disabled:bg-gray-400">{t('admin.save')}</button>
                     </div>
                 </form>
             </div>
@@ -79,7 +79,7 @@ const PolicyEditorModal: React.FC<{
 
 const StatCard: React.FC<{ title: string; value: string | number; icon: React.ReactNode }> = ({ title, value, icon }) => (
     <div className="bg-white p-6 rounded-lg shadow-md flex items-center space-x-4">
-        <div className="bg-red-500 p-3 rounded-full text-white">
+        <div className="bg-primary-500 p-3 rounded-full text-white">
             {icon}
         </div>
         <div>
@@ -179,7 +179,7 @@ const AdminDashboard: React.FC = () => {
     const TabButton: React.FC<{tab: AdminTab, label: string}> = ({tab, label}) => (
         <button
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${activeTab === tab ? 'bg-red-600 text-white' : 'text-gray-600 hover:bg-gray-200'}`}
+            className={`px-4 py-2 text-sm font-medium rounded-md ${activeTab === tab ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-200'}`}
         >
             {label}
         </button>
@@ -287,7 +287,7 @@ const AdminDashboard: React.FC = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-2xl font-semibold">{t('admin.policies.title')}</h2>
-                            <button onClick={() => setEditingDoc({})} className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">{t('admin.policies.new')}</button>
+                            <button onClick={() => setEditingDoc({})} className="bg-primary-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-primary-700">{t('admin.policies.new')}</button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">

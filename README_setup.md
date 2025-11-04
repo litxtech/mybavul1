@@ -81,7 +81,7 @@ This will create all necessary tables and enable Row Level Security.
 
 ## 3. Deploy Supabase Edge Functions
 
-The payment, cancellation, and hotel search logic runs on Supabase Edge Functions. You need to deploy them using the Supabase CLI.
+The payment, search, availability check, and cancellation logic runs on Supabase Edge Functions. You need to deploy them using the Supabase CLI. Your app includes: `search-hotels`, `create-checkout-session`, `stripe-webhook-handler`, `cancel-booking`, and `check-availability`.
 
 **Prerequisites:**
 *   [Install the Supabase CLI](https://supabase.com/docs/guides/cli).
@@ -92,6 +92,7 @@ The payment, cancellation, and hotel search logic runs on Supabase Edge Function
 **Deployment:**
 
 ```bash
+# This command deploys all functions in your supabase/functions directory
 supabase functions deploy
 ```
 This command deploys your functions. They will use the secrets you configured in the Supabase Dashboard.

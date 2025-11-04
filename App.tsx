@@ -1,21 +1,25 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PropertyDetails from './components/PropertyDetails';
 import HomePage from './components/HomePage';
 import { Property, SearchParams, Booking } from './types';
 import { useLanguage } from './i18n';
 import Auth from './components/Auth';
 import { useAuth } from './contexts/AuthContext';
 import { getSupabaseClient } from './lib/supabase';
-import MyReservations from './components/MyReservations';
-import PropertyCard from './components/PropertyCard';
 import { useCurrency } from './contexts/CurrencyContext';
-import AdminDashboard from './components/AdminDashboard';
-import PolicyPage from './components/PolicyPage';
-import ConfigurationError from './components/ConfigurationError';
+import PropertyCardSkeleton from './components/PropertyCardSkeleton';
 
-type View = 'HOME' | 'RESULTS' | 'DETAILS' | 'RESERVATIONS' | 'BOOKING_SUCCESS' | 'BOOKING_CANCELLED' | 'ADMIN' | 'POLICY';
+// --- Lazy Loaded Components ---
+const PropertyDetails = lazy(() => import('./components/PropertyDetails'));
+const MyReservations = lazy(() => import('./components/MyReservations'));
+const SearchResultsPage = lazy(() => import('./components/SearchResultsPage'));
+const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
+const PolicyPage = lazy(() => import('./components/PolicyPage'));
+const PartnerPortal = lazy(() => import('./components/PartnerPortal'));
+const WishlistPage = lazy(() => import('./components/WishlistPage'));
+const ProfilePage = lazy(() => import('./components/ProfilePage'));
+// --- End Lazy Loaded Components ---
 
 const parseHash = () => {
     const hash = window.location.hash.substring(2); // remove #/
@@ -24,6 +28,15 @@ const parseHash = () => {
     const pathParts = path.split('/');
     
     return { path, params, pathParts };
+}
+
+const CenteredLoader: React.FC = () => {
+    const { t } = useLanguage();
+    return (
+        <div className="flex justify-center items-center h-96">
+            <p>{t('loading')}</p>
+        </div>
+    );
 }
 
 const BookingSuccess: React.FC<{ bookingId: string }> = ({ bookingId }) => {
@@ -77,77 +90,6 @@ const BookingSuccess: React.FC<{ bookingId: string }> = ({ bookingId }) => {
     );
 };
 
-const SearchResults: React.FC<{ properties: Property[], searchParams: SearchParams }> = ({ properties, searchParams }) => {
-    const { t } = useLanguage();
-    const [sortBy, setSortBy] = useState('price');
-    const [filterFreeCancellation, setFilterFreeCancellation] = useState(false);
-
-    const filteredAndSortedProperties = useMemo(() => {
-        let processedProperties = [...properties];
-
-        // Filtering
-        if (filterFreeCancellation) {
-            processedProperties = processedProperties.filter(p => 
-                p.room_types?.some(rt => rt.rate_plans?.some(rp => rp.refundable))
-            );
-        }
-        
-        // Sorting
-        processedProperties.sort((a, b) => {
-            if (sortBy === 'price') {
-                const priceA = Math.min(...a.room_types?.flatMap(rt => rt.rate_plans?.map(rp => rp.price_per_night_usd_minor) || [Infinity]) || [Infinity]);
-                const priceB = Math.min(...b.room_types?.flatMap(rt => rt.rate_plans?.map(rp => rp.price_per_night_usd_minor) || [Infinity]) || [Infinity]);
-                return priceA - priceB;
-            }
-            if (sortBy === 'stars') {
-                return b.star_rating - a.star_rating;
-            }
-            return 0;
-        });
-
-        return processedProperties;
-    }, [properties, sortBy, filterFreeCancellation]);
-    
-    return (
-        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <a href="#/" className="text-primary-600 hover:text-primary-800 font-medium mb-6 inline-block">
-              &larr; {t('results.backToHome')}
-            </a>
-            <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">{t('results.title', { city: searchParams?.city || t('results.allDestinations') })}</h2>
-            
-            <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 my-6 p-4 bg-white dark:bg-slate-800 rounded-lg shadow">
-                {/* Sorting */}
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="sort" className="font-medium">{t('results.sort.title')}</label>
-                    <select id="sort" value={sortBy} onChange={e => setSortBy(e.target.value)} className="rounded-md border-gray-300 dark:bg-slate-700 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500">
-                        <option value="price">{t('results.sort.price')}</option>
-                        <option value="stars">{t('results.sort.stars')}</option>
-                    </select>
-                </div>
-                {/* Filtering */}
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="freeCancellation" className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" id="freeCancellation" checked={filterFreeCancellation} onChange={e => setFilterFreeCancellation(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"/>
-                        <span className="font-medium">{t('results.filter.freeCancellation')}</span>
-                    </label>
-                </div>
-            </div>
-
-            {filteredAndSortedProperties.length > 0 ? (
-                <div className="space-y-6">
-                    {filteredAndSortedProperties.map(property => (
-                        <PropertyCard key={property.id} property={property} onSelect={() => window.location.hash = `#/property/${property.id}?${new URLSearchParams(searchParams as any).toString()}`} />
-                    ))}
-                </div>
-            ) : (
-                <p>{t('results.noResults')}</p>
-            )}
-          </div>
-        </div>
-      );
-}
-
 const AccessDenied = () => {
     const { t } = useLanguage();
     return (
@@ -160,6 +102,17 @@ const AccessDenied = () => {
         </div>
     );
 }
+
+// Function to augment property data with mock types for filtering demonstration
+const augmentPropertyData = (properties: Property[]): Property[] => {
+    const propertyTypes = ['Hotel', 'Resort', 'Apartment', 'Villa'];
+    const allAmenities = ['Pool', 'WiFi', 'Parking', 'Gym', 'Pet-Friendly', 'Spa', 'Restaurant'];
+    return properties.map(p => ({
+        ...p,
+        propertyType: propertyTypes[p.id.charCodeAt(0) % propertyTypes.length],
+        amenities: allAmenities.filter((_, index) => (p.id.charCodeAt(1) + index) % 3 === 0), // pseudo-random amenities
+    }));
+};
 
 const App: React.FC = () => {
   const { t } = useLanguage();
@@ -178,9 +131,11 @@ const App: React.FC = () => {
   
   const handleSearch = useCallback(async (params: SearchParams) => {
     setIsLoading(true);
+    // Move to search page immediately to show skeleton loaders
+    window.location.hash = `#/search?${new URLSearchParams(params as any).toString()}`;
+
     const supabase = getSupabaseClient();
     
-    // Invoke the Supabase Edge Function to fetch data from Hotelbeds API
     const { data, error } = await supabase.functions.invoke('search-hotels', {
         body: params,
     });
@@ -189,10 +144,10 @@ const App: React.FC = () => {
       console.error('Error fetching properties from Hotelbeds:', error);
       setSearchResults([]);
     } else {
-      setSearchResults(data.properties || []);
+      const augmentedProperties = augmentPropertyData(data.properties || []);
+      setSearchResults(augmentedProperties);
     }
     
-    window.location.hash = `#/search?${new URLSearchParams(params as any).toString()}`;
     setIsLoading(false);
   }, []);
 
@@ -206,12 +161,10 @@ const App: React.FC = () => {
     const { pathParts } = route;
     if (pathParts[0] === 'property' && pathParts[1]) {
       const propertyId = pathParts[1];
-      // Find from existing search results if possible
       const found = searchResults.find(p => p.id === propertyId);
       if (found) {
         setSelectedProperty(found);
       } else {
-        // Fetch from DB
         const fetchProperty = async () => {
           const supabase = getSupabaseClient();
           setIsLoading(true);
@@ -245,19 +198,51 @@ const App: React.FC = () => {
     };
     
     if (path === 'search') {
-      return <SearchResults properties={searchResults} searchParams={searchParams} />;
+      if (isLoading) {
+        // Show skeleton loaders while fetching
+        return (
+          <div className="bg-slate-50 dark:bg-slate-950 min-h-screen">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <aside className="lg:col-span-1">
+                  {/* Skeleton for filter box */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-lg animate-pulse">
+                    <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-6"></div>
+                    <div className="space-y-6">
+                      <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                      <div className="h-10 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                      <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                      <div className="h-10 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    </div>
+                  </div>
+                </aside>
+                <main className="lg:col-span-3 space-y-6">
+                  {Array.from({ length: 5 }).map((_, i) => <PropertyCardSkeleton key={i} />)}
+                </main>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      return <SearchResultsPage properties={searchResults} searchParams={searchParams} />;
     }
     
     if (path.startsWith('property/')) {
-        if (isLoading) return <p className="p-8 text-center">{t('loading')}</p>
+        if (isLoading) return <CenteredLoader />;
         if (selectedProperty) {
             return <PropertyDetails property={selectedProperty} searchParams={searchParams} onBack={handleBackToResults} openAuthModal={() => setAuthModalOpen(true)} />;
         }
-        return <p className="p-8 text-center">{t('loading')}</p>;
+        return <CenteredLoader />;
     }
     
     if (path === 'reservations') {
         return <MyReservations />;
+    }
+    if (path === 'wishlist') {
+        return <WishlistPage />;
+    }
+     if (path === 'profile') {
+        return <ProfilePage />;
     }
 
     if (path.startsWith('booking/success')) {
@@ -284,6 +269,13 @@ const App: React.FC = () => {
       return <AdminDashboard />;
     }
 
+    if (path === 'partner') {
+        if (profile?.role !== 'partner') {
+            return <AccessDenied />;
+        }
+        return <PartnerPortal />;
+    }
+
     if (path.startsWith('policy/')) {
       const slug = pathParts[1];
       return <PolicyPage slug={slug} />;
@@ -296,12 +288,20 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header onNavigate={(view) => {
-          if (view === 'HOME') window.location.hash = '#/';
-          if (view === 'RESERVATIONS') window.location.hash = '#/reservations';
-          if (view === 'ADMIN') window.location.hash = '#/admin';
+          const viewMap = {
+              HOME: '#/',
+              RESERVATIONS: '#/reservations',
+              ADMIN: '#/admin',
+              PARTNER: '#/partner',
+              WISHLIST: '#/wishlist',
+              PROFILE: '#/profile'
+          };
+          window.location.hash = viewMap[view];
       }} onAuthClick={() => setAuthModalOpen(true)}/>
       <main className="flex-grow">
-        {renderContent()}
+        <Suspense fallback={<CenteredLoader />}>
+            {renderContent()}
+        </Suspense>
       </main>
       <Auth isOpen={isAuthModalOpen} onClose={() => setAuthModalOpen(false)} />
       <Footer />
