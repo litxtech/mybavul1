@@ -1,5 +1,5 @@
-// FIX: Updated the Deno edge runtime type reference to a more stable major version to resolve type loading errors. The previous specific version was not being found.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
+// FIX: Using a specific version for the Deno edge runtime types to resolve loading errors.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

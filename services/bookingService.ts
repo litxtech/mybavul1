@@ -1,5 +1,7 @@
 import { getSupabaseClient } from "../lib/supabase";
 import { Property, RoomType, RatePlan, SearchParams, Currency } from "../types";
+// FIX: Import the `Stripe` type explicitly to resolve type conflicts.
+import { loadStripe, type Stripe } from '@stripe/stripe-js';
 
 interface CreateBookingParams {
     userId: string;
@@ -98,7 +100,11 @@ export const createBookingAndCheckout = async ({ userId, property, room, rate, s
     const { sessionId } = functionData;
 
     // Step 3: Redirect the user to Stripe Checkout.
-    const stripe = (window as any).Stripe(stripePublishableKey);
+    const stripe: Stripe | null = await loadStripe(stripePublishableKey);
+    if (!stripe) {
+        console.error("Stripe.js failed to load.");
+        throw new Error("Could not connect to payment provider.");
+    }
     const { error: stripeError } = await stripe.redirectToCheckout({
         sessionId: sessionId,
     });

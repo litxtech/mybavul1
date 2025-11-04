@@ -1,5 +1,5 @@
-// FIX: Updated the Deno edge runtime type reference to a more stable major version to resolve type loading errors. The previous specific version was not being found.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
+// FIX: Using a specific version for the Deno edge runtime types to resolve loading errors.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

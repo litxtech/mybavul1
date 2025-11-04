@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import L from 'leaflet';
 import { Property, SearchParams } from '../types';
 import { useCurrency } from '../contexts/CurrencyContext';
-
-declare const L: any; // Use Leaflet from the global scope
 
 interface MapViewProps {
     properties: Property[];
