@@ -1,5 +1,5 @@
-// FIX: Updated the Deno edge runtime type reference to a stable URL from unpkg to resolve type definitions for the Deno global object.
-/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: Updated the Deno edge runtime type reference to a more stable major version to resolve type loading errors. The previous specific version was not being found.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'
