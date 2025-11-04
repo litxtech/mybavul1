@@ -14,8 +14,8 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
-// Access environment variables from the globally available `process.env` object.
-const env = process.env;
+// Access environment variables from Vite's `import.meta.env` object.
+const env = import.meta.env;
 
 // Check for required environment variables, which must be prefixed with VITE_.
 const requiredVars: string[] = [

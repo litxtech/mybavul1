@@ -1,5 +1,6 @@
-// FIX: Corrected the Supabase Edge Function type reference to a working, versioned URL.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+
+// FIX: Corrected the Supabase Edge Function type reference to point to the 'dist' folder, which resolves type errors for the Deno global object and its properties like 'env'.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/dist/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
