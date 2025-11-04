@@ -1,5 +1,5 @@
-// FIX: Switched to esm.sh for the Supabase functions type reference to resolve Deno runtime type errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: Updated the Supabase functions type reference to a stable version to resolve Deno runtime type errors.
+/// <reference types="https://esm.sh/v135/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

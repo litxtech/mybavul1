@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Property, RoomType, RatePlan, SearchParams, Review, AvailabilityResponse } from '../types';
 import { StarIcon, UsersIcon, ArrowLeftIcon, SparklesIcon, ShieldCheckIcon, TagIcon, ChatBubbleLeftRightIcon, HeartIcon, HeartIconOutline } from './icons';
-import { GoogleGenAI, Chat } from "@google/genai";
+import { Chat } from "@google/genai";
 import { useLanguage } from '../i18n';
 import { useAuth } from '../contexts/AuthContext';
 import { createBookingAndCheckout } from '../services/bookingService';
@@ -9,6 +9,7 @@ import { useCurrency } from '../contexts/CurrencyContext';
 import PhotoGalleryModal from './PhotoGalleryModal';
 import { getSupabaseClient } from '../lib/supabase';
 import { useWishlist } from '../contexts/WishlistContext';
+import { createAIAssistantChat } from '../services/geminiService';
 
 interface PropertyDetailsProps {
   property: Property;
@@ -51,30 +52,15 @@ const ConversationalAIAssistant: React.FC<{ property: Property }> = ({ property 
     const chatRef = useRef<Chat | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const getSystemInstruction = (hotelName: string, city: string, languageName: string) => {
-        return `You are a friendly, enthusiastic, and knowledgeable travel assistant for MyBavul.com.
-        A user is staying at the "${hotelName}" in ${city}.
-        Your goal is to have a helpful conversation about the local area.
-        Answer questions about things to do, see, or eat nearby. Keep your answers concise but informative.
-        IMPORTANT: You MUST reply entirely in ${languageName}.
-        Your entire response must be in ${languageName}. Do not use any other language.`;
-    };
-
     useEffect(() => {
         if (isOpen && !chatRef.current) {
-            const apiKey = import.meta.env?.VITE_API_KEY;
-            if (!apiKey) {
-                 setMessages([{ role: 'system', content: "Sorry, the AI Assistant is not available due to a configuration issue." }]);
-                 return;
+            try {
+                chatRef.current = createAIAssistantChat(property.title, property.location_city, language.name);
+                setMessages([{ role: 'system', content: `Hi! I'm your AI assistant. Ask me anything about the area around ${property.title}!` }]);
+            } catch (error) {
+                console.error("Error creating AI assistant chat:", error);
+                setMessages([{ role: 'system', content: "Sorry, the AI Assistant is not available due to a configuration issue." }]);
             }
-            const ai = new GoogleGenAI({ apiKey: apiKey });
-            chatRef.current = ai.chats.create({
-                model: 'gemini-2.5-flash',
-                config: {
-                    systemInstruction: getSystemInstruction(property.title, property.location_city, language.name),
-                },
-            });
-             setMessages([{ role: 'system', content: `Hi! I'm your AI assistant. Ask me anything about the area around ${property.title}!` }]);
         }
     }, [isOpen, property, language]);
 

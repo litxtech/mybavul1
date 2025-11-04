@@ -55,6 +55,11 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 
   const { session, signOut, profile } = useAuth();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
+  const handleSignOut = async () => {
+      await signOut();
+      onNavigate('HOME');
+  };
+
   return (
     <>
       <header className="sticky top-0 z-40 w-full backdrop-blur bg-white/80 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800">
@@ -78,7 +83,7 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 
                       <button onClick={() => onNavigate('WISHLIST')} className="p-2 rounded-full text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={t('header.myWishlist')}><HeartIcon className="w-5 h-5"/></button>
                       <button onClick={() => onNavigate('RESERVATIONS')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('header.myReservations')}</button>
                       <button onClick={() => onNavigate('PROFILE')} className="text-sm font-medium text-slate-700 hover:text-primary-600">{t('header.myProfile')}</button>
-                      <button onClick={signOut} className="flex items-center text-sm font-medium text-slate-700 hover:text-primary-600">
+                      <button onClick={handleSignOut} className="flex items-center text-sm font-medium text-slate-700 hover:text-primary-600">
                           <LogoutIcon className="w-5 h-5 me-1" />
                           {t('header.logout')}
                       </button>
@@ -122,6 +127,12 @@ const MobileDrawer: React.FC<{
         setIsOpen(false);
     }
 
+    const handleMobileSignOut = async () => {
+        await signOut();
+        setIsOpen(false);
+        onNavigate('HOME');
+    };
+
     return (
         <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             {/* Overlay */}
@@ -143,7 +154,7 @@ const MobileDrawer: React.FC<{
                             <button onClick={() => handleNavigation('PROFILE')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myProfile')}</button>
                             <button onClick={() => handleNavigation('WISHLIST')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myWishlist')}</button>
                             <button onClick={() => handleNavigation('RESERVATIONS')} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.myReservations')}</button>
-                            <button onClick={signOut} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.logout')}</button>
+                            <button onClick={handleMobileSignOut} className="w-full text-left p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('header.logout')}</button>
                         </div>
                     ) : (
                          <div className="space-y-2">

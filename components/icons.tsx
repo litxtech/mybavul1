@@ -219,3 +219,34 @@ export const PhoneIcon = ({ className }: { className?: string }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" />
     </svg>
 );
+
+export const IdentificationIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h6m-6 2.25h6M12 9.75V17.25" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12c0-1.657 1.343-3 3-3h13.5c1.657 0 3 1.343 3 3v6c0 1.657-1.343 3-3 3H5.25c-1.657 0-3-1.343-3-3v-6z" />
+    </svg>
+);
+
+export const CreditCardIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h6m-6 2.25h6M12 9.75V17.25" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12c0-1.657 1.343-3 3-3h13.5c1.657 0 3 1.343 3 3v6c0 1.657-1.343 3-3 3H5.25c-1.657 0-3-1.343-3-3v-6z" />
+    </svg>
+);
+
+export const BriefcaseIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v11.25m0-11.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5v11.25m0-11.25l2.25 1.313M12 2.25l-2.25 1.313M12 2.25v5.25m0 0l2.25 1.313M12 7.5l-2.25 1.313M3 18.75l2.25-1.313m13.5 0L18.75 20.25" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 18.75l-2.25-1.313m0 0L12 11.25l-6.75 6.188m13.5 0L12 11.25" />
+    </svg>
+);
+
+export const CakeIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5c-3.14 0-6 1.01-6 2.25s2.86 2.25 6 2.25 6-1.01 6-2.25S15.14 4.5 12 4.5z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 12.75c-3.14 0-6 1.01-6 2.25S8.86 17.25 12 17.25s6-1.01 6-2.25-2.86-2.25-6-2.25z" />
+    </svg>
+);
