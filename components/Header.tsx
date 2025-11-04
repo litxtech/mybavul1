@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, languages } from '../i18n';
-import { GlobeIcon, LogoutIcon, CurrencyDollarIcon, SunIcon, BuildingOfficeIcon, HomeModernIcon, MountainIcon, HeartIcon, UserCircleIcon } from './icons';
+import { GlobeIcon, LogoutIcon, CurrencyDollarIcon, SunIcon, BuildingOfficeIcon, HomeModernIcon, MountainIcon, HeartIcon, UserCircleIcon, ShieldCheckIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useCurrency } from '../contexts/CurrencyContext';
 
@@ -71,6 +71,7 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 
             
             <div className="flex items-center space-x-2 md:space-x-4">
               <div className="hidden md:flex items-center space-x-4">
+                <PoliciesMenu />
                 <LanguageSwitcher />
                 <CurrencySwitcher />
               </div>
@@ -162,14 +163,17 @@ const MobileDrawer: React.FC<{
                          </div>
                     )}
                     <div className="border-t dark:border-slate-800 my-4"></div>
-                    <div className="flex justify-between items-center p-2">
-                        <LanguageSwitcher />
-                        <CurrencySwitcher />
-                    </div>
-                    <div className="border-t dark:border-slate-800 my-4"></div>
                      <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
                         <a href="#/policy/privacy" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.privacy.title')}</a>
                         <a href="#/policy/terms" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.terms.title')}</a>
+                        <a href="#/policy/dpa" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.dpa.title')}</a>
+                        <a href="#/policy/cookie" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.cookie.title')}</a>
+                        <a href="#/policy/refund" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.refund.title')}</a>
+                    </div>
+                    <div className="border-t dark:border-slate-800 my-4"></div>
+                    <div className="flex justify-between items-center p-2">
+                        <LanguageSwitcher />
+                        <CurrencySwitcher />
                     </div>
                 </div>
             </div>
@@ -282,5 +286,59 @@ const CurrencySwitcher = () => {
         </div>
     )
 }
+
+const PoliciesMenu = () => {
+    const { t } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const policies = [
+        { key: 'privacy', href: '#/policy/privacy' },
+        { key: 'terms', href: '#/policy/terms' },
+        { key: 'dpa', href: '#/policy/dpa' },
+        { key: 'cookie', href: '#/policy/cookie' },
+        { key: 'refund', href: '#/policy/refund' },
+    ];
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    return (
+        <div className="relative" ref={dropdownRef}>
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-500"
+            >
+                <ShieldCheckIcon className="w-5 h-5" />
+                <span className="font-medium text-sm">{t('header.policies')}</span>
+            </button>
+            {isOpen && (
+                <div className="absolute end-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5 dark:ring-slate-700">
+                    <ul className="py-1">
+                        {policies.map((policy) => (
+                            <li key={policy.key}>
+                                <a
+                                    href={policy.href}
+                                    onClick={() => setIsOpen(false)}
+                                    className="block w-full text-start px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                >
+                                    <span>{t(`policy.${policy.key}.title`)}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+};
+
 
 export default Header;

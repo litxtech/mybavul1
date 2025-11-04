@@ -250,3 +250,22 @@ export const CakeIcon = ({ className }: { className?: string }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 12.75c-3.14 0-6 1.01-6 2.25S8.86 17.25 12 17.25s6-1.01 6-2.25-2.86-2.25-6-2.25z" />
     </svg>
 );
+
+export const LockClosedIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 00-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+    </svg>
+);
+
+export const BellIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+    </svg>
+);
+
+export const TrophyIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9a9.75 9.75 0 01-4.874-1.936c-.453-.334-.79-.753-1.01-1.218a11.2 11.2 0 01-.29-2.072v-3.736a11.16 11.16 0 01.29-2.072c.22-.465.557-.884 1.01-1.218A9.75 9.75 0 017.5 5.25h9a9.75 9.75 0 014.874 1.936c.453.334.79.753 1.01 1.218.29.58.29 1.26.29 2.072v3.736a11.16 11.16 0 01-.29 2.072c-.22.465-.557.884-1.01 1.218A9.75 9.75 0 0116.5 18.75z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 15.75c.622-1.026 1.58-1.874 2.668-2.457a16.32 16.32 0 015.664 0c1.088.583 2.046 1.431 2.668 2.457M9 9.75V12m6-2.25V12" />
+    </svg>
+);

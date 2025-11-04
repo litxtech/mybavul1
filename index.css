@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .input-field {
+    @apply block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-700 dark:border-slate-600;
+  }
+  .btn-primary {
+    @apply px-4 py-2 rounded-md bg-primary-600 text-white hover:bg-primary-700 font-medium disabled:bg-slate-400 disabled:cursor-not-allowed;
+  }
+}
+
 @layer base {
   body {
     @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200;
