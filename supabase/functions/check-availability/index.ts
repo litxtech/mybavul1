@@ -1,6 +1,6 @@
-// FIX: The previous non-versioned type reference for the Deno edge runtime was unstable.
-// Replaced with a specific, versioned URL to ensure consistent type resolution and fix errors related to missing type definitions for Deno.env.
-/// <reference types="https://esm.sh/v135/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: Updated the Deno edge runtime type reference to a stable URL.
+// The previous URL was invalid, causing failures in type resolution for the Deno global object and its properties like `env`.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.44.4'
