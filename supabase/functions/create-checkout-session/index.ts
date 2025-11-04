@@ -1,5 +1,6 @@
-// FIX: Updated the Deno edge runtime type reference to a non-versioned URL for better stability.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+// FIX: The previous non-versioned type reference for the Deno edge runtime was unstable.
+// Replaced with a specific, versioned URL to ensure consistent type resolution and fix errors related to missing type definitions for Deno.env.
+/// <reference types="https://esm.sh/v135/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
