@@ -19,6 +19,7 @@ const PolicyPage = lazy(() => import('./components/PolicyPage'));
 const PartnerPortal = lazy(() => import('./components/PartnerPortal'));
 const WishlistPage = lazy(() => import('./components/WishlistPage'));
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
+const SupportPage = lazy(() => import('./components/SupportPage'));
 // --- End Lazy Loaded Components ---
 
 const parseHash = () => {
@@ -243,6 +244,9 @@ const App: React.FC = () => {
     }
      if (path === 'profile') {
         return <ProfilePage />;
+    }
+    if (path === 'support') {
+      return <SupportPage />;
     }
 
     if (path.startsWith('booking/success')) {

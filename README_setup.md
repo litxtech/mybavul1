@@ -60,12 +60,32 @@ HOTELBEDS_SECRET="..."
 | ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `SUPABASE_SERVICE_ROLE_KEY`  | The secret "service role" key for server-side operations with full access.     | **Supabase Secrets**. Get from: **Settings > API > Project API Keys > `service_role` `secret`**. |
 | `STRIPE_SECRET_KEY`          | The secret key for Stripe, used on the server-side to make API calls.          | **Supabase Secrets**. Get from: **Stripe Dashboard > Developers > API Keys > Secret key** (`sk_test_...`). |
-| `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe.          | **Supabase Secrets**. Get from: **Stripe Dashboard > Developers > Webhooks > [Your Endpoint] > Signing secret** (`whsec_...`). See step 4. |
+| `STRIPE_WEBHOOK_SECRET`      | A secret used to verify that webhook events are actually from Stripe.          | **Supabase Secrets**. Get from: **Stripe Dashboard > Developers > Webhooks > [Your Endpoint] > Signing secret** (`whsec_...`). See step 5. |
 | `SITE_URL`                   | The public URL of your **frontend application** (e.g., `https://mybavul.com`). **This is critical for Stripe payment redirects.** | **Supabase Secrets**. Your application's deployment URL from Vercel.                                                      |
 | `HOTELBEDS_API_KEY`          | The API key for the Hotelbeds API to search for hotels.                        | **Supabase Secrets**. Provided by Hotelbeds upon partnership approval.                                                                    |
 | `HOTELBEDS_SECRET`           | The secret key for the Hotelbeds API, used to generate a request signature.      | **Supabase Secrets**. Provided by Hotelbeds upon partnership approval.                                                                    |
 
-## 2. Database Schema Setup
+## 2. Supabase Project Configuration (Dashboard UI)
+
+In addition to secrets, some settings must be configured in the Supabase dashboard UI. Getting these wrong can cause authentication and payment redirect issues.
+
+### 2.1. Authentication URL Configuration
+
+This is the **most common source of OAuth errors**, such as `404: NOT_FOUND` with code `DEPLOYMENT_NOT_FOUND`. It tells Supabase where to send users after they successfully log in with a third party like Google.
+
+1.  Go to your Supabase Dashboard.
+2.  In the left sidebar, navigate to **Authentication > URL Configuration**.
+3.  **Site URL:** Set this to the main URL of your deployed frontend application.
+    *   **For Local Development:** `http://localhost:5173` (or your dev port).
+    *   **For Production:** `https://your-production-site.com`.
+4.  **Additional Redirect URLs:** This is crucial for development and preview deployments. Add any other URLs you need. Use wildcards (`*`) if your provider supports them (Vercel does).
+    *   `http://localhost:5173/**`
+    *   `https://your-project-*.vercel.app/**` (Example for Vercel previews)
+5.  Click **Save**.
+
+> **CRITICAL:** The error you are seeing (`DEPLOYMENT_NOT_FOUND`) usually means the **Site URL** is pointing to an old, deleted preview deployment. Make sure it points to your main, active site URL.
+
+## 3. Database Schema Setup
 
 The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file. **This step is critical.**
 
@@ -79,7 +99,7 @@ The entire database structure, including tables, relationships, security policie
 
 This will create all necessary tables and enable Row Level Security.
 
-## 3. Deploy Supabase Edge Functions
+## 4. Deploy Supabase Edge Functions
 
 The payment, search, availability check, and cancellation logic runs on Supabase Edge Functions. You need to deploy them using the Supabase CLI. Your app includes: `search-hotels`, `create-checkout-session`, `stripe-webhook-handler`, `cancel-booking`, and `check-availability`.
 
@@ -97,7 +117,7 @@ supabase functions deploy
 ```
 This command deploys your functions. They will use the secrets you configured in the Supabase Dashboard.
 
-## 4. Configure Stripe Webhook
+## 5. Configure Stripe Webhook
 
 You must tell Stripe where to send events (like a successful payment).
 
@@ -112,7 +132,7 @@ You must tell Stripe where to send events (like a successful payment).
 6.  Find the **Signing secret** (`whsec_...`) and set it as a Supabase secret named `STRIPE_WEBHOOK_SECRET` (see section 1.2).
 
 
-## 5. Configure Google OAuth
+## 6. Configure Google OAuth
 
 Prevent the **`redirect_uri_mismatch`** error by authorizing your application's URLs.
 

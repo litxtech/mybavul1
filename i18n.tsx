@@ -20,7 +20,6 @@ export const languages: Language[] = [
 
 const enTranslations = {
   'loading': 'Loading...',
-  'header.stays': 'Stays', 'header.flights': 'Flights', 'header.carRentals': 'Car Rentals', 'header.attractions': 'Attractions',
   'header.myReservations': 'My Reservations', 'header.myWishlist': 'My Wishlist', 'header.myProfile': 'My Profile', 'header.signIn': 'Sign In', 'header.logout': 'Log Out',
   'home.title': 'Find your next stay', 'home.subtitle': 'Search deals on hotels, homes, and much more...',
   'search.destination': 'Destination', 'search.checkin': 'Check-in', 'search.checkout': 'Check-out', 'search.guests': 'Guests', 'search.button': 'Search', 'search.button.loading': 'Searching...', 'search.placeholder': 'e.g. Istanbul',
@@ -483,6 +482,14 @@ const enTranslations = {
   'profile.updating': 'Updating...',
   'profile.success': 'Profile updated successfully!',
   'profile.error': 'Failed to update profile. Please try again.',
+  'support.title': 'Support Center',
+  'support.subtitle': "Have questions or need help with your booking? We're here for you.",
+  'support.email': 'Email Support',
+  'support.email.desc': 'Best for non-urgent inquiries. We aim to respond within 24 hours.',
+  'support.phone': 'Phone Support',
+  'support.phone.desc': 'For urgent matters, please call us directly for immediate assistance.',
+  'support.address': 'Mailing Address',
+  'support.address.desc': 'Our corporate headquarters for official correspondence.',
 };
 
 const translations: Record<string, Record<string, string>> = {
@@ -679,6 +686,14 @@ const translations: Record<string, Record<string, string>> = {
     'profile.updating': 'Güncelleniyor...',
     'profile.success': 'Profil başarıyla güncellendi!',
     'profile.error': 'Profil güncellenemedi. Lütfen tekrar deneyin.',
+    'support.title': 'Destek Merkezi',
+    'support.subtitle': 'Sorularınız mı var veya rezervasyonunuzla ilgili yardıma mı ihtiyacınız var? Sizin için buradayız.',
+    'support.email': 'E-posta Desteği',
+    'support.email.desc': 'Acil olmayan sorular için en iyisi. 24 saat içinde yanıt vermeyi hedefliyoruz.',
+    'support.phone': 'Telefon Desteği',
+    'support.phone.desc': 'Acil konular için anında yardım almak üzere lütfen bizi doğrudan arayın.',
+    'support.address': 'Posta Adresi',
+    'support.address.desc': 'Resmi yazışmalar için kurumsal merkezimiz.',
   },
 };
 

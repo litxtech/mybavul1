@@ -14,7 +14,7 @@ const BrandLogo = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => (
 
 const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-1.6.5 5.25h16.5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
     </svg>
 );
 
@@ -60,16 +60,8 @@ const Header: React.FC<{ onNavigate: (view: 'HOME' | 'RESERVATIONS' | 'ADMIN' | 
       <header className="sticky top-0 z-40 w-full backdrop-blur bg-white/80 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center">
               <BrandLogo />
-              {/* Desktop Mega Menu */}
-              <nav className="hidden md:flex items-center space-x-6">
-                {['Stays', 'Experiences', 'Deals', 'Guides'].map(item => (
-                  <button key={item} className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-500">
-                    {t(`header.${item.toLowerCase()}`)}
-                  </button>
-                ))}
-              </nav>
             </div>
             
             <div className="flex items-center space-x-2 md:space-x-4">

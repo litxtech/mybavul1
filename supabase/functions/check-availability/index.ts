@@ -1,5 +1,5 @@
-// FIX: Updated the Supabase functions type reference from an incorrect 'npm:' path to the correct esm.sh URL to resolve Deno runtime type errors.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+// FIX: Switched to esm.sh for the Supabase functions type reference to resolve Deno runtime type errors.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'

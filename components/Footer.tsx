@@ -35,7 +35,7 @@ const Footer = () => {
           { label: 'Guides', href: '#/guides' },
       ],
       support: [
-          { label: 'Help Center', href: '#/support' },
+          { label: t('support.title'), href: '#/support' },
           { label: 'Booking Policy', href: '#/policy/booking' },
           { label: 'Refunds', href: '#/policy/refund' },
           { label: 'Report Issue', href: '#/report' },
