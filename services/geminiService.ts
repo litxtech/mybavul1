@@ -1,8 +1,16 @@
 import { GoogleGenAI, FunctionDeclaration, Type, Chat } from "@google/genai";
 
-// Per Gemini API guidelines, the API key MUST be obtained from the environment `process.env.API_KEY`.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
+// This function lazily initializes the Gemini client, preventing a crash on startup
+// if the API key environment variable isn't immediately available.
+const getAIClient = () => {
+  const apiKey = (process as any)?.env?.API_KEY;
+  if (!apiKey) {
+      // This provides a clearer error if an AI feature is used without configuration,
+      // without crashing the entire application on load.
+      throw new Error("Gemini API key (process.env.API_KEY) is not available.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 // --- AI Trip Planner with Function Calling ---
 
@@ -42,7 +50,8 @@ Your goal is to help the user plan their trip by gathering necessary information
 3.  You MUST ask clarifying questions one by one until you have all the required information. For example, if the user says "next month", ask for specific dates.
 4.  Once you have all four parameters (city, checkin, checkout, guests), you MUST call the searchHotels function with the collected data.
 5.  IMPORTANT: Your entire conversation MUST be in ${languageName}. Do not use any other language.`;
-
+  
+  const ai = getAIClient();
   return ai.chats.create({
     model: 'gemini-2.5-flash',
     config: {
@@ -60,6 +69,7 @@ export const createAIAssistantChat = (hotelName: string, city: string, languageN
         IMPORTANT: You MUST reply entirely in ${languageName}.
         Your entire response must be in ${languageName}. Do not use any other language.`;
 
+    const ai = getAIClient();
     return ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
