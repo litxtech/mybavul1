@@ -1,6 +1,6 @@
-// FIX: Updated the Deno edge runtime type reference to a stable URL.
-// The previous URL was invalid, causing failures in type resolution for the Deno global object and its properties like `env`.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
+// FIX: Updated the Deno edge runtime type reference to a stable, versioned URL.
+// The previous URL was causing type resolution failures for the Deno global object and its properties like `env`.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'
