@@ -1,5 +1,5 @@
 // FIX: Corrected the Supabase Edge Function type reference to a working, versioned URL.
-/// <reference types="https://esm.sh/v128/@supabase/functions-js@2.2.0/src/edge-runtime.d.ts" />
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
@@ -43,6 +43,16 @@ const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
+
+// Map user-friendly city names to the required Hotelbeds destination codes.
+// The test environment is most reliable with Spanish destinations.
+const cityToDestinationCode: { [key: string]: string } = {
+  'barcelona': 'BCN',
+  'madrid': 'MAD',
+  'palma': 'PMI',
+  'istanbul': 'IST',
+};
+
 
 // Function to generate the Hotelbeds X-Signature
 async function createHotelbedsSignature(apiKey: string, secret: string): Promise<string> {
@@ -127,6 +137,16 @@ serve(async (req) => {
       })
     }
     
+    // Convert the user-friendly city name to a destination code.
+    const destinationCode = cityToDestinationCode[city.toLowerCase()];
+    if (!destinationCode) {
+      console.warn(`No destination code found for city: ${city}. Returning empty results.`);
+      return new Response(JSON.stringify({ properties: [] }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const HOTELBEDS_API_KEY = Deno.env.get('HOTELBEDS_API_KEY');
     const HOTELBEDS_SECRET = Deno.env.get('HOTELBEDS_SECRET');
 
@@ -150,9 +170,7 @@ serve(async (req) => {
         },
       ],
       destination: {
-        // Using 'destination' for city search; Hotelbeds also supports hotel codes, geo-coordinates etc.
-        // For a production system, you'd need a city-to-destination-code mapping service.
-        code: city,
+        code: destinationCode, // Use the mapped destination code
       },
       filter: {
         maxHotels: 20

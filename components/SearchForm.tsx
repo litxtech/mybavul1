@@ -8,12 +8,19 @@ interface SearchFormProps {
   isLoading?: boolean;
 }
 
+const supportedCities = [
+  { key: 'barcelona', value: 'Barcelona' },
+  { key: 'madrid', value: 'Madrid' },
+  { key: 'palma', value: 'Palma' },
+  { key: 'istanbul', value: 'Istanbul' },
+]
+
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const { t } = useLanguage();
   const today = new Date().toISOString().split('T')[0];
   const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
 
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState('barcelona');
   const [checkin, setCheckin] = useState(today);
   const [checkout, setCheckout] = useState(tomorrow);
   const [guests, setGuests] = useState(2);
@@ -31,15 +38,17 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
             <LocationIcon className="h-5 w-5 text-gray-500" />
           </div>
-          <input
-            type="text"
+          <select
             id="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900 placeholder:text-gray-500"
-            placeholder={t('search.placeholder')}
+            className="block w-full rounded-md border-gray-300 ps-10 focus:border-red-500 focus:ring-red-500 sm:text-sm h-12 text-gray-900"
             required
-          />
+          >
+            {supportedCities.map(c => (
+              <option key={c.key} value={c.key}>{t(`city.${c.key}`) || c.value}</option>
+            ))}
+          </select>
         </div>
       </div>
       
