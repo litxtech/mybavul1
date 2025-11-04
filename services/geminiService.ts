@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Per Gemini API guidelines, the API key MUST be obtained from the environment.
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env?.VITE_API_KEY;
 if (!apiKey) {
   console.error("VITE_API_KEY is not configured. AI features will be disabled.");
 }

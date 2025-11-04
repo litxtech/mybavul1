@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 
 // This file provides TypeScript definitions for environment variables exposed by Vite.
 // It ensures type safety and autocompletion when using `import.meta.env`.

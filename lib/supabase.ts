@@ -13,8 +13,8 @@ export const getSupabaseClient = (): SupabaseClient => {
   }
 
   // Access environment variables from Vite's `import.meta.env`.
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY;
   
   if (!supabaseUrl || !supabaseAnonKey) {
     // This error is caught by the top-level check in index.tsx before this function is called.

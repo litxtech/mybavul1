@@ -20,46 +20,53 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onSelect }) => {
   const hasFreeCancellation = property.room_types?.some(rt => rt.rate_plans?.some(rp => rp.refundable));
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row transition-all duration-300 ease-in-out cursor-pointer hover:shadow-xl hover:-translate-y-1" onClick={() => onSelect(property)}>
+    <div 
+        className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row transition-all duration-300 ease-in-out cursor-pointer hover:shadow-xl hover:-translate-y-1" 
+        onClick={() => onSelect(property)}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(property)}
+        aria-label={`View details for ${property.title}`}
+    >
       <div className="md:w-1/3">
-        <img className="h-48 w-full object-cover md:h-full" src={property.photos[0]} alt={property.title} />
+        <img className="h-48 w-full object-cover md:h-full" src={property.photos[0]} alt={property.title} loading="lazy" decoding="async" />
       </div>
-      <div className="md:w-2/3 p-4 flex flex-col justify-between">
+      <div className="md:w-2/3 p-4 sm:p-6 flex flex-col justify-between">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{property.title}</h3>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">{property.title}</h3>
           <div className="flex items-center mt-1">
             <div className="flex items-center">
               {[...Array(property.star_rating)].map((_, i) => (
                 <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
               ))}
               {[...Array(5 - property.star_rating)].map((_, i) => (
-                <StarIcon key={i} className="h-5 w-5 text-gray-300" />
+                <StarIcon key={i} className="h-5 w-5 text-slate-300 dark:text-slate-600" />
               ))}
             </div>
           </div>
-          <p className="flex items-center mt-2 text-sm text-gray-500">
+          <p className="flex items-center mt-2 text-sm text-slate-500 dark:text-slate-400">
             <LocationIcon className="h-4 w-4 me-1"/>
             {property.location_city}, {property.location_country}
           </p>
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{property.description}</p>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{property.description}</p>
         </div>
         <div className="mt-4 flex justify-between items-center">
           <div>
              <div className="flex items-center space-x-2">
-               <span className="bg-red-600 text-white font-bold text-sm px-2 py-1 rounded-md">{property.review_score.toFixed(1)}</span>
-               <span className="text-gray-600 text-sm">{t('card.reviews', { count: property.review_count })}</span>
+               <span className="bg-primary-600 text-white font-bold text-sm px-2 py-1 rounded-md">{property.review_score.toFixed(1)}</span>
+               <span className="text-slate-600 dark:text-slate-300 text-sm">{t('card.reviews', { count: property.review_count })}</span>
              </div>
              {hasFreeCancellation && (
-                <div className="flex items-center mt-2 text-sm text-green-600 font-medium">
+                <div className="flex items-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">
                   <ShieldCheckIcon className="w-4 h-4 me-1" />
                   {t('card.freeCancellation')}
                 </div>
               )}
           </div>
           <div className="text-right">
-            <span className="text-sm text-gray-600">{t('card.from')}</span>
-            <p className="text-2xl font-bold text-red-600">{isFinite(cheapestPriceUsdMinor) ? formatCurrency(cheapestPriceUsdMinor) : 'N/A'}</p>
-            <span className="text-sm text-gray-600">{t('card.perNight')}</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400">{t('card.from')}</span>
+            <p className="text-2xl font-bold text-primary-600">{isFinite(cheapestPriceUsdMinor) ? formatCurrency(cheapestPriceUsdMinor) : 'N/A'}</p>
+            <span className="text-sm text-slate-600 dark:text-slate-400">{t('card.perNight')}</span>
           </div>
         </div>
       </div>

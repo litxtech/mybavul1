@@ -70,7 +70,7 @@ const BookingSuccess: React.FC<{ bookingId: string }> = ({ bookingId }) => {
                 </div>
             )}
 
-            <a href="#/reservations" className="inline-block mt-8 bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">
+            <a href="#/reservations" className="inline-block mt-8 bg-primary-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-primary-700">
                 {t('booking.success.button')}
             </a>
         </div>
@@ -109,18 +109,18 @@ const SearchResults: React.FC<{ properties: Property[], searchParams: SearchPara
     }, [properties, sortBy, filterFreeCancellation]);
     
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <a href="#/" className="text-red-600 hover:text-red-800 font-medium mb-6 inline-block">
+            <a href="#/" className="text-primary-600 hover:text-primary-800 font-medium mb-6 inline-block">
               &larr; {t('results.backToHome')}
             </a>
-            <h2 className="text-3xl font-bold mb-2">{t('results.title', { city: searchParams?.city || t('results.allDestinations') })}</h2>
+            <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">{t('results.title', { city: searchParams?.city || t('results.allDestinations') })}</h2>
             
-            <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 my-6 p-4 bg-white rounded-lg shadow">
+            <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 my-6 p-4 bg-white dark:bg-slate-800 rounded-lg shadow">
                 {/* Sorting */}
                 <div className="flex items-center space-x-2">
                     <label htmlFor="sort" className="font-medium">{t('results.sort.title')}</label>
-                    <select id="sort" value={sortBy} onChange={e => setSortBy(e.target.value)} className="rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                    <select id="sort" value={sortBy} onChange={e => setSortBy(e.target.value)} className="rounded-md border-gray-300 dark:bg-slate-700 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                         <option value="price">{t('results.sort.price')}</option>
                         <option value="stars">{t('results.sort.stars')}</option>
                     </select>
@@ -128,7 +128,7 @@ const SearchResults: React.FC<{ properties: Property[], searchParams: SearchPara
                 {/* Filtering */}
                 <div className="flex items-center space-x-2">
                     <label htmlFor="freeCancellation" className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" id="freeCancellation" checked={filterFreeCancellation} onChange={e => setFilterFreeCancellation(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"/>
+                        <input type="checkbox" id="freeCancellation" checked={filterFreeCancellation} onChange={e => setFilterFreeCancellation(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"/>
                         <span className="font-medium">{t('results.filter.freeCancellation')}</span>
                     </label>
                 </div>
@@ -298,6 +298,7 @@ const App: React.FC = () => {
       <Header onNavigate={(view) => {
           if (view === 'HOME') window.location.hash = '#/';
           if (view === 'RESERVATIONS') window.location.hash = '#/reservations';
+          if (view === 'ADMIN') window.location.hash = '#/admin';
       }} onAuthClick={() => setAuthModalOpen(true)}/>
       <main className="flex-grow">
         {renderContent()}
