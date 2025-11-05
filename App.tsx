@@ -130,28 +130,6 @@ const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
   
-  const handleSearch = useCallback(async (params: SearchParams) => {
-    setIsLoading(true);
-    // Move to search page immediately to show skeleton loaders
-    window.location.hash = `#/search?${new URLSearchParams(params as any).toString()}`;
-
-    const supabase = getSupabaseClient();
-    
-    const { data, error } = await supabase.functions.invoke('search-hotels', {
-        body: params,
-    });
-    
-    if (error) {
-      console.error('Error fetching properties from Hotelbeds:', error);
-      setSearchResults([]);
-    } else {
-      const augmentedProperties = augmentPropertyData(data.properties || []);
-      setSearchResults(augmentedProperties);
-    }
-    
-    setIsLoading(false);
-  }, []);
-
   const handleBackToResults = useCallback(() => {
     const { params } = route;
     window.location.hash = `#/search?city=${params.get('city')}&checkin=${params.get('checkin')}&checkout=${params.get('checkout')}&guests=${params.get('guests')}`;
@@ -283,7 +261,7 @@ const App: React.FC = () => {
     }
     
     // Default to home
-    return <HomePage onSearch={handleSearch} isLoading={isLoading} />;
+    return <HomePage />;
   };
 
   return (

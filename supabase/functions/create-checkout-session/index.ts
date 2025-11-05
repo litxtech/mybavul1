@@ -1,5 +1,6 @@
-// FIX: Corrected the path to the Supabase Edge Functions type definitions to resolve type errors for the Deno namespace (e.g., Deno.env).
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+
+// FIX: Corrected the path to the Supabase Edge Functions type definitions to resolve type errors for the Deno namespace (e.g., Deno.env). Using unpkg CDN as an alternative.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import SearchForm from './SearchForm';
 import { Property, SearchParams } from '../types';
 import { useLanguage } from '../i18n';
 import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon } from './icons';
@@ -8,14 +7,11 @@ import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
 import ExpediaSearch from './ExpediaSearch';
 
-const AIPlannerModal = lazy(() => import('./AIPlannerModal'));
-
-
 // ==================================
 // SUB-COMPONENTS for HomePage
 // ==================================
 
-const HeroSection: React.FC<{ onSearch: (params: SearchParams) => void; isLoading: boolean; onOpenAIPlanner: () => void; }> = ({ onSearch, isLoading, onOpenAIPlanner }) => {
+const HeroSection: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-white dark:text-white overflow-hidden">
@@ -44,18 +40,8 @@ const HeroSection: React.FC<{ onSearch: (params: SearchParams) => void; isLoadin
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="mt-8 bg-black/30 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl">
-                    <SearchForm onSearch={onSearch} isLoading={isLoading} />
+                    <ExpediaSearch />
                 </motion.div>
-                 <motion.button 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    onClick={onOpenAIPlanner}
-                    className="mt-6 inline-flex items-center gap-x-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white font-semibold hover:bg-white/30 transition-all duration-300"
-                >
-                    <SparklesIcon className="w-5 h-5" />
-                    {t('ai.planner.button')}
-                </motion.button>
             </div>
         </div>
     );
@@ -206,13 +192,21 @@ const ListPropertyCTA: React.FC = () => {
 // MAIN HomePage COMPONENT
 // ==================================
 
-const HomePage: React.FC<{
-  onSearch: (params: SearchParams) => void;
-  isLoading: boolean;
-}> = ({ onSearch, isLoading }) => {
+const HomePage: React.FC = () => {
   const { t } = useLanguage();
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
-  const [isAIPlannerOpen, setAIPlannerOpen] = useState(false);
+  
+  // This is a dummy function now, as Expedia widget handles search.
+  // It's kept for the popular destination clicks.
+  const handleSearch = (params: SearchParams) => {
+    alert(`This is a demo search. In a real app, you would be redirected to a search page for:
+City: ${params.city}
+Check-in: ${params.checkin}
+Check-out: ${params.checkout}
+Guests: ${params.guests}
+`);
+  };
+
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -233,15 +227,15 @@ const HomePage: React.FC<{
   }, []);
 
   const handleDestinationClick = (city: string) => {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
-    onSearch({ city: city.toLowerCase(), checkin: today, checkout: tomorrow, guests: 2 });
+    // This is a dummy action as the main search is now Expedia.
+    // In a full implementation, this could deep-link into the Expedia widget if possible,
+    // or simply scroll to the widget.
+    handleSearch({ city: city.toLowerCase(), checkin: '', checkout: '', guests: 2 });
   };
   
   const handleCountryClick = (city: string) => {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
-    onSearch({ city: city.toLowerCase(), checkin: today, checkout: tomorrow, guests: 2 });
+    // Dummy action
+    handleSearch({ city: city.toLowerCase(), checkin: '', checkout: '', guests: 2 });
   };
 
   const handlePropertySelect = (property: Property) => {
@@ -256,27 +250,11 @@ const HomePage: React.FC<{
     window.location.hash = `#/property/${property.id}?${params.toString()}`;
   };
 
-  const handleAISearch = (params: SearchParams) => {
-    setAIPlannerOpen(false);
-    onSearch(params);
-  };
-
   return (
     <>
-      <HeroSection onSearch={onSearch} isLoading={isLoading} onOpenAIPlanner={() => setAIPlannerOpen(true)} />
-      <Suspense fallback={null}>
-        <AIPlannerModal 
-          isOpen={isAIPlannerOpen}
-          onClose={() => setAIPlannerOpen(false)}
-          onSearch={handleAISearch}
-        />
-      </Suspense>
+      <HeroSection />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       <CountryDestinations onCountryClick={handleCountryClick} />
-      
-      <div className="py-8 bg-slate-50 dark:bg-slate-950">
-        <ExpediaSearch />
-      </div>
       
       {featuredProperties.length > 0 && (
         <div className="py-16 bg-white dark:bg-slate-900">

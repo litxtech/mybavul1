@@ -23,6 +23,12 @@ VITE_SUPABASE_ANON_KEY="your-supabase-anon-key"
 
 # Stripe Configuration
 VITE_STRIPE_PUBLISHABLE_KEY="pk_test_your-stripe-publishable-key"
+
+# Expedia Partnerize Affiliate Configuration (Optional)
+# These are used for the embedded Expedia search widget.
+# You can get these from your Expedia Partnerize account.
+VITE_CAMREF="your-campaign-reference"
+VITE_PUBREF="your-publisher-reference"
 ```
 
 | Variable Name                | Description                                                                    | How to get it                                                                      |
@@ -30,6 +36,9 @@ VITE_STRIPE_PUBLISHABLE_KEY="pk_test_your-stripe-publishable-key"
 | `VITE_SUPABASE_URL`          | The unique URL for your Supabase project.                                      | In your Supabase project: **Settings > API > Project URL**.                        |
 | `VITE_SUPABASE_ANON_KEY`     | The public, "anonymous" key for your Supabase project, safe to use in a browser. | In your Supabase project: **Settings > API > Project API Keys > `anon` `public`**. |
 | `VITE_STRIPE_PUBLISHABLE_KEY`| The public key for Stripe, used on the frontend to initialize Stripe.js.       | In your Stripe Dashboard: **Developers > API Keys > Publishable key** (e.g., `pk_test_...`). |
+| `VITE_CAMREF` (Optional)     | The Campaign Reference for your Expedia Partnerize affiliate link.             | Provided in your Expedia Partnerize affiliate dashboard.                           |
+| `VITE_PUBREF` (Optional)     | The Publisher Reference for your Expedia Partnerize affiliate link.            | Provided in your Expedia Partnerize affiliate dashboard.                           |
+
 
 > **Note on `API_KEY`:** The Google Gemini API key is expected to be available in the execution environment as `process.env.API_KEY` and does not need to be added to your `.env.local` file.
 
