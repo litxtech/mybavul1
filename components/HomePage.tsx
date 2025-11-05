@@ -5,15 +5,25 @@ import { useLanguage } from '../i18n';
 import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
-import ExpediaSearch from './ExpediaSearch';
+import SearchForm from './SearchForm';
+import AIPlannerModal from './AIPlannerModal';
 
 // ==================================
 // SUB-COMPONENTS for HomePage
 // ==================================
 
-const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onSearch: (params: SearchParams) => void;
+  isLoading: boolean;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onSearch, isLoading }) => {
     const { t } = useLanguage();
+    const [isPlannerOpen, setPlannerOpen] = useState(false);
+    
     return (
+        <>
+        <AIPlannerModal isOpen={isPlannerOpen} onClose={() => setPlannerOpen(false)} onSearch={onSearch} />
         <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-white dark:text-white overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 z-10"></div>
             <div 
@@ -40,10 +50,17 @@ const HeroSection: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="mt-8 bg-black/30 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl">
-                    <ExpediaSearch />
+                    <SearchForm onSearch={onSearch} isLoading={isLoading} />
+                     <div className="text-center mt-4">
+                        <button onClick={() => setPlannerOpen(true)} className="flex items-center mx-auto text-white/90 hover:text-white font-medium transition-transform hover:scale-105">
+                            <SparklesIcon className="w-5 h-5 me-2 text-yellow-300"/>
+                            {t('ai.planner.button')}
+                        </button>
+                    </div>
                 </motion.div>
             </div>
         </div>
+        </>
     );
 };
 
@@ -62,7 +79,7 @@ const PopularDestinations: React.FC<{ onDestinationClick: (city: string) => void
                 <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-10">{t('home.destinations.title')}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {destinations.map(dest => (
-                    <div key={dest.name} onClick={() => onDestinationClick(dest.name)} className="relative h-80 rounded-2xl overflow-hidden group cursor-pointer shadow-lg transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                    <div key={dest.name} onClick={() => onDestinationClick(dest.nameKey)} className="relative h-80 rounded-2xl overflow-hidden group cursor-pointer shadow-lg transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                       <img src={dest.image} alt={dest.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                       <h3 className="absolute bottom-5 left-5 rtl:right-5 text-2xl font-bold text-white" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.7)' }}>{t(dest.nameKey) || dest.name}</h3>
@@ -191,22 +208,15 @@ const ListPropertyCTA: React.FC = () => {
 // ==================================
 // MAIN HomePage COMPONENT
 // ==================================
+interface HomePageProps {
+  onSearch: (params: SearchParams) => void;
+  isLoading: boolean;
+}
 
-const HomePage: React.FC = () => {
+
+const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
   const { t } = useLanguage();
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
-  
-  // This is a dummy function now, as Expedia widget handles search.
-  // It's kept for the popular destination clicks.
-  const handleSearch = (params: SearchParams) => {
-    alert(`This is a demo search. In a real app, you would be redirected to a search page for:
-City: ${params.city}
-Check-in: ${params.checkin}
-Check-out: ${params.checkout}
-Guests: ${params.guests}
-`);
-  };
-
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -226,16 +236,17 @@ Guests: ${params.guests}
     fetchFeatured();
   }, []);
 
-  const handleDestinationClick = (city: string) => {
-    // This is a dummy action as the main search is now Expedia.
-    // In a full implementation, this could deep-link into the Expedia widget if possible,
-    // or simply scroll to the widget.
-    handleSearch({ city: city.toLowerCase(), checkin: '', checkout: '', guests: 2 });
+  const handleDestinationClick = (destinationKey: string) => {
+    const cityKey = destinationKey.split('.').pop() || 'istanbul';
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+    onSearch({ city: cityKey, checkin: today, checkout: tomorrow, guests: 2 });
   };
   
   const handleCountryClick = (city: string) => {
-    // Dummy action
-    handleSearch({ city: city.toLowerCase(), checkin: '', checkout: '', guests: 2 });
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+    onSearch({ city: city.toLowerCase(), checkin: today, checkout: tomorrow, guests: 2 });
   };
 
   const handlePropertySelect = (property: Property) => {
@@ -252,7 +263,7 @@ Guests: ${params.guests}
 
   return (
     <>
-      <HeroSection />
+      <HeroSection onSearch={onSearch} isLoading={isLoading} />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       <CountryDestinations onCountryClick={handleCountryClick} />
       

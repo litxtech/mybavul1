@@ -130,6 +130,41 @@ const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
   
+  const handleSearch = useCallback(async (params: SearchParams) => {
+    setIsLoading(true);
+    setSelectedProperty(null); // Clear any selected property
+    
+    // Construct the search hash
+    const searchUrlParams = new URLSearchParams({
+        city: params.city,
+        checkin: params.checkin,
+        checkout: params.checkout,
+        guests: params.guests.toString()
+    });
+    window.location.hash = `#/search?${searchUrlParams.toString()}`;
+
+    try {
+        const supabase = getSupabaseClient();
+        const { data, error } = await supabase.functions.invoke('search-hotels', {
+            body: params
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        const augmentedData = augmentPropertyData(data.properties);
+        setSearchResults(augmentedData);
+        
+    } catch (error: any) {
+        console.error("Error during hotel search:", error);
+        alert(`Search failed: ${error.message}`);
+        setSearchResults([]); // Clear results on error
+    } finally {
+        setIsLoading(false);
+    }
+  }, []);
+  
   const handleBackToResults = useCallback(() => {
     const { params } = route;
     window.location.hash = `#/search?city=${params.get('city')}&checkin=${params.get('checkin')}&checkout=${params.get('checkout')}&guests=${params.get('guests')}`;
@@ -261,7 +296,7 @@ const App: React.FC = () => {
     }
     
     // Default to home
-    return <HomePage />;
+    return <HomePage onSearch={handleSearch} isLoading={isLoading} />;
   };
 
   return (

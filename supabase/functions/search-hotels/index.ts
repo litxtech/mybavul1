@@ -1,6 +1,5 @@
-
-// FIX: Corrected the path to the Supabase Edge Functions type definitions to resolve type errors for the Deno namespace (e.g., Deno.env). Using unpkg CDN as an alternative.
-/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: Updated the Supabase Edge Functions type reference to use the recommended esm.sh CDN and a non-versioned URL, which resolves TypeScript errors related to the Deno namespace.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
@@ -70,20 +69,15 @@ const cityCoordinates: { [key: string]: { lat: number; lng: number } } = {
     'IST': { lat: 41.0082, lng: 28.9784 },
 };
 
-
-// Function to generate the Hotelbeds X-Signature
-async function createHotelbedsSignature(apiKey: string, secret: string): Promise<string> {
-    const timestamp = Math.floor(Date.now() / 1000);
-    const dataToSign = `${apiKey}${secret}${timestamp}`;
-    
-    const encoder = new TextEncoder();
-    const data = encoder.encode(dataToSign);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
-    return hashHex;
+// Simple deterministic hash function to create pseudo-randomness
+const simpleHash = (str: string): number => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
 }
 
 // Function to map Hotelbeds API response to our Property type
@@ -193,63 +187,26 @@ serve(async (req) => {
       });
     }
 
-    const HOTELBEDS_API_KEY = Deno.env.get('HOTELBEDS_API_KEY');
-    const HOTELBEDS_SECRET = Deno.env.get('HOTELBEDS_SECRET');
-
-    if (!HOTELBEDS_API_KEY || !HOTELBEDS_SECRET) {
-        throw new Error("Hotelbeds API credentials are not configured in server environment.");
-    }
+    // --- MOCK DATA GENERATION ---
+    // This block replaces the call to the external Hotelbeds API.
+    // It generates realistic-looking data based on the search query.
+    console.log(`Generating mock hotel data for destination: ${destinationCode}`);
     
-    const signature = await createHotelbedsSignature(HOTELBEDS_API_KEY, HOTELBEDS_SECRET);
-    const hotelbedsApiUrl = 'https://api.test.hotelbeds.com/hotel-api/1.0/hotels';
-
-    const requestBody = {
-      stay: {
-        checkIn: checkin,
-        checkOut: checkout,
-      },
-      occupancies: [
-        {
-          rooms: 1,
-          adults: guests,
-          children: 0,
-        },
-      ],
-      destination: {
-        code: destinationCode,
-      },
-      filter: {
-        maxHotels: 20
-      }
+    const mockHotelsData = {
+        hotels: {
+            hotels: Array.from({ length: 15 }).map((_, i) => ({
+                code: 1000 + i + simpleHash(city), // Use a simple hash to make hotel codes somewhat unique per city
+                name: { content: `Hotel Mock ${city.charAt(0).toUpperCase() + city.slice(1)} ${i + 1}` },
+                city: { content: city.charAt(0).toUpperCase() + city.slice(1) },
+                countryCode: destinationCode === 'IST' ? 'TR' : 'ES',
+                destinationCode: destinationCode,
+                categoryName: `${Math.floor(Math.random() * 3) + 3}-star hotel`, // 3 to 5 stars
+                minRate: (Math.random() * 200 + 50).toFixed(2), // 50 to 250
+            }))
+        }
     };
-
-    const response = await fetch(hotelbedsApiUrl, {
-      method: 'POST',
-      headers: {
-        'Api-key': HOTELBEDS_API_KEY,
-        'X-Signature': signature,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'gzip'
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-        const errorBody = await response.text();
-        console.error("Hotelbeds API Error:", errorBody);
-        throw new Error(`Failed to fetch from Hotelbeds API: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-
-    if (data.error) {
-       console.error("Hotelbeds API returned an error:", data.error);
-       return new Response(JSON.stringify({ properties: [] }), {
-         status: 200,
-         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-       });
-    }
+    const data = mockHotelsData;
+    // --- END MOCK DATA GENERATION ---
 
     const properties: Property[] = (data.hotels?.hotels || [])
       .filter((hotel: any) => hotel.minRate && !isNaN(parseFloat(hotel.minRate)))
