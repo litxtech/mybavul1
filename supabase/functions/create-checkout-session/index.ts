@@ -1,5 +1,5 @@
 // FIX: Updated the Deno edge runtime types reference to a working URL to resolve TypeScript errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/v2-edge-runtime.d.ts" />
+/// <reference types="https://esm.sh/@supabase/functions-js@2/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
