@@ -2,11 +2,12 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { Property, SearchParams } from '../types';
 import { useLanguage } from '../i18n';
-import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon } from './icons';
+import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, CameraIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
 import SearchForm from './SearchForm';
 import AIPlannerModal from './AIPlannerModal';
+import VisualSearchModal from './VisualSearchModal';
 
 // ==================================
 // SUB-COMPONENTS for HomePage
@@ -15,15 +16,14 @@ import AIPlannerModal from './AIPlannerModal';
 interface HeroSectionProps {
   onSearch: (params: SearchParams) => void;
   isLoading: boolean;
+  onOpenPlanner: () => void;
+  onOpenVisualSearch: () => void;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onSearch, isLoading }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ onSearch, isLoading, onOpenPlanner, onOpenVisualSearch }) => {
     const { t } = useLanguage();
-    const [isPlannerOpen, setPlannerOpen] = useState(false);
     
     return (
-        <>
-        <AIPlannerModal isOpen={isPlannerOpen} onClose={() => setPlannerOpen(false)} onSearch={onSearch} />
         <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-white dark:text-white overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 z-10"></div>
             <div 
@@ -51,16 +51,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSearch, isLoading }) => {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="mt-8 bg-black/30 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl">
                     <SearchForm onSearch={onSearch} isLoading={isLoading} />
-                     <div className="text-center mt-4">
-                        <button onClick={() => setPlannerOpen(true)} className="flex items-center mx-auto text-white/90 hover:text-white font-medium transition-transform hover:scale-105">
+                     <div className="flex justify-center items-center space-x-6 mt-4">
+                        <button onClick={onOpenPlanner} className="flex items-center mx-auto text-white/90 hover:text-white font-medium transition-transform hover:scale-105">
                             <SparklesIcon className="w-5 h-5 me-2 text-yellow-300"/>
                             {t('ai.planner.button')}
+                        </button>
+                        <span className="text-white/30">|</span>
+                        <button onClick={onOpenVisualSearch} className="flex items-center mx-auto text-white/90 hover:text-white font-medium transition-transform hover:scale-105">
+                            <CameraIcon className="w-5 h-5 me-2 text-blue-300"/>
+                            {t('search.withImage')}
                         </button>
                     </div>
                 </motion.div>
             </div>
         </div>
-        </>
     );
 };
 
@@ -211,12 +215,15 @@ const ListPropertyCTA: React.FC = () => {
 interface HomePageProps {
   onSearch: (params: SearchParams) => void;
   isLoading: boolean;
+  onVisualSearch: (properties: Property[]) => void;
 }
 
 
-const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
+const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading, onVisualSearch }) => {
   const { t } = useLanguage();
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+  const [isPlannerOpen, setPlannerOpen] = useState(false);
+  const [isVisualSearchOpen, setVisualSearchOpen] = useState(false);
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -263,7 +270,14 @@ const HomePage: React.FC<HomePageProps> = ({ onSearch, isLoading }) => {
 
   return (
     <>
-      <HeroSection onSearch={onSearch} isLoading={isLoading} />
+      <AIPlannerModal isOpen={isPlannerOpen} onClose={() => setPlannerOpen(false)} onSearch={onSearch} />
+      <VisualSearchModal isOpen={isVisualSearchOpen} onClose={() => setVisualSearchOpen(false)} onSearchComplete={onVisualSearch} />
+      <HeroSection 
+        onSearch={onSearch} 
+        isLoading={isLoading} 
+        onOpenPlanner={() => setPlannerOpen(true)}
+        onOpenVisualSearch={() => setVisualSearchOpen(true)}
+      />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       <CountryDestinations onCountryClick={handleCountryClick} />
       

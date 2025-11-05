@@ -149,6 +149,7 @@ export interface SearchParams {
   checkin: string;
   checkout: string;
   guests: number;
+  type?: string;
 }
 
 export interface AppUser extends User {

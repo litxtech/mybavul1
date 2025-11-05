@@ -1,15 +1,20 @@
 import { GoogleGenAI, FunctionDeclaration, Type, Chat } from "@google/genai";
 
-// This function lazily initializes the Gemini client, preventing a crash on startup
-// if the API key environment variable isn't immediately available.
-const getAIClient = () => {
+// This function lazily initializes the Gemini client. If the API key is not available,
+// it returns null instead of throwing an error, allowing the application to
+// gracefully disable AI features without crashing.
+const getAIClient = (): GoogleGenAI | null => {
   const apiKey = (process as any)?.env?.API_KEY;
   if (!apiKey) {
-      // This provides a clearer error if an AI feature is used without configuration,
-      // without crashing the entire application on load.
-      throw new Error("Gemini API key (process.env.API_KEY) is not available.");
+      console.error("Gemini API key (process.env.API_KEY) is not available. AI features will be disabled.");
+      return null;
   }
-  return new GoogleGenAI({ apiKey });
+  try {
+    return new GoogleGenAI({ apiKey });
+  } catch (e) {
+      console.error("Error initializing GoogleGenAI:", e);
+      return null;
+  }
 };
 
 // --- AI Trip Planner with Function Calling ---
@@ -42,7 +47,7 @@ const searchHotelsFunctionDeclaration: FunctionDeclaration = {
 };
 
 
-export const createAIPlannerChat = (languageName: string): Chat => {
+export const createAIPlannerChat = (languageName: string): Chat | null => {
   const systemInstruction = `You are a proactive and friendly travel planner for MyBavul.com.
 Your goal is to help the user plan their trip by gathering necessary information and then using the searchHotels tool.
 1.  Start by asking the user what kind of trip they're looking for.
@@ -52,6 +57,10 @@ Your goal is to help the user plan their trip by gathering necessary information
 5.  IMPORTANT: Your entire conversation MUST be in ${languageName}. Do not use any other language.`;
   
   const ai = getAIClient();
+  if (!ai) {
+    return null;
+  }
+
   return ai.chats.create({
     // FIX: Updated model to gemini-2.5-flash as it is the appropriate model for this task.
     model: 'gemini-2.5-flash',
@@ -62,7 +71,7 @@ Your goal is to help the user plan their trip by gathering necessary information
   });
 };
 
-export const createAIAssistantChat = (hotelName: string, city: string, languageName: string): Chat => {
+export const createAIAssistantChat = (hotelName: string, city: string, languageName: string): Chat | null => {
     const systemInstruction = `You are a friendly, enthusiastic, and knowledgeable travel assistant for MyBavul.com.
         A user is staying at the "${hotelName}" in ${city}.
         Your goal is to have a helpful conversation about the local area.
@@ -71,6 +80,9 @@ export const createAIAssistantChat = (hotelName: string, city: string, languageN
         Your entire response must be in ${languageName}. Do not use any other language.`;
 
     const ai = getAIClient();
+    if (!ai) {
+        return null;
+    }
     return ai.chats.create({
         // FIX: Updated model to gemini-2.5-flash as it is the appropriate model for this task.
         model: 'gemini-2.5-flash',

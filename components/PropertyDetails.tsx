@@ -54,11 +54,11 @@ const ConversationalAIAssistant: React.FC<{ property: Property }> = ({ property 
 
     useEffect(() => {
         if (isOpen && !chatRef.current) {
-            try {
-                chatRef.current = createAIAssistantChat(property.title, property.location_city, language.name);
+            const chat = createAIAssistantChat(property.title, property.location_city, language.name);
+            if (chat) {
+                chatRef.current = chat;
                 setMessages([{ role: 'system', content: `Hi! I'm your AI assistant. Ask me anything about the area around ${property.title}!` }]);
-            } catch (error) {
-                console.error("Error creating AI assistant chat:", error);
+            } else {
                 setMessages([{ role: 'system', content: "Sorry, the AI Assistant is not available due to a configuration issue." }]);
             }
         }
@@ -154,9 +154,9 @@ const ConversationalAIAssistant: React.FC<{ property: Property }> = ({ property 
                                     onChange={e => setUserInput(e.target.value)}
                                     placeholder="Ask about local food..."
                                     className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-full focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-700"
-                                    disabled={isLoading}
+                                    disabled={isLoading || !chatRef.current}
                                 />
-                                <button type="submit" className="bg-primary-600 text-white rounded-full p-3 hover:bg-primary-700 disabled:bg-slate-400" disabled={isLoading || !userInput.trim()}>
+                                <button type="submit" className="bg-primary-600 text-white rounded-full p-3 hover:bg-primary-700 disabled:bg-slate-400" disabled={isLoading || !userInput.trim() || !chatRef.current}>
                                     &uarr;
                                 </button>
                             </form>

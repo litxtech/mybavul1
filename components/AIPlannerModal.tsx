@@ -26,12 +26,12 @@ const AIPlannerModal: React.FC<AIPlannerModalProps> = ({ isOpen, onClose, onSear
 
     useEffect(() => {
         if (isOpen && !chatRef.current) {
-            try {
-                chatRef.current = createAIPlannerChat(language.name);
+            const chat = createAIPlannerChat(language.name);
+            if (chat) {
+                chatRef.current = chat;
                 setMessages([{ role: 'model', text: t('ai.planner.welcome') }]);
-            } catch (error) {
-                console.error(error);
-                setMessages([{ role: 'model', text: 'Sorry, the AI Planner is currently unavailable.' }]);
+            } else {
+                setMessages([{ role: 'model', text: 'Sorry, the AI Planner is currently unavailable due to a configuration issue.' }]);
             }
         } else if (!isOpen) {
             // Reset on close
@@ -66,6 +66,7 @@ const AIPlannerModal: React.FC<AIPlannerModalProps> = ({ isOpen, onClose, onSear
                      setMessages(prev => [...prev, { role: 'model', text: `Harika! ${args.city} için en iyi otelleri arıyorum...` }]);
                      setTimeout(() => {
                          onSearch(args);
+                         onClose();
                      }, 1500);
                 }
             } else {
@@ -128,9 +129,9 @@ const AIPlannerModal: React.FC<AIPlannerModalProps> = ({ isOpen, onClose, onSear
                             onChange={e => setUserInput(e.target.value)}
                             placeholder={t('ai.planner.placeholder')}
                             className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-full focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-700"
-                            disabled={isLoading}
+                            disabled={isLoading || !chatRef.current}
                         />
-                        <button type="submit" className="bg-primary-600 text-white rounded-full p-3 hover:bg-primary-700 disabled:bg-slate-400" disabled={isLoading || !userInput.trim()}>
+                        <button type="submit" className="bg-primary-600 text-white rounded-full p-3 hover:bg-primary-700 disabled:bg-slate-400" disabled={isLoading || !userInput.trim() || !chatRef.current}>
                            <PaperAirplaneIcon className="w-5 h-5"/>
                         </button>
                     </form>

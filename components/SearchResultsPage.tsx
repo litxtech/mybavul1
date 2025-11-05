@@ -92,13 +92,17 @@ const SearchResultsPage: React.FC<SearchResultsPageProps> = ({ properties, searc
         return processedProperties;
     }, [properties, sortBy, filterFreeCancellation, filterStarRating, filterPriceRange, selectedAmenities, selectedPropertyTypes, convertFromUSD]);
 
+    const pageTitle = searchParams.type === 'visual'
+        ? t('results.visualSearchTitle')
+        : t('results.title', { city: searchParams?.city || t('results.allDestinations') });
+
     return (
         <div className="bg-slate-50 dark:bg-slate-950 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <a href="#/" className="text-primary-600 hover:text-primary-800 font-medium mb-6 inline-block">
                     &larr; {t('results.backToHome')}
                 </a>
-                <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">{t('results.title', { city: searchParams?.city || t('results.allDestinations') })}</h2>
+                <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">{pageTitle}</h2>
                 <p className="text-slate-600 dark:text-slate-400 mb-6">{filteredAndSortedProperties.length} properties found.</p>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

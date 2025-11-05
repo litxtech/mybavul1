@@ -164,6 +164,16 @@ const App: React.FC = () => {
         setIsLoading(false);
     }
   }, []);
+
+  const handleVisualSearch = useCallback((properties: Property[]) => {
+    setIsLoading(true);
+    setSelectedProperty(null);
+    setSearchResults(properties);
+    window.location.hash = '#/search?type=visual';
+    // The search results page will manage its own loading state based on props.
+    // We can turn this off after navigation.
+    setTimeout(() => setIsLoading(false), 300);
+  }, []);
   
   const handleBackToResults = useCallback(() => {
     const { params } = route;
@@ -204,11 +214,12 @@ const App: React.FC = () => {
   const renderContent = () => {
     const { path, params, pathParts } = route;
     
-    const searchParams = {
+    const searchParams: SearchParams = {
         city: params.get('city') || '',
         checkin: params.get('checkin') || '',
         checkout: params.get('checkout') || '',
-        guests: parseInt(params.get('guests') || '1', 10)
+        guests: parseInt(params.get('guests') || '1', 10),
+        type: params.get('type') || undefined
     };
     
     if (path === 'search') {
@@ -296,7 +307,7 @@ const App: React.FC = () => {
     }
     
     // Default to home
-    return <HomePage onSearch={handleSearch} isLoading={isLoading} />;
+    return <HomePage onSearch={handleSearch} isLoading={isLoading} onVisualSearch={handleVisualSearch} />;
   };
 
   return (
