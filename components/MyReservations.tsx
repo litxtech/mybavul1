@@ -172,34 +172,32 @@ const MyReservations: React.FC = () => {
                                                 }`}>
                                                     {t(`reservations.status.${booking.status}`)}
                                                 </span>
-                                                <div className="text-lg font-bold mt-1">
-                                                    {formatCurrency(booking.total_price_display_minor, getCurrencyByCode(booking.display_currency))}
-                                                </div>
                                            </div>
-                                           <div className="flex items-center space-x-2">
-                                                {canReview && (
-                                                    <button 
-                                                        onClick={() => setReviewingBooking(booking)}
-                                                        className="bg-primary-500 text-white font-bold py-2 px-4 rounded-lg text-sm hover:bg-primary-600 transition-colors">
-                                                        {t('reviews.leaveReview')}
-                                                    </button>
-                                                )}
-                                                {booking.status === 'confirmed' && (
-                                                        <button 
-                                                            onClick={() => setBookingToCancel(booking)}
-                                                            className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg text-sm hover:bg-red-600 transition-colors">
-                                                            {t('reservations.cancel')}
-                                                        </button>
-                                                )}
+                                           <div>
+                                                <p className="font-bold text-lg text-right">{formatCurrency(booking.total_price_display_minor, getCurrencyByCode(booking.display_currency))}</p>
                                            </div>
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t dark:border-slate-700 flex justify-end space-x-4">
+                                            {canReview && (
+                                                <button onClick={() => setReviewingBooking(booking)} className="px-4 py-2 text-sm font-medium bg-primary-600 text-white rounded-md hover:bg-primary-700">
+                                                    {t('reviews.leaveReview')}
+                                                </button>
+                                            )}
+                                            {booking.status === 'confirmed' && (
+                                                <button onClick={() => setBookingToCancel(booking)} className="px-4 py-2 text-sm font-medium bg-red-100 text-red-800 rounded-md hover:bg-red-200">
+                                                    {t('reservations.cancel')}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
-                            );
+                            )
                         })}
                     </div>
                 ) : (
-                    <p>{t('reservations.noReservations')}</p>
+                    <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-lg">
+                        <h2 className="text-xl font-semibold">{t('reservations.noReservations')}</h2>
+                    </div>
                 )}
             </div>
         </>
