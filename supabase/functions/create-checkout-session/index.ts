@@ -1,13 +1,6 @@
-
-// FIX: Removed the esm.sh build-version pin from the types reference to fix resolution errors.
+// FIX: Add Supabase Edge Functions type definitions to resolve type errors
+// with the Deno namespace (e.g., Deno.env).
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
-
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-//
-// Start typing dependencies in a regular S-expression and they will be auto-imported.
-//
-// For example, `(std/http/server.ts)` will be transformed to `import { serve } from "https://deno.land/std@0.177.0/http/server.ts";`
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@12.12.0?target=deno'

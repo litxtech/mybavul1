@@ -1,5 +1,5 @@
-
-// FIX: Removed the esm.sh build-version pin from the types reference to fix resolution errors.
+// FIX: Add Supabase Edge Functions type definitions to resolve type errors
+// with the Deno namespace (e.g., Deno.env).
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'

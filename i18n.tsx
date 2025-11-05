@@ -20,7 +20,7 @@ export const languages: Language[] = [
 
 const enTranslations = {
   'loading': 'Loading...',
-  'header.myReservations': 'My Reservations', 'header.myWishlist': 'My Wishlist', 'header.myProfile': 'My Profile', 'header.signIn': 'Sign In', 'header.logout': 'Log Out', 'header.policies': 'Policies',
+  'header.myReservations': 'My Reservations', 'header.myWishlist': 'My Wishlist', 'header.myProfile': 'My Profile', 'header.signIn': 'Sign In', 'header.logout': 'Log Out', 'header.policies': 'Policies', 'header.listYourProperty': 'List your property',
   'home.title': 'Find your next stay', 'home.subtitle': 'Search deals on hotels, homes, and much more...',
   'search.destination': 'Destination', 'search.checkin': 'Check-in', 'search.checkout': 'Check-out', 'search.guests': 'Guests', 'search.button': 'Search', 'search.button.loading': 'Searching...', 'search.placeholder': 'e.g. Istanbul',
   'city.barcelona': 'Barcelona', 'city.madrid': 'Madrid', 'city.palma': 'Palma', 'city.istanbul': 'Istanbul',
@@ -48,6 +48,7 @@ const enTranslations = {
   'home.propertyTypes.title': 'Browse by Property Type', 'home.propertyTypes.boutique': 'Boutique Hotels', 'home.propertyTypes.resorts': 'Beach Resorts', 'home.propertyTypes.villas': 'Private Villas', 'home.propertyTypes.cave': 'Cave Suites',
   'home.features.title': 'Why Choose MyBavul?', 'home.features.ai.title': 'AI-Powered Travel', 'home.features.ai.desc': 'Get personalized tips and local guides with our integrated AI assistant.', 'home.features.price.title': 'Best Price Guarantee', 'home.features.price.desc': 'We find the best deals from thousands of properties so you don\'t have to.', 'home.features.support.title': '24/7 Customer Support', 'home.features.support.desc': 'Our team is here to help you anytime, anywhere during your travels.',
   'home.expedia.title': 'MyBavul Hotel Search',
+  'home.cta.title': 'Become a Partner', 'home.cta.subtitle': 'List your property on MyBavul and reach a global audience.', 'home.cta.button': 'Start Earning',
   'auth.title': 'Sign In or Create an Account', 'auth.email': 'Email address', 'auth.continue': 'Continue with Email', 'auth.checkEmail': 'Check your email', 'auth.magicLinkSent': 'We\'ve sent a magic link to {email}. Click the link to sign in or create your account.', 'auth.signingIn': 'Sending link...', 'auth.error': 'Error: {message}',
   'reservations.title': 'My Reservations', 'reservations.noReservations': 'You have no reservations yet.', 'reservations.status.pending': 'Pending', 'reservations.status.confirmed': 'Confirmed', 'reservations.status.cancelled': 'Cancelled', 'reservations.status.refunded': 'Refunded', 'reservations.status.partially_refunded': 'Partially Refunded', 'reservations.status.chargeback': 'Chargeback', 'reservations.status.no_show': 'No-Show', 'reservations.bookedOn': 'Booked on', 'reservations.cancel': 'Cancel Reservation',
   'reservations.cancelModal.title': 'Confirm Cancellation', 'reservations.cancelModal.body': 'Are you sure you want to cancel this booking? This action cannot be undone.', 'reservations.cancelModal.confirm': 'Yes, Cancel', 'reservations.cancelModal.goBack': 'Go Back', 'reservations.cancelModal.cancelling': 'Cancelling...', 'reservations.cancelModal.error': 'Could not cancel booking. Please contact support.', 'reservations.cancelModal.success': 'Booking successfully cancelled.', 'reservations.cancelModal.nonRefundable': 'This booking is non-refundable and cannot be cancelled.',
@@ -75,6 +76,9 @@ const enTranslations = {
   'partner.generalInfo': 'General Information',
   'partner.propName': 'Property Name',
   'partner.propDesc': 'Description',
+  'partner.propCity': 'City',
+  'partner.propCountry': 'Country',
+  'partner.propStars': 'Star Rating',
   'partner.amenities': 'Amenities',
   'partner.amenitiesHint': 'List amenities separated by commas (e.g., Wifi, Pool, Parking)',
   'partner.photos': 'Photos',
@@ -105,6 +109,15 @@ const enTranslations = {
   'partner.finance.type': 'Type',
   'partner.finance.bookingId': 'Booking ID',
   'partner.finance.amount': 'Amount',
+  'partner.login.title': 'Welcome, Partner!',
+  'partner.login.subtitle': 'Sign in to manage your property, bookings, and earnings.',
+  'partner.login.button': 'Sign In / Register',
+  'partner.register.title': 'Join MyBavul as a Partner',
+  'partner.register.subtitle': 'It\'s free to list your property. You only pay a small commission on confirmed bookings.',
+  'partner.register.button': 'Agree and Continue',
+  'partner.create.title': 'List Your Property on MyBavul',
+  'partner.create.subtitle': 'Fill in the basic details to get started. You can add more information like photos and rooms later.',
+  'partner.create.button': 'Create Property',
   'policy.notFound': 'The requested document could not be found.',
   'policy.privacy.title': 'Privacy & Cookie Policy',
   'policy.privacy.content': `
@@ -634,7 +647,7 @@ const translations: Record<string, Record<string, string>> = {
   tr: {
     ...enTranslations, // Basic fallback
     'loading': 'Yükleniyor...',
-    'header.myReservations': 'Rezervasyonlarım', 'header.myWishlist': 'İstek Listem', 'header.myProfile': 'Hesabım', 'header.signIn': 'Giriş Yap', 'header.logout': 'Çıkış Yap', 'header.policies': 'Politikalar',
+    'header.myReservations': 'Rezervasyonlarım', 'header.myWishlist': 'İstek Listem', 'header.myProfile': 'Hesabım', 'header.signIn': 'Giriş Yap', 'header.logout': 'Çıkış Yap', 'header.policies': 'Politikalar', 'header.listYourProperty': 'Tesisini Kaydet',
     'home.title': 'Bir sonraki konaklamanızı bulun', 'home.subtitle': 'Oteller, evler ve çok daha fazlası için fırsatları arayın...',
     'search.destination': 'Destinasyon', 'search.checkin': 'Giriş', 'search.checkout': 'Çıkış', 'search.guests': 'Misafirler', 'search.button': 'Ara', 'search.placeholder': 'örn. İstanbul',
     'city.barcelona': 'Barselona', 'city.madrid': 'Madrid', 'city.palma': 'Palma', 'city.istanbul': 'İstanbul',
@@ -660,6 +673,7 @@ const translations: Record<string, Record<string, string>> = {
     'home.featured.title': 'En Yüksek Puanlı Tesisler',
     'home.propertyTypes.title': 'Tesis Türüne Göre Göz Atın', 'home.propertyTypes.boutique': 'Butik Oteller', 'home.propertyTypes.resorts': 'Sahil Otelleri', 'home.propertyTypes.villas': 'Özel Villalar', 'home.propertyTypes.cave': 'Mağara Süitleri',
     'home.features.title': 'Neden MyBavul?', 'home.features.ai.title': 'Yapay Zekâ Destekli Seyahat',
+    'home.cta.title': 'İş Ortağımız Olun', 'home.cta.subtitle': 'Tesisinizi MyBavul\'da listeleyin ve küresel bir kitleye ulaşın.', 'home.cta.button': 'Kazanmaya Başla',
     'home.expedia.title': 'MyBavul Otel Arama',
     'auth.title': 'Giriş Yap veya Hesap Oluştur', 'auth.email': 'E-posta adresi', 'auth.continue': 'E-posta ile Devam Et', 'auth.checkEmail': 'E-postanızı kontrol edin', 'auth.magicLinkSent': '{email} adresine sihirli bir bağlantı gönderdik. Giriş yapmak veya hesap oluşturmak için bağlantıya tıklayın.', 'auth.signingIn': 'Bağlantı gönderiliyor...',
     'reservations.title': 'Rezervasyonlarım', 'reservations.noReservations': 'Henüz hiç rezervasyonunuz yok.', 'reservations.status.pending': 'Beklemede', 'reservations.status.confirmed': 'Onaylandı', 'reservations.status.cancelled': 'İptal Edildi', 'reservations.status.refunded': 'İade Edildi', 'reservations.status.partially_refunded': 'Kısmen İade Edildi', 'reservations.status.chargeback': 'Ters İbraz', 'reservations.status.no_show': 'Gelmeme', 'reservations.bookedOn': 'Rezervasyon tarihi', 'reservations.cancel': 'Rezervasyonu İptal Et',
@@ -689,6 +703,9 @@ const translations: Record<string, Record<string, string>> = {
     'partner.generalInfo': 'Genel Bilgiler',
     'partner.propName': 'Tesis Adı',
     'partner.propDesc': 'Açıklama',
+    'partner.propCity': 'Şehir',
+    'partner.propCountry': 'Ülke',
+    'partner.propStars': 'Yıldız Sayısı',
     'partner.amenities': 'Olanaklar',
     'partner.amenitiesHint': 'Olanakları virgülle ayırarak listeleyin (örn: Wifi, Havuz, Otopark)',
     'partner.photos': 'Fotoğraflar',
@@ -719,6 +736,15 @@ const translations: Record<string, Record<string, string>> = {
     'partner.finance.type': 'Tür',
     'partner.finance.bookingId': 'Rezervasyon ID',
     'partner.finance.amount': 'Tutar',
+    'partner.login.title': 'Hoş Geldiniz İş Ortağımız!',
+    'partner.login.subtitle': 'Tesisinizi, rezervasyonlarınızı ve kazançlarınızı yönetmek için giriş yapın.',
+    'partner.login.button': 'Giriş Yap / Kayıt Ol',
+    'partner.register.title': 'MyBavul\'a İş Ortağı Olarak Katılın',
+    'partner.register.subtitle': 'Tesisinizi listelemek ücretsizdir. Sadece onaylanmış rezervasyonlar üzerinden küçük bir komisyon ödersiniz.',
+    'partner.register.button': 'Kabul Et ve Devam Et',
+    'partner.create.title': 'MyBavul\'da Tesisini Listele',
+    'partner.create.subtitle': 'Başlamak için temel bilgileri doldurun. Fotoğraf ve oda gibi daha fazla bilgiyi daha sonra ekleyebilirsiniz.',
+    'partner.create.button': 'Tesis Oluştur',
     'policy.notFound': 'İstenen belge bulunamadı.',
     'policy.privacy.title': 'Gizlilik ve Çerez Politikası', 
     'policy.privacy.content': `
@@ -893,7 +919,7 @@ const translations: Record<string, Record<string, string>> = {
       <p>MyBavul.com, konaklama ve seyahat hizmetleri için bir aracı platform olarak hareket eden LITXTECH LLC tarafından işletilmektedir. Tüm otel ve rezervasyon bilgileri, Expedia Group, Hotelbeds ve diğer seyahat sağlayıcıları gibi üçüncü taraf tedarikçiler ve ortaklar tarafından sağlanmaktadır. LITXTECH LLC, konaklama sağlayıcısı değildir ve ortak sistemlerinden kaynaklanan hatalardan veya iptallerden sorumlu tutulamaz.</p>
       <h3>Veri Koruma İletişim</h3>
       <p>Veri gizliliği veya GDPR uyumluluğu ile ilgili sorularınız için lütfen iletişime geçin:<br>
-      📧 privacy@litxtech.com (veya birleştirilmişse support@litxtech.com)</p>
+      📧 privacy@mybavul.com (veya birleştirilmişse support@litxtech.com)</p>
       <h3>Fikri Mülkiyet</h3>
       <p>Bu sitedeki tüm ticari markalar, logolar ve içerikler ilgili sahiplerinin mülkiyetindedir. MyBavul’un verilerinin, tasarımının veya içeriğinin herhangi bir şekilde çoğaltılması, kazınması veya izinsiz kullanılması kesinlikle yasaktır.</p>
       <h3>Yargı Yetkisi</h3>

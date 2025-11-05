@@ -85,7 +85,7 @@ This is the **most common source of OAuth errors**, such as `404: NOT_FOUND` wit
 
 ## 3. Database Schema Setup
 
-The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in a single SQL file. **This step is critical.**
+The entire database structure, including tables, relationships, security policies (RLS), and initial data, is defined in SQL files. **This step is critical.**
 
 **Steps:**
 1.  Navigate to your Supabase project dashboard.
@@ -93,7 +93,10 @@ The entire database structure, including tables, relationships, security policie
 3.  Click on **+ New query**.
 4.  Open the file `supabase/schema.sql` from this project.
 5.  Copy the entire content of the file and paste it into the Supabase SQL Editor.
-6.  Click **RUN**.
+6.  Click **RUN**. This will create all tables, functions, and security policies.
+7.  Once the first query is successful, click **+ New query** again.
+8.  Open the file `supabase/seed.sql`. Copy its content into the editor.
+9.  Click **RUN**. This will populate your database with essential starting data.
 
 This will create all necessary tables and enable Row Level Security.
 
