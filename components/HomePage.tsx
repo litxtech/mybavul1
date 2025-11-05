@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n';
 import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon, MercuryIcon, StripeIcon, PayPalIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
+import ExpediaSearch from './ExpediaSearch';
 
 const AIPlannerModal = lazy(() => import('./AIPlannerModal'));
 
@@ -66,7 +67,7 @@ const PopularDestinations: React.FC<{ onDestinationClick: (city: string) => void
       { nameKey: 'city.istanbul', name: 'Istanbul', image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
       { nameKey: 'Antalya', name: 'Antalya', image: 'https://images.unsplash.com/photo-1616837993519-c5b43343a419?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
       { nameKey: 'Cappadocia', name: 'Cappadocia', image: 'https://images.unsplash.com/photo-1583885611333-38257045b843?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
-      { nameKey: 'city.barcelona', name: 'Barcelona', image: 'https://images.unsplash.com/photo-1523531294919-467a05d1d455?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
+      { nameKey: 'city.barcelona', name: 'Barcelona', image: 'https://images.unsplash.com/photo-1523531294919-467a05d1d445?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
     ];
     
     return (
@@ -219,6 +220,10 @@ const HomePage: React.FC<{
       </Suspense>
       <PaymentPartnersStrip />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
+      
+      <div className="py-8 bg-slate-50 dark:bg-slate-950">
+        <ExpediaSearch />
+      </div>
       
       {featuredProperties.length > 0 && (
         <div className="py-16 bg-white dark:bg-slate-900">

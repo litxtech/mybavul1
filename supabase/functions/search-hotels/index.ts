@@ -1,5 +1,5 @@
-// FIX: Updated the Deno edge runtime types reference to a working URL to resolve TypeScript errors.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+// FIX: Corrected the Deno edge runtime types reference to point to the correct 'dist' folder, resolving errors for globals like 'Deno.env'.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/dist/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
