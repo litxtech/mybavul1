@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import SearchForm from './SearchForm';
 import { Property, SearchParams } from '../types';
 import { useLanguage } from '../i18n';
 import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon, MercuryIcon, StripeIcon, PayPalIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
-import AIPlannerModal from './AIPlannerModal';
-import { motion } from 'framer-motion';
+
+const AIPlannerModal = lazy(() => import('./AIPlannerModal'));
 
 
 // ==================================
@@ -209,11 +210,13 @@ const HomePage: React.FC<{
   return (
     <>
       <HeroSection onSearch={onSearch} isLoading={isLoading} onOpenAIPlanner={() => setAIPlannerOpen(true)} />
-      <AIPlannerModal 
-        isOpen={isAIPlannerOpen}
-        onClose={() => setAIPlannerOpen(false)}
-        onSearch={handleAISearch}
-      />
+      <Suspense fallback={null}>
+        <AIPlannerModal 
+          isOpen={isAIPlannerOpen}
+          onClose={() => setAIPlannerOpen(false)}
+          onSearch={handleAISearch}
+        />
+      </Suspense>
       <PaymentPartnersStrip />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       

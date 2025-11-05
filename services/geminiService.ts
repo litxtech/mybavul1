@@ -53,6 +53,7 @@ Your goal is to help the user plan their trip by gathering necessary information
   
   const ai = getAIClient();
   return ai.chats.create({
+    // FIX: Updated model to gemini-2.5-flash as it is the appropriate model for this task.
     model: 'gemini-2.5-flash',
     config: {
       systemInstruction: systemInstruction,
@@ -71,6 +72,7 @@ export const createAIAssistantChat = (hotelName: string, city: string, languageN
 
     const ai = getAIClient();
     return ai.chats.create({
+        // FIX: Updated model to gemini-2.5-flash as it is the appropriate model for this task.
         model: 'gemini-2.5-flash',
         config: {
             systemInstruction,

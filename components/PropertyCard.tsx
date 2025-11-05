@@ -1,11 +1,11 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Property } from '../types';
 import { StarIcon, LocationIcon, ShieldCheckIcon, HeartIcon, HeartIconOutline } from './icons';
 import { useLanguage } from '../i18n';
 import { useCurrency } from '../contexts/CurrencyContext';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useAuth } from '../contexts/AuthContext';
-import { motion } from 'framer-motion';
 
 interface PropertyCardProps {
   property: Property;
