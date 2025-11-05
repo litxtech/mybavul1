@@ -425,18 +425,18 @@ const PartnerFinanceTab: React.FC<{ ledger: WalletLedger[], stats: any }> = ({ l
 // ==================================
 // AUTH/REGISTRATION FLOW COMPONENTS
 // ==================================
-const PartnerLoginPrompt = () => {
+const PartnerLoginPrompt: React.FC<{ openAuthModal: () => void }> = ({ openAuthModal }) => {
     const { t } = useLanguage();
     return (
         <div className="text-center py-20 max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold text-slate-800 dark:text-white">{t('partner.login.title')}</h2>
             <p className="mt-4 text-slate-600 dark:text-slate-400">{t('partner.login.subtitle')}</p>
-            <a href="#/" className="inline-block mt-8 bg-primary-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-700">
+            <button onClick={openAuthModal} className="inline-block mt-8 bg-primary-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-700">
                 {t('partner.login.button')}
-            </a>
+            </button>
         </div>
     );
-}
+};
 
 const BecomePartner: React.FC<{ onRegister: () => void, isLoading: boolean }> = ({ onRegister, isLoading }) => {
     const { t } = useLanguage();
@@ -454,7 +454,7 @@ const BecomePartner: React.FC<{ onRegister: () => void, isLoading: boolean }> = 
 // ==================================
 // MAIN COMPONENT
 // ==================================
-const PartnerPortal: React.FC = () => {
+const PartnerPortal: React.FC<{ openAuthModal: () => void }> = ({ openAuthModal }) => {
     const { t } = useLanguage();
     const { session, user, profile } = useAuth();
     const [activeTab, setActiveTab] = useState<PartnerTab>('dashboard');
@@ -514,7 +514,7 @@ const PartnerPortal: React.FC = () => {
     }
 
     if (isLoading) return <div className="text-center py-20">{t('loading')}</div>;
-    if (!session || !profile) return <PartnerLoginPrompt />;
+    if (!session || !profile) return <PartnerLoginPrompt openAuthModal={openAuthModal} />;
     if (profile.role !== 'partner') return <BecomePartner onRegister={handleBecomePartner} isLoading={isRegistering} />;
 
     const TabButton: React.FC<{tab: PartnerTab, label: string}> = ({tab, label}) => (

@@ -274,10 +274,7 @@ const App: React.FC = () => {
     }
 
     if (path === 'partner') {
-        if (profile?.role !== 'partner') {
-            return <AccessDenied />;
-        }
-        return <PartnerPortal />;
+        return <PartnerPortal openAuthModal={() => setAuthModalOpen(true)} />;
     }
 
     if (path.startsWith('policy/')) {
