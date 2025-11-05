@@ -1,6 +1,5 @@
 
-
-// FIX: Updated the Deno edge runtime types reference to a specific, valid version to resolve TypeScript errors for Deno globals (e.g., `Deno.env`).
+// FIX: Removed the esm.sh build-version pin from the types reference to fix resolution errors.
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'

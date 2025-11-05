@@ -12,7 +12,7 @@ const PolicyPage: React.FC<{ slug: string }> = ({ slug }) => {
         const fetchDoc = async () => {
             // Bypass DB for core policies since their content is hardcoded in i18n.
             // This ensures they always work even if the DB is not seeded.
-            if (slug === 'privacy' || slug === 'terms' || slug === 'dpa' || slug === 'cookie' || slug === 'refund') {
+            if (slug === 'privacy' || slug === 'terms' || slug === 'dpa' || slug === 'cookie' || slug === 'refund' || slug === 'booking' || slug === 'affiliate' || slug === 'contact' || slug === 'about') {
                 const mockDoc: PolicyDocument = {
                     id: slug,
                     slug: slug,

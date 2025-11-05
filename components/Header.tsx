@@ -134,6 +134,18 @@ const MobileDrawer: React.FC<{
         onNavigate('HOME');
     };
 
+    const policies = [
+        { key: 'about', href: '#/policy/about' },
+        { key: 'privacy', href: '#/policy/privacy' },
+        { key: 'terms', href: '#/policy/terms' },
+        { key: 'booking', href: '#/policy/booking' },
+        { key: 'dpa', href: '#/policy/dpa' },
+        { key: 'cookie', href: '#/policy/cookie' },
+        { key: 'refund', href: '#/policy/refund' },
+        { key: 'affiliate', href: '#/policy/affiliate' },
+        { key: 'contact', href: '#/policy/contact' },
+    ];
+
     return (
         <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             {/* Overlay */}
@@ -164,11 +176,11 @@ const MobileDrawer: React.FC<{
                     )}
                     <div className="border-t dark:border-slate-800 my-4"></div>
                      <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                        <a href="#/policy/privacy" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.privacy.title')}</a>
-                        <a href="#/policy/terms" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.terms.title')}</a>
-                        <a href="#/policy/dpa" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.dpa.title')}</a>
-                        <a href="#/policy/cookie" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.cookie.title')}</a>
-                        <a href="#/policy/refund" onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">{t('policy.refund.title')}</a>
+                        {policies.map(policy => (
+                            <a key={policy.key} href={policy.href} onClick={() => setIsOpen(false)} className="block p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">
+                                {t(`policy.${policy.key}.title`)}
+                            </a>
+                        ))}
                     </div>
                     <div className="border-t dark:border-slate-800 my-4"></div>
                     <div className="flex justify-between items-center p-2">
@@ -293,11 +305,15 @@ const PoliciesMenu = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const policies = [
+        { key: 'about', href: '#/policy/about' },
         { key: 'privacy', href: '#/policy/privacy' },
         { key: 'terms', href: '#/policy/terms' },
+        { key: 'booking', href: '#/policy/booking' },
         { key: 'dpa', href: '#/policy/dpa' },
         { key: 'cookie', href: '#/policy/cookie' },
         { key: 'refund', href: '#/policy/refund' },
+        { key: 'affiliate', href: '#/policy/affiliate' },
+        { key: 'contact', href: '#/policy/contact' },
     ];
 
     useEffect(() => {

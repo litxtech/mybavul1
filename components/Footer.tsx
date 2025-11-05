@@ -24,10 +24,10 @@ const Footer = () => {
 
   const footerLinks = {
       company: [
-          { label: 'About', href: '#/about' },
+          { label: t('footer.company.about'), href: '#/policy/about' },
           { label: 'Careers', href: '#/careers' },
           { label: 'Press', href: '#/press' },
-          { label: 'Contact', href: '#/contact' },
+          { label: t('policy.contact.title'), href: '#/policy/contact' },
       ],
       explore: [
           { label: 'Destinations', href: '#/destinations' },
@@ -37,7 +37,7 @@ const Footer = () => {
       ],
       support: [
           { label: t('support.title'), href: '#/support' },
-          { label: 'Booking Policy', href: '#/policy/booking' },
+          { label: t('policy.booking.title'), href: '#/policy/booking' },
           { label: 'Refunds', href: '#/policy/refund' },
           { label: 'Report Issue', href: '#/report' },
       ],
@@ -47,6 +47,8 @@ const Footer = () => {
           { label: t('policy.dpa.title'), href: '#/policy/dpa' },
           { label: t('policy.cookie.title'), href: '#/policy/cookie' },
           { label: t('policy.refund.title'), href: '#/policy/refund' },
+          { label: t('policy.affiliate.title'), href: '#/policy/affiliate' },
+          { label: t('policy.contact.title'), href: '#/policy/contact' },
           { label: 'Data Security', href: '#/policy/security' },
       ]
   };

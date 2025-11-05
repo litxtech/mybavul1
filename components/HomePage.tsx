@@ -88,6 +88,46 @@ const PopularDestinations: React.FC<{ onDestinationClick: (city: string) => void
     );
 };
 
+const CountryDestinations: React.FC<{ onCountryClick: (city: string) => void; }> = ({ onCountryClick }) => {
+    const { t } = useLanguage();
+    const countries = [
+        { nameKey: 'country.turkey', name: 'Turkey', city: 'istanbul', image: 'https://images.unsplash.com/photo-1596328330953-2b963a4d3315?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.italy', name: 'Italy', city: 'rome', image: 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.spain', name: 'Spain', city: 'madrid', image: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.france', name: 'France', city: 'paris', image: 'https://images.unsplash.com/photo-1502602898657-3e91760c0337?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.greece', name: 'Greece', city: 'athens', image: 'https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.usa', name: 'United States', city: 'new york', image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.uk', name: 'United Kingdom', city: 'london', image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.japan', name: 'Japan', city: 'tokyo', image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.thailand', name: 'Thailand', city: 'bangkok', image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.uae', name: 'U.A.E.', city: 'dubai', image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.germany', name: 'Germany', city: 'berlin', image: 'https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?q=80&w=800&auto=format&fit=crop' },
+        { nameKey: 'country.netherlands', name: 'Netherlands', city: 'amsterdam', image: 'https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=800&auto=format&fit=crop' },
+    ];
+
+    return (
+        <div className="py-16 bg-white dark:bg-slate-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-10">{t('home.countries.title')}</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                    {countries.map(country => (
+                        <div 
+                            key={country.name} 
+                            onClick={() => onCountryClick(country.city)} 
+                            className="relative aspect-[3/4] rounded-2xl overflow-hidden group cursor-pointer shadow-lg transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                        >
+                            <img src={country.image} alt={country.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <h3 className="absolute bottom-4 left-4 rtl:right-4 text-xl font-bold text-white" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.7)' }}>{t(country.nameKey) || country.name}</h3>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
 const WhyChooseUs: React.FC = () => {
     const { t } = useLanguage();
     const features = [
@@ -175,6 +215,12 @@ const HomePage: React.FC<{
     onSearch({ city: city.toLowerCase(), checkin: today, checkout: tomorrow, guests: 2 });
   };
   
+  const handleCountryClick = (city: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+    onSearch({ city: city.toLowerCase(), checkin: today, checkout: tomorrow, guests: 2 });
+  };
+
   const handlePropertySelect = (property: Property) => {
     const today = new Date().toISOString().split('T')[0];
     const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
@@ -203,6 +249,7 @@ const HomePage: React.FC<{
         />
       </Suspense>
       <PopularDestinations onDestinationClick={handleDestinationClick} />
+      <CountryDestinations onCountryClick={handleCountryClick} />
       
       <div className="py-8 bg-slate-50 dark:bg-slate-950">
         <ExpediaSearch />

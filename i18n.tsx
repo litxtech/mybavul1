@@ -40,7 +40,10 @@ const enTranslations = {
   'ai.planner.welcome': 'Tell me what kind of trip you\'re looking for! For example: "A romantic 5-day trip to Barcelona next month for 2 people."',
   'ai.planner.placeholder': 'Describe your ideal trip...',
   'footer.weAccept': 'Secure Payments With:',
+  'footer.company.about': 'About Us',
   'home.destinations.title': 'Popular Destinations',
+  'home.countries.title': 'Explore by Country',
+  'country.turkey': 'Turkey', 'country.italy': 'Italy', 'country.spain': 'Spain', 'country.france': 'France', 'country.greece': 'Greece', 'country.usa': 'United States', 'country.uk': 'United Kingdom', 'country.japan': 'Japan', 'country.thailand': 'Thailand', 'country.uae': 'U.A.E.', 'country.germany': 'Germany', 'country.netherlands': 'Netherlands',
   'home.featured.title': 'Top-Rated Stays',
   'home.propertyTypes.title': 'Browse by Property Type', 'home.propertyTypes.boutique': 'Boutique Hotels', 'home.propertyTypes.resorts': 'Beach Resorts', 'home.propertyTypes.villas': 'Private Villas', 'home.propertyTypes.cave': 'Cave Suites',
   'home.features.title': 'Why Choose MyBavul?', 'home.features.ai.title': 'AI-Powered Travel', 'home.features.ai.desc': 'Get personalized tips and local guides with our integrated AI assistant.', 'home.features.price.title': 'Best Price Guarantee', 'home.features.price.desc': 'We find the best deals from thousands of properties so you don\'t have to.', 'home.features.support.title': '24/7 Customer Support', 'home.features.support.desc': 'Our team is here to help you anytime, anywhere during your travels.',
@@ -419,46 +422,140 @@ const enTranslations = {
         Sherman Oaks, CA 91403, United States
     </p>
   `,
-  'policy.refund.title': 'Refund Policy',
+  'policy.refund.title': 'Refund & Cancellation Policy',
   'policy.refund.content': `
-    <p class="text-sm text-gray-500">Effective Date: November 2025<br>Last Updated: November 2025</p>
-    <p>Thank you for booking with MyBavul.com, operated by LitxTech LLC. This Refund Policy explains the conditions under which refunds may be granted for hotel and accommodation reservations made through our platform.</p>
+    <p class="text-sm text-gray-500">Last updated: July 1, 2024</p>
+    <p>At MyBavul.com, operated by LITXTECH LLC, we act as an intermediary between travelers and accommodation providers. All reservations, cancellations, and refund rules are determined by the individual hotel or travel partner (e.g., Expedia, Hotelbeds, or other suppliers) and displayed before booking confirmation.</p>
 
-    <hr class="my-6">
+    <h3 class="mt-8">1. General Policy</h3>
+    <p>Cancellation and refund conditions vary depending on the selected hotel, room type, and rate plan.</p>
+    <p>Some bookings may be non-refundable, while others may allow free cancellation up to a specific date.</p>
+    <p>The applicable policy is clearly stated on each booking page before payment.</p>
+    <p>By completing a reservation, you acknowledge and agree to the refund terms displayed during checkout.</p>
 
-    <h3>1. General Policy</h3>
-    <p>All bookings on MyBavul.com are confirmed in real-time and are subject to the individual cancellation and refund policies of each accommodation provider. When you make a booking, you agree to the specific refund terms displayed at the time of purchase.</p>
+    <h3 class="mt-8">2. Requesting a Cancellation</h3>
+    <p>To cancel a booking, use the link provided in your confirmation email or contact our support team at support@litxtech.com.</p>
+    <p>Cancellation requests are processed according to the supplier’s policy, and confirmation will be sent via email.</p>
+    <p>If your reservation is eligible for a refund, it will be processed through the original payment method.</p>
 
-    <h3>2. Refund Eligibility</h3>
-    <p>Refunds may be granted under the following conditions:</p>
-    <ul>
-        <li><strong>Fully refundable reservations:</strong> If canceled within the free cancellation period stated during booking.</li>
-        <li><strong>Partially refundable reservations:</strong> If canceled after the free period but before check-in, according to the hotel’s terms.</li>
-        <li><strong>Non-refundable reservations:</strong> No refunds are available for cancellations or no-shows unless required by law.</li>
-    </ul>
-    <p>If a hotel fails to honor your booking or the accommodation is unavailable upon arrival, MyBavul will work directly with the property to provide an alternative or process a refund.</p>
+    <h3 class="mt-8">3. Refund Processing</h3>
+    <p>Refunds (if applicable) are initiated within 5–10 business days after supplier confirmation.</p>
+    <p>Transaction fees or exchange rate differences may affect the final refunded amount.</p>
+    <p>Refunds can only be issued to the same card or payment account used for the original booking.</p>
 
-    <h3>3. Force Majeure (Unforeseen Events)</h3>
-    <p>In case of travel restrictions, natural disasters, or emergencies, refunds or credits may be issued at the discretion of the accommodation provider and MyBavul’s support team.</p>
+    <h3 class="mt-8">4. Non-Refundable Bookings</h3>
+    <p>“Non-refundable” or “special rate” bookings cannot be changed or cancelled without penalty.</p>
+    <p>In case of no-show or late cancellation, the full booking amount may be charged.</p>
 
-    <h3>4. Refund Process</h3>
-    <p>Refunds are processed back to the original payment method (e.g., credit/debit card via Stripe). Processing times may vary depending on your bank or payment provider but usually take 5–10 business days after approval.</p>
+    <h3 class="mt-8">5. Force Majeure</h3>
+    <p>In events beyond control (e.g., natural disasters, pandemics, travel restrictions), we will follow the refund or rebooking policies provided by the accommodation partner.</p>
 
-    <h3>5. Service Fees</h3>
-    <p>Certain administrative or transaction fees (such as Stripe payment fees) may be non-refundable unless required by applicable law.</p>
-
-    <h3>6. Contact for Refund Requests</h3>
-    <p>For refund inquiries, please contact our customer support team with your booking reference and payment details:</p>
+    <h3 class="mt-8">6. Customer Support</h3>
+    <p>If you need help with a cancellation or refund, please contact:<br>
+    📧 support@litxtech.com<br>
+    📞 +1 307 271 5151</p>
+  `,
+  'policy.booking.title': 'Travel & Booking Terms',
+  'policy.booking.content': `
+    <p class="text-sm text-gray-500">Last updated: 05.11.2025<br>Operated by: LITXTECH LLC — MyBavul.com</p>
+    
+    <h3>1. Scope</h3>
+    <p>These Travel & Booking Terms govern all hotel and accommodation reservations made through MyBavul.com. By completing a booking, you agree to these terms along with our Privacy Policy, Refund Policy, and Terms of Service.</p>
+    
+    <h3>2. Role of MyBavul</h3>
+    <p>MyBavul acts solely as an intermediary platform connecting travelers with accommodation providers (hotels, partners, or distributors such as Expedia or Hotelbeds). The final contract for accommodation is between you (the traveler) and the hotel or supplier providing the service.</p>
+    
+    <h3>3. Reservation and Confirmation</h3>
+    <p>A booking is considered confirmed only after full payment or deposit is successfully processed.</p>
+    <p>Confirmation details, including hotel name, check-in/check-out dates, and rate conditions, are sent by email.</p>
+    <p>MyBavul is not responsible for errors caused by incorrect contact details provided by the user.</p>
+    
+    <h3>4. Pricing and Taxes</h3>
+    <p>Prices are displayed in the selected currency and include all mandatory taxes unless stated otherwise.</p>
+    <p>Hotels may charge additional local taxes, resort fees, or deposits upon arrival.</p>
+    <p>MyBavul is not responsible for differences due to exchange rates or currency conversions.</p>
+    
+    <h3>5. Modifications and Cancellations</h3>
+    <p>All modifications or cancellations are subject to the hotel’s or supplier’s policy.</p>
+    <p>Some bookings are non-changeable and non-refundable.</p>
+    <p>Requests for modification or cancellation must be sent to support@litxtech.com.</p>
+    
+    <h3>6. No-Show Policy</h3>
+    <p>Failure to arrive at the hotel on the scheduled date (“no-show”) may result in the full charge of the reservation, with no refund.</p>
+    
+    <h3>7. Hotel Responsibility</h3>
+    <p>All hotel descriptions, facilities, and photos are provided by the accommodation partner. MyBavul is not liable for differences between the published information and actual experience unless caused by gross negligence.</p>
+    
+    <h3>8. Liability</h3>
+    <p>MyBavul is not responsible for delays, cancellations, overbookings, or other service failures by the hotel or supplier. In such cases, refund or rebooking will follow the supplier’s policy.</p>
+    
+    <h3>9. Payment Security</h3>
+    <p>All payments are processed via Stripe or other PCI-compliant gateways using SSL encryption and 3D Secure protocols. MyBavul does not store any credit card information.</p>
+    
+    <h3>10. Governing Law</h3>
+    <p>These terms are governed by the laws of Wyoming, United States, without regard to conflict of law principles. Disputes shall be handled through amicable negotiation or, if necessary, through the competent courts of Wyoming, USA.</p>
+  `,
+  'policy.affiliate.title': 'Affiliate & Commission Disclosure',
+  'policy.affiliate.content': `
+    <p class="text-sm text-gray-500">Last updated: July 2, 2024<br>Operated by: LITXTECH LLC — MyBavul.com</p>
+    
+    <p>At MyBavul.com, transparency and trust are fundamental to how we operate. Some of the links or listings on our website may direct you to our trusted travel partners such as Expedia Group, Hotelbeds, or other booking platforms. When you make a reservation or purchase through these links, we may earn a commission or referral fee — at no additional cost to you.</p>
+    
+    <p>These commissions help us maintain and improve our services, develop new travel tools, and keep the platform free for users. However, our recommendations are never influenced by commissions. All listings and results are shown based on availability, price, and user relevance, not by payment priority.</p>
+    
+    <p>If you have questions about how commissions or partnerships work on MyBavul, please contact us at:<br>
+    📧 support@litxtech.com<br>
+    📞 +1 307 271 5151</p>
+  `,
+  'policy.contact.title': 'Contact & Legal Notice',
+  'policy.contact.content': `
+    <p class="text-sm text-gray-500">Last updated: July 3, 2024</p>
+    <h3>Website operator:</h3>
     <p>
-        📧 support@litxtech.com<br>
-        📍 LitxTech LLC – MyBavul.com<br>
-        15442 Ventura Blvd, Suite 201-1834<br>
-        Sherman Oaks, CA 91403, United States
+        LITXTECH LLC<br>
+        Registered in the State of Wyoming, USA<br>
+        D-U-N-S® Number: 144849529<br>
+        Business address: 30 N Gould St Ste 4000, Sheridan, WY 82801, United States<br>
+        Email: support@litxtech.com<br>
+        Phone: +1 307 271 5151
     </p>
-    <p>Our team will review your request and respond within 3 business days.</p>
 
-    <h3>7. Changes to This Policy</h3>
-    <p>MyBavul reserves the right to modify this Refund Policy at any time to comply with updated legal requirements or platform changes. The latest version will always be available on our website.</p>
+    <h3>Legal Responsibility</h3>
+    <p>MyBavul.com is operated by LITXTECH LLC, acting as an intermediary platform for accommodation and travel services. All hotel and booking information is provided by third-party suppliers and partners such as Expedia Group, Hotelbeds, and other travel providers. LITXTECH LLC is not the accommodation provider and cannot be held responsible for errors or cancellations caused by partner systems.</p>
+
+    <h3>Data Protection Contact</h3>
+    <p>For inquiries related to data privacy or GDPR compliance, please contact:<br>
+    📧 privacy@litxtech.com (or support@litxtech.com if unified)</p>
+
+    <h3>Intellectual Property</h3>
+    <p>All trademarks, logos, and content on this site are the property of their respective owners. Any reproduction, scraping, or unauthorized use of MyBavul’s data, design, or content is strictly prohibited.</p>
+
+    <h3>Jurisdiction</h3>
+    <p>All legal relationships arising from the use of this website are governed by the laws of the State of Wyoming, USA, without regard to its conflict-of-law rules.</p>
+  `,
+  'policy.about.title': 'About MyBavul.com',
+  'policy.about.content': `
+    <p class="text-sm text-gray-500">Travel made simple — powered by LITXTECH LLC</p>
+    <p class="mt-4">MyBavul.com is an independent hotel and travel booking platform founded by Soner Toprak and operated by LITXTECH LLC (USA). Our mission is to make travel planning fast, secure, and affordable for everyone.</p>
+    <p class="mt-4">The platform is designed to integrate with global travel data and hotel distribution systems, allowing users to access a wide range of accommodation options in one place. MyBavul aims to connect travelers with data sources and suppliers such as Expedia Group, Hotelbeds, and other trusted partners, providing real-time hotel information and competitive rates. All payments are securely processed through Stripe.</p>
+    
+    <h3 class="mt-8">Our Values</h3>
+    <ul>
+        <li><strong>Transparency:</strong> Prices, taxes, and booking terms are clearly displayed — no hidden fees.</li>
+        <li><strong>Security:</strong> SSL encryption and trusted payment gateways protect every transaction.</li>
+        <li><strong>Global Access:</strong> MyBavul connects travelers in Turkey and around the world to thousands of hotels.</li>
+        <li><strong>Customer Focus:</strong> 24/7 support and clear communication at every stage of your journey.</li>
+    </ul>
+
+    <h3 class="mt-8">Company Information</h3>
+    <p>
+        LITXTECH LLC<br>
+        Registered in the State of Wyoming, USA<br>
+        D-U-N-S® Number: 144849529<br>
+        Email: support@litxtech.com<br>
+        Phone: +1 307 271 5151<br>
+        Website: https://www.mybavul.com
+    </p>
   `,
   'reviews.title': 'Reviews',
   'reviews.leaveReview': 'Leave a Review',
@@ -556,7 +653,10 @@ const translations: Record<string, Record<string, string>> = {
     'ai.planner.button': 'AI ile Planla',
     'ai.planner.welcome': 'Nasıl bir seyahat aradığınızı anlatın! Örneğin: "Gelecek ay 2 kişi için Barselona\'da 5 günlük romantik bir gezi."',
     'ai.planner.placeholder': 'Hayalinizdeki seyahati anlatın...',
+    'footer.company.about': 'Hakkımızda',
     'home.destinations.title': 'Popüler Destinasyonlar',
+    'home.countries.title': 'Ülkeye Göre Keşfet',
+    'country.turkey': 'Türkiye', 'country.italy': 'İtalya', 'country.spain': 'İspanya', 'country.france': 'Fransa', 'country.greece': 'Yunanistan', 'country.usa': 'ABD', 'country.uk': 'Birleşik Krallık', 'country.japan': 'Japonya', 'country.thailand': 'Tayland', 'country.uae': 'B.A.E.', 'country.germany': 'Almanya', 'country.netherlands': 'Hollanda',
     'home.featured.title': 'En Yüksek Puanlı Tesisler',
     'home.propertyTypes.title': 'Tesis Türüne Göre Göz Atın', 'home.propertyTypes.boutique': 'Butik Oteller', 'home.propertyTypes.resorts': 'Sahil Otelleri', 'home.propertyTypes.villas': 'Özel Villalar', 'home.propertyTypes.cave': 'Mağara Süitleri',
     'home.features.title': 'Neden MyBavul?', 'home.features.ai.title': 'Yapay Zekâ Destekli Seyahat',
@@ -702,8 +802,127 @@ const translations: Record<string, Record<string, string>> = {
     'policy.dpa.content': 'Veri İşleme Sözleşmesi içeriği burada yer alacaktır. Bu içerik yönetici panelinden yönetilebilir.',
     'policy.cookie.title': 'Çerez Politikası',
     'policy.cookie.content': 'Çerez Politikası içeriği burada yer alacaktır. Bu içerik yönetici panelinden yönetilebilir.',
-    'policy.refund.title': 'İade Politikası',
-    'policy.refund.content': 'İade Politikası içeriği burada yer alacaktır. Bu içerik yönetici panelinden yönetilebilir.',
+    'policy.refund.title': 'İade ve İptal Politikası',
+    'policy.refund.content': `
+        <p class="text-sm text-gray-500">Son güncelleme: 1 Temmuz 2024</p>
+        <p>LITXTECH LLC tarafından işletilen MyBavul.com olarak, gezginler ve konaklama sağlayıcıları arasında bir aracı olarak hareket ediyoruz. Tüm rezervasyonlar, iptaller ve iade kuralları, bireysel otel veya seyahat ortağı (ör. Expedia, Hotelbeds veya diğer tedarikçiler) tarafından belirlenir ve rezervasyon onayından önce gösterilir.</p>
+
+        <h3 class="mt-8">1. Genel Politika</h3>
+        <p>İptal ve iade koşulları, seçilen otele, oda tipine ve fiyat planına göre değişiklik gösterir.</p>
+        <p>Bazı rezervasyonlar iade edilemez olabilirken, diğerleri belirli bir tarihe kadar ücretsiz iptale izin verebilir.</p>
+        <p>Uygulanacak politika, ödeme öncesinde her rezervasyon sayfasında açıkça belirtilmiştir.</p>
+        <p>Bir rezervasyonu tamamlayarak, ödeme sırasında gösterilen iade koşullarını kabul etmiş olursunuz.</p>
+
+        <h3 class="mt-8">2. İptal Talebi</h3>
+        <p>Bir rezervasyonu iptal etmek için, onay e-postanızda verilen bağlantıyı kullanın veya support@litxtech.com adresinden destek ekibimizle iletişime geçin.</p>
+        <p>İptal talepleri, tedarikçinin politikasına göre işlenir ve onay e-posta ile gönderilir.</p>
+        <p>Rezervasyonunuz iadeye uygunsa, işlem orijinal ödeme yöntemi üzerinden gerçekleştirilir.</p>
+
+        <h3 class="mt-8">3. İade İşlemi</h3>
+        <p>İadeler (varsa), tedarikçi onayından sonra 5–10 iş günü içinde başlatılır.</p>
+        <p>İşlem ücretleri veya döviz kuru farkları, iade edilen son tutarı etkileyebilir.</p>
+        <p>İadeler yalnızca orijinal rezervasyon için kullanılan aynı karta veya ödeme hesabına yapılabilir.</p>
+
+        <h3 class="mt-8">4. İade Edilemeyen Rezervasyonlar</h3>
+        <p>"İade edilemez" veya "özel fiyatlı" rezervasyonlar cezasız olarak değiştirilemez veya iptal edilemez.</p>
+        <p>Rezervasyona gelinmemesi veya geç iptal durumunda, rezervasyon tutarının tamamı tahsil edilebilir.</p>
+
+        <h3 class="mt-8">5. Mücbir Sebepler</h3>
+        <p>Kontrol dışı olaylarda (ör. doğal afetler, salgınlar, seyahat kısıtlamaları), konaklama ortağı tarafından sağlanan iade veya yeniden rezervasyon politikalarını izleyeceğiz.</p>
+
+        <h3 class="mt-8">6. Müşteri Desteği</h3>
+        <p>İptal veya iade konusunda yardıma ihtiyacınız varsa, lütfen iletişime geçin:<br>
+        📧 support@litxtech.com<br>
+        📞 +1 307 271 5151</p>
+    `,
+    'policy.booking.title': 'Seyahat ve Rezervasyon Şartları',
+    'policy.booking.content': `
+      <p class="text-sm text-gray-500">Son güncelleme: 05.11.2025<br>İşleten: LITXTECH LLC — MyBavul.com</p>
+      <h3>1. Kapsam</h3>
+      <p>Bu Seyahat ve Rezervasyon Şartları, MyBavul.com üzerinden yapılan tüm otel ve konaklama rezervasyonlarını yönetir. Bir rezervasyonu tamamlayarak, bu şartları Gizlilik Politikamız, İade Politikamız ve Hizmet Şartlarımız ile birlikte kabul etmiş olursunuz.</p>
+      <h3>2. MyBavul'un Rolü</h3>
+      <p>MyBavul, yalnızca gezginleri konaklama sağlayıcıları (oteller, ortaklar veya Expedia ya da Hotelbeds gibi distribütörler) ile buluşturan bir aracı platform olarak hareket eder. Konaklama için nihai sözleşme, siz (gezgin) ve hizmeti sağlayan otel veya tedarikçi arasındadır.</p>
+      <h3>3. Rezervasyon ve Onay</h3>
+      <p>Bir rezervasyon, yalnızca tam ödeme veya depozito başarıyla işlendikten sonra onaylanmış sayılır.</p>
+      <p>Otel adı, giriş/çıkış tarihleri ve fiyat koşulları dahil olmak üzere onay bilgileri e-posta ile gönderilir.</p>
+      <p>MyBavul, kullanıcı tarafından sağlanan yanlış iletişim bilgilerinden kaynaklanan hatalardan sorumlu değildir.</p>
+      <h3>4. Fiyatlandırma ve Vergiler</h3>
+      <p>Fiyatlar seçilen para biriminde gösterilir ve aksi belirtilmedikçe tüm zorunlu vergileri içerir.</p>
+      <p>Oteller varışta ek yerel vergiler, tesis ücretleri veya depozitolar talep edebilir.</p>
+      <p>MyBavul, döviz kurları veya para birimi dönüşümlerinden kaynaklanan farklardan sorumlu değildir.</p>
+      <h3>5. Değişiklikler ve İptaller</h3>
+      <p>Tüm değişiklikler veya iptaller, otelin veya tedarikçinin politikasına tabidir.</p>
+      <p>Bazı rezervasyonlar değiştirilemez ve iade edilemez.</p>
+      <p>Değişiklik veya iptal talepleri support@litxtech.com adresine gönderilmelidir.</p>
+      <h3>6. Rezervasyona Gelinmemesi Politikası</h3>
+      <p>Planlanan tarihte otele gelinmemesi (“no-show”), rezervasyonun tam ücretinin alınması ve geri ödeme yapılmaması ile sonuçlanabilir.</p>
+      <h3>7. Otelin Sorumluluğu</h3>
+      <p>Tüm otel açıklamaları, olanakları ve fotoğrafları konaklama ortağı tarafından sağlanmaktadır. MyBavul, ağır ihmalden kaynaklanmadıkça, yayınlanan bilgiler ile gerçek deneyim arasındaki farklardan sorumlu değildir.</p>
+      <h3>8. Yükümlülük</h3>
+      <p>MyBavul, otel veya tedarikçi tarafından kaynaklanan gecikmelerden, iptallerden, fazla rezervasyonlardan veya diğer hizmet başarısızlıklarından sorumlu değildir. Bu gibi durumlarda, iade veya yeniden rezervasyon tedarikçinin politikasını takip edecektir.</p>
+      <h3>9. Ödeme Güvenliği</h3>
+      <p>Tüm ödemeler, SSL şifrelemesi ve 3D Secure protokolleri kullanılarak Stripe veya diğer PCI uyumlu ağ geçitleri aracılığıyla işlenir. MyBavul hiçbir kredi kartı bilgisini saklamaz.</p>
+      <h3>10. Geçerli Hukuk</h3>
+      <p>Bu şartlar, kanunlar ihtilafı ilkelerine bakılmaksızın Amerika Birleşik Devletleri, Wyoming yasalarına tabidir. Anlaşmazlıklar, dostane müzakere yoluyla veya gerekirse ABD, Wyoming'in yetkili mahkemeleri aracılığıyla ele alınacaktır.</p>
+    `,
+    'policy.affiliate.title': 'İştirak ve Komisyon Açıklaması',
+    'policy.affiliate.content': `
+        <p class="text-sm text-gray-500">Son güncelleme: 2 Temmuz 2024<br>İşleten: LITXTECH LLC — MyBavul.com</p>
+        
+        <p>MyBavul.com olarak şeffaflık ve güven, çalışma şeklimizin temelini oluşturur. Web sitemizdeki bazı bağlantılar veya listelemeler sizi Expedia Group, Hotelbeds veya diğer rezervasyon platformları gibi güvenilir seyahat ortaklarımıza yönlendirebilir. Bu bağlantılar üzerinden bir rezervasyon veya satın alma yaptığınızda, size hiçbir ek maliyet yansıtılmadan bir komisyon veya yönlendirme ücreti kazanabiliriz.</p>
+        
+        <p>Bu komisyonlar, hizmetlerimizi sürdürmemize ve iyileştirmemize, yeni seyahat araçları geliştirmemize ve platformu kullanıcılar için ücretsiz tutmamıza yardımcı olur. Ancak, tavsiyelerimiz asla komisyonlardan etkilenmez. Tüm listelemeler ve sonuçlar, ödeme önceliğine göre değil, müsaitlik, fiyat ve kullanıcı alaka düzeyine göre gösterilir.</p>
+        
+        <p>MyBavul'daki komisyonların veya ortaklıkların nasıl çalıştığı hakkında sorularınız varsa, lütfen bizimle iletişime geçin:<br>
+        📧 support@litxtech.com<br>
+        📞 +1 307 271 5151</p>
+    `,
+    'policy.contact.title': 'İletişim ve Yasal Uyarı',
+    'policy.contact.content': `
+      <p class="text-sm text-gray-500">Son güncelleme: 3 Temmuz 2024</p>
+      <h3>Web sitesi operatörü:</h3>
+      <p>
+          LITXTECH LLC<br>
+          ABD, Wyoming Eyaleti'nde kayıtlı<br>
+          D-U-N-S® Numarası: 144849529<br>
+          İş adresi: 30 N Gould St Ste 4000, Sheridan, WY 82801, Amerika Birleşik Devletleri<br>
+          E-posta: support@litxtech.com<br>
+          Telefon: +1 307 271 5151
+      </p>
+      <h3>Yasal Sorumluluk</h3>
+      <p>MyBavul.com, konaklama ve seyahat hizmetleri için bir aracı platform olarak hareket eden LITXTECH LLC tarafından işletilmektedir. Tüm otel ve rezervasyon bilgileri, Expedia Group, Hotelbeds ve diğer seyahat sağlayıcıları gibi üçüncü taraf tedarikçiler ve ortaklar tarafından sağlanmaktadır. LITXTECH LLC, konaklama sağlayıcısı değildir ve ortak sistemlerinden kaynaklanan hatalardan veya iptallerden sorumlu tutulamaz.</p>
+      <h3>Veri Koruma İletişim</h3>
+      <p>Veri gizliliği veya GDPR uyumluluğu ile ilgili sorularınız için lütfen iletişime geçin:<br>
+      📧 privacy@litxtech.com (veya birleştirilmişse support@litxtech.com)</p>
+      <h3>Fikri Mülkiyet</h3>
+      <p>Bu sitedeki tüm ticari markalar, logolar ve içerikler ilgili sahiplerinin mülkiyetindedir. MyBavul’un verilerinin, tasarımının veya içeriğinin herhangi bir şekilde çoğaltılması, kazınması veya izinsiz kullanılması kesinlikle yasaktır.</p>
+      <h3>Yargı Yetkisi</h3>
+      <p>Bu web sitesinin kullanımından doğan tüm yasal ilişkiler, kanunlar ihtilafı kurallarına bakılmaksızın ABD, Wyoming Eyaleti yasalarına tabidir.</p>
+    `,
+    'policy.about.title': 'MyBavul.com Hakkında',
+    'policy.about.content': `
+        <p class="text-sm text-gray-500">Seyahati basitleştirdik — LITXTECH LLC tarafından desteklenmektedir</p>
+        <p class="mt-4">MyBavul.com, Soner Toprak tarafından kurulan ve LITXTECH LLC (ABD) tarafından işletilen bağımsız bir otel ve seyahat rezervasyon platformudur. Misyonumuz, seyahat planlamasını herkes için hızlı, güvenli ve uygun fiyatlı hale getirmektir.</p>
+        <p class="mt-4">Platform, küresel seyahat verileri ve otel dağıtım sistemleriyle entegre olacak şekilde tasarlanmıştır ve kullanıcıların tek bir yerden geniş bir konaklama seçeneği yelpazesine erişmesine olanak tanır. MyBavul, gezginleri Expedia Group, Hotelbeds gibi veri kaynakları ve tedarikçilerle ve diğer güvenilir ortaklarla buluşturarak gerçek zamanlı otel bilgileri ve rekabetçi fiyatlar sunmayı amaçlamaktadır. Tüm ödemeler Stripe üzerinden güvenli bir şekilde işlenir.</p>
+    
+        <h3 class="mt-8">Değerlerimiz</h3>
+        <ul>
+            <li><strong>Şeffaflık:</strong> Fiyatlar, vergiler ve rezervasyon koşulları açıkça gösterilir — gizli ücret yoktur.</li>
+            <li><strong>Güvenlik:</strong> SSL şifrelemesi ve güvenilir ödeme ağ geçitleri her işlemi korur.</li>
+            <li><strong>Küresel Erişim:</strong> MyBavul, Türkiye'deki ve dünyanın dört bir yanındaki gezginleri binlerce otele bağlar.</li>
+            <li><strong>Müşteri Odaklılık:</strong> Yolculuğunuzun her aşamasında 7/24 destek ve net iletişim.</li>
+        </ul>
+        
+        <h3 class="mt-8">Şirket Bilgileri</h3>
+        <p>
+            LITXTECH LLC<br>
+            ABD, Wyoming Eyaleti'nde kayıtlı<br>
+            D-U-N-S® Numarası: 144849529<br>
+            E-posta: support@litxtech.com<br>
+            Telefon: +1 307 271 5151<br>
+            Web sitesi: https://www.mybavul.com
+        </p>
+    `,
     'reviews.title': 'Yorumlar',
     'reviews.leaveReview': 'Yorum Yap',
     'reviews.noReviews': 'Henüz yorum yok.',

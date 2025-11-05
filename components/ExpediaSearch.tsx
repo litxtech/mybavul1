@@ -20,7 +20,6 @@ const ExpediaSearch: React.FC = () => {
 
   return (
     <section className="mybavul-widget">
-      <h2 className="mybavul-title">{t('home.expedia.title')}</h2>
       <div
         ref={containerRef}
         className="eg-widget"
