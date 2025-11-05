@@ -1,5 +1,6 @@
-// FIX: Corrected the Deno edge runtime types reference to point to the correct 'dist' folder, resolving errors for globals like 'Deno.env'.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/dist/edge-runtime.d.ts" />
+
+// FIX: Corrected the Deno edge runtime types reference to point to the 'src' folder, resolving errors for globals like 'Deno.env'.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
 
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment

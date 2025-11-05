@@ -28,8 +28,8 @@ const ExpediaSearch: React.FC = () => {
         data-program="us-expedia"
         data-lobs="stays,flights"
         data-network="pz"
-        data-camref="1110lq39m"
-        data-pubref="mybavul"
+        data-camref={import.meta.env.VITE_CAMREF || "1110lq39m"}
+        data-pubref={import.meta.env.VITE_PUBREF || "mybavul"}
       />
     </section>
   );
