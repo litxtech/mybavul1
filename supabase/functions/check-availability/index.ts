@@ -1,5 +1,5 @@
-// FIX: Replaced the broken Deno edge runtime types reference with a working version to resolve "Cannot find name 'Deno'" and type loading errors.
-/// <reference types="https://esm.sh/v128/@supabase/functions-js@2.1.0/src/edge-runtime.d.ts" />
+// FIX: Updated the Deno edge runtime types reference to a working URL to resolve TypeScript errors.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.44.4'
