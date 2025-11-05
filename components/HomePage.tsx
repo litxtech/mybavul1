@@ -65,8 +65,8 @@ const PopularDestinations: React.FC<{ onDestinationClick: (city: string) => void
     const { t } = useLanguage();
     const destinations = [
       { nameKey: 'city.istanbul', name: 'Istanbul', image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
-      { nameKey: 'Antalya', name: 'Antalya', image: 'https://images.unsplash.com/photo-1616837993519-c5b43343a419?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
-      { nameKey: 'Cappadocia', name: 'Cappadocia', image: 'https://images.unsplash.com/photo-1583885611333-38257045b843?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
+      { nameKey: 'destination.antalya', name: 'Antalya', image: 'https://images.unsplash.com/photo-1601134883921-9e11523316f0?q=80&w=800&auto=format&fit=crop' },
+      { nameKey: 'destination.cappadocia', name: 'Cappadocia', image: 'https://images.unsplash.com/photo-1577522501398-3d5f99facf39?q=80&w=800&auto=format&fit=crop' },
       { nameKey: 'city.barcelona', name: 'Barcelona', image: 'https://images.unsplash.com/photo-1523531294919-467a05d1d445?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max' },
     ];
     
