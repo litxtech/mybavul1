@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import SearchForm from './SearchForm';
 import { Property, SearchParams } from '../types';
 import { useLanguage } from '../i18n';
-import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon, SunIcon, HomeModernIcon, MountainIcon, MercuryIcon, StripeIcon, PayPalIcon } from './icons';
+import { SparklesIcon, TagIcon, ChatBubbleLeftRightIcon } from './icons';
 import { getSupabaseClient } from '../lib/supabase';
 import PropertyCard from './PropertyCard';
 import ExpediaSearch from './ExpediaSearch';
@@ -139,22 +139,6 @@ const WhyChooseUs: React.FC = () => {
     );
 };
 
-const PaymentPartnersStrip: React.FC = () => (
-    <div className="py-8 bg-slate-100 dark:bg-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-4">
-                <h3 className="text-sm font-semibold text-slate-600 dark:text-slate-400">Secure Payments With:</h3>
-                <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
-                    <StripeIcon className="h-6 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
-                    <PayPalIcon className="h-6 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
-                    <MercuryIcon className="h-8 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
-                </div>
-            </div>
-        </div>
-    </div>
-);
-
-
 // ==================================
 // MAIN HomePage COMPONENT
 // ==================================
@@ -218,7 +202,6 @@ const HomePage: React.FC<{
           onSearch={handleAISearch}
         />
       </Suspense>
-      <PaymentPartnersStrip />
       <PopularDestinations onDestinationClick={handleDestinationClick} />
       
       <div className="py-8 bg-slate-50 dark:bg-slate-950">

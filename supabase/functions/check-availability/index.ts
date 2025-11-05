@@ -1,6 +1,7 @@
 
-// FIX: Corrected the Deno edge runtime types reference to point to the 'src' folder, resolving errors for globals like 'Deno.env'.
-/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
+
+// FIX: Updated the Deno edge runtime types reference to a specific, valid version to resolve TypeScript errors for Deno globals (e.g., `Deno.env`).
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.44.4'

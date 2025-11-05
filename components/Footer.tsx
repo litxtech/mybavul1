@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../i18n';
+import { BavulSuiteIcon, BavulturIcon, ExpediaIcon, MercuryIcon, PayoneerIcon, StripeIcon } from './icons';
 
 const BrandLogo = () => (
     <a href="#/" className="flex-shrink-0" aria-label="MyBavul Homepage">
@@ -84,6 +85,18 @@ const Footer = () => {
             </div>
         </div>
         
+        <div className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-8">
+            <h3 className="text-center text-sm font-semibold text-slate-600 dark:text-slate-400 tracking-wider uppercase mb-6">Our Partners & Technology Stack</h3>
+            <div className="flex flex-wrap items-center justify-center gap-x-10 sm:gap-x-12 gap-y-8">
+                <a href="#" aria-label="Bavultur" className="block"><BavulturIcon className="h-7 partner-logo"/></a>
+                <a href="#" aria-label="Bavul Suite" className="block"><BavulSuiteIcon className="h-8 partner-logo"/></a>
+                <a href="#" aria-label="Stripe" className="block"><StripeIcon className="h-7 partner-logo"/></a>
+                <a href="#" aria-label="Payoneer" className="block"><PayoneerIcon className="h-6 partner-logo"/></a>
+                <a href="#" aria-label="Mercury" className="block"><MercuryIcon className="h-8 partner-logo"/></a>
+                <a href="#" aria-label="Expedia" className="block"><ExpediaIcon className="h-7 partner-logo"/></a>
+            </div>
+        </div>
+
         <div className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-8">
              <div className="grid md:grid-cols-2 gap-8">
                 <div>
