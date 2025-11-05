@@ -162,7 +162,7 @@ const PartnerDashboardTab: React.FC<{ bookings: Booking[], ledger: WalletLedger[
 const CreatePropertyForm: React.FC<{ onPropertyCreated: () => void }> = ({ onPropertyCreated }) => {
     const { t } = useLanguage();
     const { profile } = useAuth();
-    const [formData, setFormData] = useState({ title: '', description: '', city: '', country: '', star_rating: 3 });
+    const [formData, setFormData] = useState({ title: '', description: '', location_city: '', location_country: '', star_rating: 3 });
     const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -209,12 +209,12 @@ const CreatePropertyForm: React.FC<{ onPropertyCreated: () => void }> = ({ onPro
                 </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label htmlFor="city" className="block text-sm font-medium text-slate-700 dark:text-slate-300">{t('partner.propCity')}</label>
-                        <input type="text" name="city" value={formData.city} onChange={handleChange} className="mt-1 input-field" required />
+                        <label htmlFor="location_city" className="block text-sm font-medium text-slate-700 dark:text-slate-300">{t('partner.propCity')}</label>
+                        <input type="text" name="location_city" value={formData.location_city} onChange={handleChange} className="mt-1 input-field" required />
                     </div>
                      <div>
-                        <label htmlFor="country" className="block text-sm font-medium text-slate-700 dark:text-slate-300">{t('partner.propCountry')}</label>
-                        <input type="text" name="country" value={formData.country} onChange={handleChange} className="mt-1 input-field" required />
+                        <label htmlFor="location_country" className="block text-sm font-medium text-slate-700 dark:text-slate-300">{t('partner.propCountry')}</label>
+                        <input type="text" name="location_country" value={formData.location_country} onChange={handleChange} className="mt-1 input-field" required />
                     </div>
                 </div>
                  <div>
@@ -244,14 +244,30 @@ const PropertyEditor: React.FC<{ property: Property, onDataChange: () => void }>
 
     useEffect(() => setEditableProperty(property), [property]);
 
+    const handlePropertyChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        if (name === 'star_rating') {
+            setEditableProperty(prev => ({...prev, [name]: parseInt(value)}));
+        } else if (name === 'amenities') {
+            setEditableProperty(prev => ({...prev, [name]: value.split(',').map(a => a.trim())}));
+        } else if (name === 'photos') {
+            setEditableProperty(prev => ({...prev, [name]: value.split('\n').map(p => p.trim())}));
+        } else {
+            setEditableProperty(prev => ({...prev, [name]: value}));
+        }
+    };
+
     const handleSave = async () => {
         setStatus('loading'); setErrorMessage('');
         const supabase = getSupabaseClient();
         const { error } = await supabase.from('properties').update({
             title: editableProperty.title,
             description: editableProperty.description,
+            location_city: editableProperty.location_city,
+            location_country: editableProperty.location_country,
+            star_rating: editableProperty.star_rating,
             amenities: editableProperty.amenities,
-            photos: editableProperty.photos,
+            photos: editableProperty.photos.filter(p => p), // remove empty lines
         }).eq('id', editableProperty.id);
 
         if (error) { setStatus('error'); setErrorMessage(error.message); }
@@ -303,8 +319,39 @@ const PropertyEditor: React.FC<{ property: Property, onDataChange: () => void }>
                 {status === 'error' && <p className="text-red-500">{t('partner.saveError')}: {errorMessage}</p>}
                 
                 <div className="space-y-4 border-b pb-6 dark:border-slate-700">
-                     <h3 className="text-xl font-semibold">{t('partner.generalInfo')}</h3>
-                     {/* ... form fields for title, description, amenities, photos ... */}
+                    <h3 className="text-xl font-semibold">{t('partner.generalInfo')}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                        <div>
+                            <label className="block text-sm font-medium">{t('partner.propName')}</label>
+                            <input type="text" name="title" value={editableProperty.title} onChange={handlePropertyChange} className="mt-1 input-field" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium">{t('partner.propStars')}</label>
+                            <select name="star_rating" value={editableProperty.star_rating} onChange={handlePropertyChange} className="mt-1 input-field">
+                                {[1, 2, 3, 4, 5].map(s => <option key={s} value={s}>{s} Star{s > 1 ? 's' : ''}</option>)}
+                            </select>
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium">{t('partner.propDesc')}</label>
+                            <textarea name="description" value={editableProperty.description} onChange={handlePropertyChange} rows={4} className="mt-1 input-field" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium">{t('partner.propCity')}</label>
+                            <input type="text" name="location_city" value={editableProperty.location_city} onChange={handlePropertyChange} className="mt-1 input-field" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium">{t('partner.propCountry')}</label>
+                            <input type="text" name="location_country" value={editableProperty.location_country} onChange={handlePropertyChange} className="mt-1 input-field" />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium">{t('partner.amenities')}</label>
+                            <input type="text" name="amenities" value={editableProperty.amenities?.join(', ') || ''} onChange={handlePropertyChange} className="mt-1 input-field" placeholder={t('partner.amenitiesHint')} />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium">{t('partner.photos')}</label>
+                            <textarea name="photos" value={editableProperty.photos?.join('\n') || ''} onChange={handlePropertyChange} rows={5} className="mt-1 input-field" placeholder={t('partner.photosHint')} />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="space-y-4">

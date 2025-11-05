@@ -1,6 +1,8 @@
 
-// FIX: Replaced the 'npm:' specifier with a direct URL to the type definitions. This is a more robust way for Deno to resolve TypeScript errors related to the Deno namespace and environment variables.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+
+
+// FIX: Using npm specifier for Supabase functions types to ensure stable Deno environment type resolution.
+/// <reference types="npm:@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.44.4'

@@ -75,8 +75,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const inputBaseClasses = "block w-full rounded-xl border-transparent ps-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-12 text-slate-900 placeholder-slate-400 dark:bg-white";
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end text-left">
-      <div className="col-span-1 md:col-span-2 lg:col-span-2" ref={searchContainerRef}>
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 items-end text-left">
+      <div className="col-span-1 md:col-span-4 lg:col-span-2" ref={searchContainerRef}>
         <label htmlFor="city" className="block text-sm font-medium text-white/90">{t('search.destination')}</label>
         <div className="mt-1 relative rounded-xl shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
@@ -111,7 +111,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         </div>
       </div>
       
-      <div className="col-span-1">
+      <div className="col-span-1 md:col-span-2 lg:col-span-1">
         <label htmlFor="checkin" className="block text-sm font-medium text-white/90">{t('search.checkin')}</label>
          <div className="mt-1 relative rounded-xl shadow-sm">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
@@ -129,7 +129,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         </div>
       </div>
 
-      <div className="col-span-1">
+      <div className="col-span-1 md:col-span-2 lg:col-span-1">
         <label htmlFor="checkout" className="block text-sm font-medium text-white/90">{t('search.checkout')}</label>
         <div className="mt-1 relative rounded-xl shadow-sm">
              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
@@ -147,8 +147,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         </div>
       </div>
 
-      <div className="col-span-1 md:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
-        <div className="col-span-1">
+      <div className="col-span-1 md:col-span-2 lg:col-span-1">
             <label htmlFor="guests" className="block text-sm font-medium text-white/90">{t('search.guests')}</label>
             <div className="mt-1 relative rounded-xl shadow-sm">
                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ps-3">
@@ -164,15 +163,14 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
                     required
                 />
             </div>
-        </div>
-        <button
-            type="submit"
-            disabled={isLoading}
-            className="col-span-1 self-end w-full h-12 inline-flex items-center justify-center rounded-xl border border-transparent bg-primary-600 text-base font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:bg-slate-400 disabled:cursor-not-allowed transition-transform duration-200 hover:scale-105 active:scale-98"
-          >
-           {isLoading ? '...' : t('search.button')}
-        </button>
       </div>
+      <button
+          type="submit"
+          disabled={isLoading}
+          className="col-span-1 md:col-span-2 lg:col-span-1 w-full h-12 inline-flex items-center justify-center rounded-xl border border-transparent bg-primary-600 text-base font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:bg-slate-400 disabled:cursor-not-allowed transition-transform duration-200 hover:scale-105 active:scale-98"
+        >
+         {isLoading ? '...' : t('search.button')}
+      </button>
     </form>
   );
 };
